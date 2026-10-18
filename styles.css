@@ -552,3 +552,190 @@ body {
   }
 }
 
+/* ==================== LEGO BENTO GRID & KUBIKCHALAR DENGIZI ==================== */
+.lego-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .lego-bento-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* Lego Kubikcha (Modular Cube Card) */
+.lego-cube {
+  position: relative;
+  background: var(--cube-bg, rgba(15, 23, 42, 0.75));
+  border: 2px solid var(--cube-border, rgba(255, 255, 255, 0.08));
+  border-radius: 24px;
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.lego-cube:hover {
+  border-color: var(--cube-accent, #10b981);
+  box-shadow: 0 20px 45px -8px var(--cube-glow, rgba(16, 185, 129, 0.25)), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Lego Kubik Hajmlari (Grid Spans) */
+.lego-size-full {
+  grid-column: span 12;
+}
+
+.lego-size-half {
+  grid-column: span 6;
+}
+
+.lego-size-two-thirds {
+  grid-column: span 8;
+}
+
+.lego-size-third {
+  grid-column: span 4;
+}
+
+/* 3D Lego Studs Bar (Kubik tepasidagi xos Lego nuqtalari) */
+.lego-stud-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  user-select: none;
+}
+
+.lego-studs-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lego-stud {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.6), var(--cube-accent, #10b981) 60%, rgba(0, 0, 0, 0.6) 100%);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  transition: transform 0.2s ease;
+}
+
+.lego-cube:hover .lego-stud {
+  transform: scale(1.15);
+}
+
+.lego-cube-tag {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--cube-accent, #10b981);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Ranglar Palitrasi (Kubik ranglari) */
+.cube-color-emerald {
+  --cube-accent: #10b981;
+  --cube-glow: rgba(16, 185, 129, 0.3);
+  --cube-border: rgba(16, 185, 129, 0.25);
+}
+.cube-color-cyan {
+  --cube-accent: #06b6d4;
+  --cube-glow: rgba(6, 182, 212, 0.3);
+  --cube-border: rgba(6, 182, 212, 0.25);
+}
+.cube-color-gold {
+  --cube-accent: #f59e0b;
+  --cube-glow: rgba(245, 158, 11, 0.3);
+  --cube-border: rgba(245, 158, 11, 0.25);
+}
+.cube-color-ruby {
+  --cube-accent: #f43f5e;
+  --cube-glow: rgba(244, 63, 94, 0.3);
+  --cube-border: rgba(244, 63, 94, 0.25);
+}
+.cube-color-purple {
+  --cube-accent: #a855f7;
+  --cube-glow: rgba(168, 85, 247, 0.3);
+  --cube-border: rgba(168, 85, 247, 0.25);
+}
+.cube-color-blue {
+  --cube-accent: #3b82f6;
+  --cube-glow: rgba(59, 130, 246, 0.3);
+  --cube-border: rgba(59, 130, 246, 0.25);
+}
+
+/* Jonli Lego Tahrirlash Rejimi (Live Lego Edit Mode) */
+body.lego-edit-mode .lego-cube {
+  outline: 2px dashed rgba(245, 158, 11, 0.5);
+  outline-offset: 4px;
+}
+
+.cube-edit-controls {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+body.lego-edit-mode .cube-edit-controls {
+  display: flex;
+}
+
+.cube-ctrl-btn {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.cube-ctrl-btn:hover {
+  background: var(--cube-accent, #f59e0b);
+  color: #06090e;
+}
+
+/* Lego Live Toolbar */
+#legoLiveToolbar {
+  position: sticky;
+  top: 80px;
+  z-index: 45;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 2px solid #f59e0b;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* Shaxsiy Lego Profil / Mini-Site */
+.lego-profile-header {
+  position: relative;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.15));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+

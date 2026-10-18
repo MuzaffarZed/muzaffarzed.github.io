@@ -193,9 +193,9 @@
         </div>
 
         <!-- Lego Konstruktor Tugmasi -->
-        <button onclick="openLegoStudio()" class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition flex items-center gap-1.5" title="Platformani Lego kabi yig'ish (Konstruktor)">
+        <button onclick="toggleLegoEditMode()" id="legoModeToggleBtn" class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold bg-amber-500/10 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 transition flex items-center gap-1.5 shadow-lg shadow-amber-500/10" title="Saytni Lego kabi jonli terish">
           <i class="fa-solid fa-cubes text-amber-400"></i>
-          <span class="hidden xl:inline">Lego Rejim</span>
+          <span class="hidden xl:inline">Lego Terish</span>
         </button>
 
         <!-- Creator Studio Yuklash Tugmasi (+) -->
@@ -218,8 +218,33 @@
     </div>
   </header>
 
-  <!-- ==================== LEGO ASOSIY KONTEYNER (REORDERABLE LEGO CONTAINER) ==================== -->
-  <main id="legoMainContainer" class="flex flex-col w-full">
+  <!-- ==================== JONLI LEGO REJIM BOSHQARUV TUGMALARI (LIVE TOOLBAR) ==================== -->
+  <div id="legoLiveToolbar" class="hidden py-3 px-4 sm:px-8 bg-slate-950/95 border-b-2 border-amber-500 shadow-2xl sticky top-20 z-40 backdrop-blur-2xl">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+        <span class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+          <i class="fa-solid fa-cubes"></i> LEGO TERISH REJIMI FAOLLASHGAN
+        </span>
+        <span class="text-[11px] text-slate-400 hidden md:inline">• Har bir kubikning o'lchami, rangi va joylashuvini erkin o'zgartiring!</span>
+      </div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <button onclick="applyLegoPreset('all')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-emerald-500 transition">🌟 Hammasi</button>
+        <button onclick="applyLegoPreset('cinema')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-cyan-500 transition">🎬 Kino</button>
+        <button onclick="applyLegoPreset('software')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-blue-500 transition">📦 Dastur</button>
+        <button onclick="applyLegoPreset('music')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-purple-500 transition">🎧 Musiqa</button>
+        <button onclick="openLegoStudio()" class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold transition">
+          <i class="fa-solid fa-sliders mr-1"></i> Sozlamalar
+        </button>
+        <button onclick="toggleLegoEditMode()" class="btn-emerald px-4 py-1 text-xs font-black shadow-emerald-500/20 ml-2">
+          <i class="fa-solid fa-check mr-1"></i> Tayyor, Saqlash
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LEGO ASOSIY KONTEYNER (REORDERABLE LEGO BENTO GRID) ==================== -->
+  <main id="legoMainContainer" class="lego-bento-grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
 
   <!-- ==================== HERO PREMERA BANNER ==================== -->
   <section id="lego_hero" class="relative min-h-[520px] lg:min-h-[580px] flex items-center overflow-hidden border-b border-slate-800/60">
@@ -1207,6 +1232,125 @@
           <button onclick="closeLegoStudio()" class="btn-emerald px-6 py-2.5 text-xs font-bold flex items-center gap-2">
             <i class="fa-solid fa-check"></i> Tayyor, Saqlash
           </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SHAXSIY LEGO PROFIL & KREATOR SAYTI MODAL ==================== -->
+  <div id="personalLegoSiteModal" class="fixed inset-0 z-[128] hidden items-center justify-center p-2 sm:p-4 bg-black/95 backdrop-blur-3xl overflow-y-auto">
+    <div class="relative w-full max-w-5xl bg-slate-900 border-2 border-emerald-500/40 rounded-3xl overflow-hidden shadow-2xl my-8">
+      
+      <!-- Profil Shaxsiy Lego Sayti Sarlavhasi -->
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center text-slate-950 font-black text-sm">
+            <i class="fa-solid fa-id-badge"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
+              <span id="creatorSiteName">MuzaffarZed</span> Shaxsiy Lego Sayti
+              <span id="creatorSiteVerified" class="text-emerald-400 text-xs"><i class="fa-solid fa-circle-check"></i></span>
+            </h3>
+            <p id="creatorSiteHandle" class="text-[10px] text-slate-400 font-mono">@MuzaffarZed • Shaxsiy Kubiklar Galaktikasi</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Tahrirlash tugmasi (faqat o'z profilida ko'rinadi) -->
+          <button id="editMyLegoSiteBtn" onclick="toggleEditMyLegoSite()" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-pen-ruler"></i>
+            <span>Saytimni Yig'ish</span>
+          </button>
+          <button onclick="closePersonalLegoSite()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Profil Kontenti -->
+      <div class="p-6 space-y-6">
+        
+        <!-- Kreator Bosh Kartasi (Header Cube) -->
+        <div class="lego-profile-header flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+          <img id="creatorSiteAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&q=80" alt="Avatar" class="w-24 h-24 rounded-2xl object-cover border-4 border-emerald-500 shadow-2xl">
+          <div class="flex-1 space-y-1">
+            <h4 id="creatorSiteBioTitle" class="text-xl font-black text-white">MuzaffarZed</h4>
+            <p id="creatorSiteBio" class="text-xs sm:text-sm text-slate-300 max-w-xl">Bosh Dasturiy Arxitektor, Kreator va Platforma Asoschisi</p>
+            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-2 text-xs">
+              <span class="text-slate-400">Obunachilar: <b id="creatorSiteSubCount" class="text-emerald-400">2,840</b></span>
+              <span class="text-slate-400">Materiallar: <b id="creatorSiteUploadCount" class="text-cyan-400">12</b></span>
+              <span class="text-slate-400">Lego Kubiklar: <b id="creatorSiteCubeCount" class="text-amber-400">5 ta</b></span>
+            </div>
+          </div>
+          <div>
+            <button id="creatorSiteSubscribeBtn" onclick="toggleSubscribeFromSite()" class="btn-emerald px-5 py-2.5 text-xs font-bold shadow-emerald-500/30">
+              <i class="fa-solid fa-bell mr-1"></i> Obuna bo'lish
+            </button>
+          </div>
+        </div>
+
+        <!-- Tahrirlash Paneli (Faqat egasi uchun, yashirin / ochiladigan) -->
+        <div id="creatorSiteEditPanel" class="hidden p-5 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h5 class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Shaxsiy Lego Saytingizni Sozlash:
+            </h5>
+            <span class="text-[10px] text-slate-400">O'z kubiklaringizni tanlang va rangini belgilang</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Sayt Rang Uslubi</label>
+              <select id="creatorSiteThemeSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                <option value="emerald">Zumrad Yashil (Asl)</option>
+                <option value="cyan">Kiber Moviy</option>
+                <option value="gold">VIP Oltin</option>
+                <option value="ruby">Yoqut Qizil</option>
+                <option value="purple">Ametist Neon</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Profil Tavsifi (Bio)</label>
+              <input type="text" id="creatorSiteBioInput" placeholder="Kanal haqida qisqacha..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold text-slate-300">Qaysi Kubiklar Sizning Shaxsiy Saytingizda Ko'rinsin?</label>
+            <div class="flex flex-wrap gap-2">
+              <label class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="showCubeMovies" checked class="accent-emerald-500">
+                <span>🎬 Videolarim</span>
+              </label>
+              <label class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="showCubeMusic" checked class="accent-emerald-500">
+                <span>🎵 Musiqalarim</span>
+              </label>
+              <label class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="showCubeApps" checked class="accent-emerald-500">
+                <span>📦 Dasturlarim (APK/PC)</span>
+              </label>
+              <label class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="showCubePhotos" checked class="accent-emerald-500">
+                <span>🖼️ Fotogalereyam</span>
+              </label>
+              <label class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="showCubeArticles" checked class="accent-emerald-500">
+                <span>📝 Postlarim & Blogim</span>
+              </label>
+            </div>
+          </div>
+
+          <button onclick="saveMyLegoSiteSettings()" class="btn-emerald px-5 py-2 text-xs font-bold">
+            <i class="fa-solid fa-floppy-disk mr-1"></i> Shaxsiy Lego Saytimni Saqlash
+          </button>
+        </div>
+
+        <!-- Kreatorning Shaxsiy Lego Kubikchalari To'ri (Bento Grid) -->
+        <div id="creatorSiteLegoGrid" class="lego-bento-grid">
+          <!-- JS dinamik to'ldiradi (Videolari, Musiqalari, Dasturlari kubikchalar ko'rinishida) -->
         </div>
 
       </div>
