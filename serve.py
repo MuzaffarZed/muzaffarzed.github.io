@@ -10,6 +10,14 @@ import webbrowser
 import os
 import sys
 
+# Windows cp1251 encoding himoyasi
+if sys.platform.startswith('win'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 PORT = 3000
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -24,11 +32,11 @@ def run():
             with socketserver.TCPServer(("", PORT), Handler) as httpd:
                 url = f"http://localhost:{PORT}"
                 print("=" * 60)
-                print("🌟 MUZAFFARZED MEDIA PORTAL ISHGA TUSHDI!")
-                print(f"👉 Manzil: {url}")
-                print(f"📂 Papka: {DIRECTORY}")
-                print("Dasturchi: MuzaffarZed")
-                print("To'xtatish uchun: Ctrl + C bosing")
+                print("[+] MUZAFFARZED MEDIA PORTAL ISHGA TUSHDI!")
+                print(f"[+] Manzil: {url}")
+                print(f"[+] Papka: {DIRECTORY}")
+                print("[+] Dasturchi: MuzaffarZed")
+                print("[+] To'xtatish uchun: Ctrl + C bosing")
                 print("=" * 60)
                 try:
                     webbrowser.open(url)
