@@ -738,4 +738,188 @@ body.lego-edit-mode .cube-edit-controls {
   margin-bottom: 24px;
 }
 
+/* ==================== YANGI LEGO KUBIK RAZMERLARI VA KO'RINISHI ==================== */
+.lego-size-quarter {
+  grid-column: span 3;
+}
+
+@media (max-width: 1280px) and (min-width: 1025px) {
+  .lego-size-quarter {
+    grid-column: span 4;
+  }
+}
+
+@media (max-width: 1024px) {
+  .lego-size-quarter,
+  .lego-size-third,
+  .lego-size-half,
+  .lego-size-two-thirds,
+  .lego-size-full {
+    grid-column: span 12 !important;
+  }
+}
+
+/* Bo'yi / Balandlik variantlari */
+.lego-height-auto {
+  max-height: none;
+}
+.lego-height-compact {
+  max-height: 380px;
+  overflow-y: auto;
+}
+.lego-height-medium {
+  max-height: 520px;
+  overflow-y: auto;
+}
+.lego-height-tall {
+  max-height: 720px;
+  overflow-y: auto;
+}
+
+/* ==================== SUDRA VA TASHLASH (DRAG & DROP) EFFEKTLARI ==================== */
+body.lego-edit-mode .lego-cube {
+  cursor: grab;
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.25s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+
+body.lego-edit-mode .lego-cube:active {
+  cursor: grabbing;
+}
+
+body.lego-edit-mode .lego-stud-bar {
+  cursor: grab;
+  background: rgba(245, 158, 11, 0.12);
+  border-bottom-color: rgba(245, 158, 11, 0.25);
+}
+
+body.lego-edit-mode .lego-stud-bar:active {
+  cursor: grabbing;
+}
+
+.lego-cube.is-dragging {
+  opacity: 0.35 !important;
+  transform: scale(0.96) rotate(1deg) !important;
+  border: 2px dashed #f59e0b !important;
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.5) !important;
+}
+
+.lego-cube.drag-over {
+  border-color: #38bdf8 !important;
+  outline: 3px solid #38bdf8 !important;
+  outline-offset: 4px;
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: 0 25px 50px -10px rgba(56, 189, 248, 0.5) !important;
+}
+
+/* Kubik Pastki Burchagidagi Interaktiv Razmer Tutqichi (Resize Handle) */
+.lego-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, var(--cube-accent, #10b981) 50%);
+  border-bottom-right-radius: 20px;
+  opacity: 0.45;
+  transition: all 0.2s ease;
+  z-index: 15;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 3px;
+}
+
+.lego-resize-handle::after {
+  content: '⤡';
+  font-size: 11px;
+  color: #06090e;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.lego-cube:hover .lego-resize-handle {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* ==================== MAXSUS KONTENT JOYLANADIGAN KUBIKLAR ==================== */
+.cube-custom-body {
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.cube-custom-embed-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cube-custom-embed-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.cube-notes-display {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  color: #f1f5f9;
+  font-family: inherit;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.cube-quicklinks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.cube-quicklink-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.cube-quicklink-btn:hover {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: var(--cube-accent, #10b981);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -5px var(--cube-glow, rgba(16, 185, 129, 0.3));
+}
+
+.cube-watermark {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: monospace;
+  letter-spacing: 0.5px;
+  margin-top: 12px;
+  text-align: right;
+}
+
+
 

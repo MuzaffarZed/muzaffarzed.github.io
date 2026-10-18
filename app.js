@@ -404,14 +404,17 @@ let currentSoftwareFilter = "all";
 
 // ==================== LEGO PLATFORMA BLOKLARI (MODULAR SYSTEM) ====================
 const DEFAULT_LEGO_BLOCKS = [
-  { id: "lego_hero", name: "Premyera Hero 4K", icon: "fa-solid fa-star", visible: true, size: "full", color: "emerald" },
-  { id: "lego_filters", name: "Janrlar & Saralash", icon: "fa-solid fa-filter", visible: true, size: "full", color: "cyan" },
-  { id: "kinolar", name: "Kinolar & Seriallar", icon: "fa-solid fa-film", visible: true, size: "full", color: "emerald" },
-  { id: "musiqa", name: "Musiqa & Sound Lab", icon: "fa-solid fa-music", visible: true, size: "half", color: "cyan" },
-  { id: "dasturlar", name: "Dasturlar & APK Hub", icon: "fa-solid fa-cube", visible: true, size: "half", color: "blue" },
-  { id: "kanallar", name: "Ochiq Kanallar & Kreatorlar", icon: "fa-solid fa-bullhorn", visible: true, size: "half", color: "ruby" },
-  { id: "galereya", name: "Fotogalereya", icon: "fa-solid fa-images", visible: true, size: "half", color: "purple" },
-  { id: "maqolalar", name: "Maqolalar & Kiber-Blog", icon: "fa-solid fa-newspaper", visible: true, size: "full", color: "gold" }
+  { id: "lego_hero", name: "Premyera Hero 4K", icon: "fa-solid fa-star", visible: true, size: "full", height: "auto", color: "emerald" },
+  { id: "lego_filters", name: "Janrlar & Saralash", icon: "fa-solid fa-filter", visible: true, size: "full", height: "auto", color: "cyan" },
+  { id: "kinolar", name: "Kinolar & Seriallar", icon: "fa-solid fa-film", visible: true, size: "full", height: "auto", color: "emerald" },
+  { id: "musiqa", name: "Musiqa & Sound Lab", icon: "fa-solid fa-music", visible: true, size: "half", height: "auto", color: "cyan" },
+  { id: "dasturlar", name: "Dasturlar & APK Hub", icon: "fa-solid fa-cube", visible: true, size: "half", height: "auto", color: "blue" },
+  { id: "kanallar", name: "Ochiq Kanallar & Kreatorlar", icon: "fa-solid fa-bullhorn", visible: true, size: "half", height: "auto", color: "ruby" },
+  { id: "galereya", name: "Fotogalereya", icon: "fa-solid fa-images", visible: true, size: "half", height: "auto", color: "purple" },
+  { id: "maqolalar", name: "Maqolalar & Kiber-Blog", icon: "fa-solid fa-newspaper", visible: true, size: "full", height: "auto", color: "gold" },
+  { id: "lego_stats", name: "Jonli Telemetriya", icon: "fa-solid fa-chart-pie", visible: true, size: "third", height: "auto", color: "cyan" },
+  { id: "lego_quicklinks", name: "Tezkor Launchpad", icon: "fa-solid fa-rocket", visible: true, size: "third", height: "auto", color: "emerald" },
+  { id: "lego_notes", name: "Kiber-Eslatmalar", icon: "fa-solid fa-note-sticky", visible: true, size: "third", height: "auto", color: "gold" }
 ];
 
 let legoBlocks = getStoredData("lego_layout", DEFAULT_LEGO_BLOCKS);
@@ -426,6 +429,7 @@ let legoBlocks = getStoredData("lego_layout", DEFAULT_LEGO_BLOCKS);
       const current = existingMap.get(def.id);
       if (!current.size) current.size = def.size;
       if (!current.color) current.color = def.color;
+      if (!current.height) current.height = def.height || "auto";
     }
   });
 })();
@@ -460,6 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupAudioEvents();
   setupSearchEvents();
   applyLegoLayout();
+  loadLegoQuickNote();
 });
 
 // ==================== 1. KINOLARNI CHIQARISH (RENDER MOVIES) ====================
@@ -2162,60 +2167,330 @@ function deleteChannelItem(id) {
   renderChannelStudioInfo();
 }
 
-// ==================== 9. LEGO PLATFORMA KONSTRUKTORI (LEGO BUILDER ENGINE) ====================
+// ==================== 9. LEGO PLATFORMA KONSTRUKTORI (LEGO BUILDER & DRAG/DROP ENGINE) ====================
+let draggedLegoBlockId = null;
+
 function applyLegoLayout() {
   const container = document.getElementById("legoMainContainer");
   if (!container) return;
 
+  const sizeLabels = {
+    quarter: "1/4",
+    third: "1/3",
+    half: "1/2",
+    "two-thirds": "2/3",
+    full: "1/1"
+  };
+
+  const heightLabels = {
+    auto: "Avto",
+    compact: "380px",
+    medium: "520px",
+    tall: "720px"
+  };
+
   legoBlocks.forEach((block, index) => {
-    const el = document.getElementById(block.id);
-    if (el) {
-      // DOM da tartiblash
+    let el = document.getElementById(block.id);
+
+    // Agar foydalanuvchi yaratgan yangi kubik bo'lsa va DOM da hali yo'q bo'lsa, yaratish
+    if (!el) {
+      el = document.createElement("section");
+      el.id = block.id;
+      el.className = "p-6";
       container.appendChild(el);
-      el.style.display = block.visible ? "" : "none";
-
-      // Lego Kubik sinflari (Bento grid sizing & color theme)
-      el.classList.add("lego-cube");
-      el.classList.remove("lego-size-full", "lego-size-half", "lego-size-two-thirds", "lego-size-third");
-      el.classList.remove("cube-color-emerald", "cube-color-cyan", "cube-color-gold", "cube-color-ruby", "cube-color-purple", "cube-color-blue");
-
-      el.classList.add(`lego-size-${block.size || 'full'}`);
-      el.classList.add(`cube-color-${block.color || 'emerald'}`);
-
-      // 3D Lego Stud Bar
-      let studBar = el.querySelector(".lego-stud-bar");
-      if (!studBar) {
-        studBar = document.createElement("div");
-        studBar.className = "lego-stud-bar";
-        el.insertBefore(studBar, el.firstChild);
-      }
-
-      const sizeLabel = { full: "To'liq (12)", half: "1/2 (6)", "two-thirds": "2/3 (8)", third: "1/3 (4)" }[block.size || "full"];
-
-      studBar.innerHTML = `
-        <div class="lego-studs-group" title="Lego Kubikchasi #${index + 1}">
-          <div class="lego-stud"></div>
-          <div class="lego-stud"></div>
-          <div class="lego-stud"></div>
-          <div class="lego-stud"></div>
-        </div>
-        <div class="lego-cube-tag">
-          <i class="${block.icon}"></i> <span>Kubik: ${block.name}</span>
-        </div>
-        <div class="cube-edit-controls">
-          <button onclick="cycleCubeSize('${block.id}')" class="cube-ctrl-btn" title="Hajmini o'zgartirish">📐 ${sizeLabel}</button>
-          <button onclick="cycleCubeColor('${block.id}')" class="cube-ctrl-btn" title="Rangi">🎨 Rang</button>
-          <button onclick="moveCubeUp('${block.id}')" class="cube-ctrl-btn" title="Yuqoriga surish">⬆️</button>
-          <button onclick="moveCubeDown('${block.id}')" class="cube-ctrl-btn" title="Pastga surish">⬇️</button>
-          <button onclick="hideCube('${block.id}')" class="cube-ctrl-btn text-rose-400" title="Yashirish">❌</button>
-        </div>
-      `;
+    } else {
+      container.appendChild(el);
     }
+
+    el.style.display = block.visible ? "" : "none";
+
+    // Bento grid sizing & color theme
+    el.classList.add("lego-cube");
+    el.classList.remove(
+      "lego-size-quarter",
+      "lego-size-third",
+      "lego-size-half",
+      "lego-size-two-thirds",
+      "lego-size-full",
+      "lego-height-auto",
+      "lego-height-compact",
+      "lego-height-medium",
+      "lego-height-tall",
+      "cube-color-emerald",
+      "cube-color-cyan",
+      "cube-color-gold",
+      "cube-color-ruby",
+      "cube-color-purple",
+      "cube-color-blue"
+    );
+
+    el.classList.add(`lego-size-${block.size || 'full'}`);
+    el.classList.add(`lego-height-${block.height || 'auto'}`);
+    el.classList.add(`cube-color-${block.color || 'emerald'}`);
+
+    // Drag & Drop xususiyatlarini ulash
+    el.setAttribute("draggable", "true");
+    el.dataset.blockId = block.id;
+
+    el.ondragstart = (e) => handleCubeDragStart(e, block.id);
+    el.ondragend = (e) => handleCubeDragEnd(e);
+    el.ondragover = (e) => handleCubeDragOver(e);
+    el.ondragleave = (e) => handleCubeDragLeave(e);
+    el.ondrop = (e) => handleCubeDrop(e, block.id);
+
+    // 3D Lego Stud Bar (Yuqori Lego nuqtalari va boshqaruv pulti)
+    let studBar = el.querySelector(".lego-stud-bar");
+    if (!studBar) {
+      studBar = document.createElement("div");
+      studBar.className = "lego-stud-bar";
+      el.insertBefore(studBar, el.firstChild);
+    }
+
+    studBar.innerHTML = `
+      <div class="lego-studs-group" title="Sudrash uchun ushlang (#${index + 1})">
+        <div class="lego-stud"></div>
+        <div class="lego-stud"></div>
+        <div class="lego-stud"></div>
+        <div class="lego-stud"></div>
+      </div>
+      <div class="lego-cube-tag">
+        <i class="${block.icon || 'fa-solid fa-cube'}"></i> <span>Kubik: ${block.name}</span>
+      </div>
+      <div class="cube-edit-controls">
+        <button onclick="cycleCubeSize('${block.id}')" class="cube-ctrl-btn" title="Kengligini o'zgartirish (Eni)">📐 ${sizeLabels[block.size || 'full']}</button>
+        <button onclick="cycleCubeHeight('${block.id}')" class="cube-ctrl-btn" title="Balandligini o'zgartirish (Bo'yi)">↕️ ${heightLabels[block.height || 'auto']}</button>
+        <button onclick="cycleCubeColor('${block.id}')" class="cube-ctrl-btn" title="Rangini almashtirish">🎨 Rang</button>
+        <button onclick="openCubeContentModal('${block.id}')" class="cube-ctrl-btn text-amber-300 border-amber-400/50" title="Kubik ichiga xohlagan narsani joylash">✏️ Joylash</button>
+        <button onclick="moveCubeUp('${block.id}')" class="cube-ctrl-btn" title="Yuqoriga surish">⬆️</button>
+        <button onclick="moveCubeDown('${block.id}')" class="cube-ctrl-btn" title="Pastga surish">⬇️</button>
+        <button onclick="hideCube('${block.id}')" class="cube-ctrl-btn text-rose-400" title="Yashirish">❌</button>
+      </div>
+    `;
+
+    // Pastki o'ng burchakdagi interaktiv razmer tutqichi (Resize Handle)
+    let resizeHandle = el.querySelector(".lego-resize-handle");
+    if (!resizeHandle) {
+      resizeHandle = document.createElement("div");
+      resizeHandle.className = "lego-resize-handle";
+      resizeHandle.title = "Razmerni o'zgartirish (1-bosishda)";
+      resizeHandle.onclick = (e) => {
+        e.stopPropagation();
+        cycleCubeSize(block.id);
+      };
+      el.appendChild(resizeHandle);
+    }
+
+    // Maxsus kontent joylash (Custom Content Injector)
+    renderCustomCubeContent(el, block);
   });
 
   setStoredData("lego_layout", legoBlocks);
 }
 
+// ==================== MAXSUS KONTENT JOYLASH VA KO'RSATISH ====================
+function renderCustomCubeContent(el, block) {
+  let customBody = el.querySelector(".cube-custom-body");
+
+  // Agar maxsus kontent bo'lsa va turi "default" bo'lmasa
+  if (block.customContent && block.customContent.type && block.customContent.type !== "default") {
+    // Asl ichki elementlarni yashirish (studBar va resizeHandle dan tashqari)
+    Array.from(el.children).forEach(child => {
+      if (!child.classList.contains("lego-stud-bar") && !child.classList.contains("lego-resize-handle")) {
+        if (!child.classList.contains("cube-custom-body")) {
+          child.style.display = "none";
+        }
+      }
+    });
+
+    if (!customBody) {
+      customBody = document.createElement("div");
+      customBody.className = "cube-custom-body";
+      el.appendChild(customBody);
+    }
+
+    const { type, text, mediaUrl, caption, embedCode, quicklinks } = block.customContent;
+
+    if (type === "text") {
+      customBody.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="${block.icon || 'fa-solid fa-note-sticky'} text-amber-400"></i> ${block.name}
+            </h3>
+            <span class="text-[10px] text-amber-400/80 font-mono">Shaxsiy Qayd</span>
+          </div>
+          <div class="cube-notes-display">${escapeHtml(text || "Matn kiritilmagan...")}</div>
+          <div class="cube-watermark">Dasturchi: MuzaffarZed</div>
+        </div>
+      `;
+    } else if (type === "media") {
+      const isVideo = mediaUrl && (mediaUrl.endsWith(".mp4") || mediaUrl.includes("video"));
+      customBody.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="${block.icon || 'fa-solid fa-photo-film'} text-cyan-400"></i> ${block.name}
+            </h3>
+            <span class="text-[10px] text-cyan-400 font-mono">Multimedia</span>
+          </div>
+          <div class="rounded-2xl overflow-hidden bg-black/60 border border-slate-800">
+            ${isVideo 
+              ? `<video src="${mediaUrl}" controls class="w-full max-h-[420px] object-contain"></video>` 
+              : `<img src="${mediaUrl || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80'}" class="w-full max-h-[420px] object-cover">`
+            }
+          </div>
+          ${caption ? `<p class="text-xs text-slate-300 italic text-center">${caption}</p>` : ''}
+          <div class="cube-watermark">Dasturchi: MuzaffarZed</div>
+        </div>
+      `;
+    } else if (type === "embed") {
+      let embedHtml = embedCode || "";
+      if (embedHtml.startsWith("http") && !embedHtml.includes("<iframe")) {
+        // Agar to'g'ridan-to'g'ri link berilgan bo'lsa
+        if (embedHtml.includes("youtube.com/watch?v=")) {
+          embedHtml = embedHtml.replace("watch?v=", "embed/");
+        } else if (embedHtml.includes("youtu.be/")) {
+          embedHtml = embedHtml.replace("youtu.be/", "www.youtube.com/embed/");
+        }
+        embedHtml = `<iframe src="${embedHtml}" allowfullscreen></iframe>`;
+      }
+      customBody.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="${block.icon || 'fa-solid fa-code'} text-purple-400"></i> ${block.name}
+            </h3>
+            <span class="text-[10px] text-purple-400 font-mono">Web Embed</span>
+          </div>
+          <div class="cube-custom-embed-wrapper">${embedHtml}</div>
+          <div class="cube-watermark">Dasturchi: MuzaffarZed</div>
+        </div>
+      `;
+    } else if (type === "quicklinks") {
+      const lines = (quicklinks || "").split("\n").filter(l => l.trim().length > 0);
+      customBody.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="${block.icon || 'fa-solid fa-rocket'} text-emerald-400"></i> ${block.name}
+            </h3>
+            <span class="text-[10px] text-emerald-400 font-mono">Tezkor Tugmalar</span>
+          </div>
+          <div class="cube-quicklinks-grid">
+            ${lines.map(line => {
+              const parts = line.split("|");
+              const title = parts[0]?.trim() || "Havola";
+              const url = parts[1]?.trim() || "#";
+              return `
+                <a href="${url}" target="_blank" class="cube-quicklink-btn">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-emerald-400"></i>
+                  <span>${title}</span>
+                </a>
+              `;
+            }).join('')}
+          </div>
+          <div class="cube-watermark">Dasturchi: MuzaffarZed</div>
+        </div>
+      `;
+    }
+  } else {
+    // Agar standart kontent bo'lsa, custom container bo'lsa olib tashlanadi va asl bolalar ko'rsatiladi
+    if (customBody) {
+      customBody.remove();
+    }
+    Array.from(el.children).forEach(child => {
+      if (child.style.display === "none") {
+        child.style.display = "";
+      }
+    });
+  }
+}
+
+// Xavfsiz HTML escape
+function escapeHtml(str) {
+  return str.replace(/[&<>'"]/g, tag => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[tag] || tag));
+}
+
+// ==================== SUDRAB TASHLASH (DRAG & DROP) VOQEALARI ====================
+function handleCubeDragStart(e, blockId) {
+  draggedLegoBlockId = blockId;
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", blockId);
+  e.currentTarget.classList.add("is-dragging");
+}
+
+function handleCubeDragEnd(e) {
+  e.currentTarget.classList.remove("is-dragging");
+  document.querySelectorAll(".lego-cube").forEach(c => c.classList.remove("drag-over"));
+  draggedLegoBlockId = null;
+}
+
+function handleCubeDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+  const cube = e.currentTarget.closest(".lego-cube");
+  if (cube && !cube.classList.contains("is-dragging")) {
+    cube.classList.add("drag-over");
+  }
+}
+
+function handleCubeDragLeave(e) {
+  const cube = e.currentTarget.closest(".lego-cube");
+  if (cube) {
+    cube.classList.remove("drag-over");
+  }
+}
+
+function handleCubeDrop(e, targetBlockId) {
+  e.preventDefault();
+  const cube = e.currentTarget.closest(".lego-cube");
+  if (cube) cube.classList.remove("drag-over");
+
+  const sourceId = draggedLegoBlockId || e.dataTransfer.getData("text/plain");
+  if (!sourceId || sourceId === targetBlockId) return;
+
+  const fromIdx = legoBlocks.findIndex(b => b.id === sourceId);
+  const toIdx = legoBlocks.findIndex(b => b.id === targetBlockId);
+
+  if (fromIdx === -1 || toIdx === -1) return;
+
+  // Massivda joyini almashtirish
+  const [movedBlock] = legoBlocks.splice(fromIdx, 1);
+  legoBlocks.splice(toIdx, 0, movedBlock);
+
+  applyLegoLayout();
+  if (document.getElementById("legoStudioModal") && document.getElementById("legoStudioModal").classList.contains("flex")) {
+    renderLegoStudioList();
+  }
+
+  showLegoToast(`🧱 "${movedBlock.name}" kubigi ko'chirildi!`);
+}
+
+function showLegoToast(message) {
+  let toast = document.getElementById("legoToastNotification");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "legoToastNotification";
+    toast.className = "fixed top-24 right-6 z-50 bg-slate-900/95 border-2 border-amber-400 text-amber-300 font-bold px-4 py-2.5 rounded-2xl shadow-2xl backdrop-blur-xl text-xs flex items-center gap-2 transform transition-all duration-300 opacity-0 translate-y-2 pointer-events-none";
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<i class="fa-solid fa-cubes text-amber-400"></i> <span>${message}</span>`;
+  toast.classList.remove("opacity-0", "translate-y-2");
+  toast.classList.add("opacity-100", "translate-y-0");
+
+  setTimeout(() => {
+    toast.classList.remove("opacity-100", "translate-y-0");
+    toast.classList.add("opacity-0", "translate-y-2");
+  }, 2200);
+}
+
+// ==================== TAHRIRLASH REJIMI VA RAZMERNI O'ZGARTIRISH ====================
 function toggleLegoEditMode() {
   document.body.classList.toggle("lego-edit-mode");
   const toolbar = document.getElementById("legoLiveToolbar");
@@ -2236,18 +2511,33 @@ function toggleLegoEditMode() {
       btn.classList.add("text-amber-300");
     }
   }
+
+  if (isEdit) {
+    showLegoToast("🧱 Lego Terish Rejimi Faol! Kubiklarni sudray olasiz.");
+  }
 }
 
 function cycleCubeSize(blockId) {
   const block = legoBlocks.find(b => b.id === blockId);
   if (!block) return;
-  const sizes = ["full", "half", "two-thirds", "third"];
+  const sizes = ["quarter", "third", "half", "two-thirds", "full"];
   const curIdx = sizes.indexOf(block.size || "full");
   block.size = sizes[(curIdx + 1) % sizes.length];
   applyLegoLayout();
   if (document.getElementById("legoStudioModal") && document.getElementById("legoStudioModal").classList.contains("flex")) {
     renderLegoStudioList();
   }
+  showLegoToast(`📐 Hajm: ${block.size.toUpperCase()}`);
+}
+
+function cycleCubeHeight(blockId) {
+  const block = legoBlocks.find(b => b.id === blockId);
+  if (!block) return;
+  const heights = ["auto", "compact", "medium", "tall"];
+  const curIdx = heights.indexOf(block.height || "auto");
+  block.height = heights[(curIdx + 1) % heights.length];
+  applyLegoLayout();
+  showLegoToast(`↕️ Bo'yi: ${block.height.toUpperCase()}`);
 }
 
 function cycleCubeColor(blockId) {
@@ -2257,6 +2547,7 @@ function cycleCubeColor(blockId) {
   const curIdx = colors.indexOf(block.color || "emerald");
   block.color = colors[(curIdx + 1) % colors.length];
   applyLegoLayout();
+  showLegoToast(`🎨 Rang: ${block.color.toUpperCase()}`);
 }
 
 function moveCubeUp(blockId) {
@@ -2280,6 +2571,203 @@ function hideCube(blockId) {
   }
 }
 
+// ==================== KUBIK ICHINI JOYLASH / TAHRIRLASH MODALI ====================
+function openCubeContentModal(blockId) {
+  const block = legoBlocks.find(b => b.id === blockId);
+  if (!block) return;
+
+  const modal = document.getElementById("cubeContentModal");
+  if (!modal) return;
+
+  document.getElementById("editCubeId").value = block.id;
+  document.getElementById("editCubeTitle").value = block.name;
+  document.getElementById("editCubeIcon").value = block.icon || "fa-solid fa-cube";
+  document.getElementById("editCubeSize").value = block.size || "full";
+  document.getElementById("editCubeHeight").value = block.height || "auto";
+  document.getElementById("editCubeColor").value = block.color || "emerald";
+
+  const custom = block.customContent || { type: "default" };
+  document.getElementById("editCubeContentType").value = custom.type || "default";
+
+  document.getElementById("editCubeCustomText").value = custom.text || "";
+  document.getElementById("editCubeMediaUrl").value = custom.mediaUrl || "";
+  document.getElementById("editCubeMediaCaption").value = custom.caption || "";
+  document.getElementById("editCubeEmbedCode").value = custom.embedCode || "";
+  document.getElementById("editCubeQuicklinksData").value = custom.quicklinks || "";
+
+  // O'chirish tugmasi faqat foydalanuvchi qo'shgan yangi kubiklarda chiqadi
+  const delBtn = document.getElementById("deleteCustomCubeBtn");
+  if (delBtn) {
+    delBtn.style.display = block.id.startsWith("cube_custom_") ? "inline-flex" : "none";
+  }
+
+  onCubeContentTypeChange();
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+  document.body.classList.add("modal-active");
+}
+
+function closeCubeContentModal() {
+  const modal = document.getElementById("cubeContentModal");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.classList.remove("modal-active");
+  }
+}
+
+function onCubeContentTypeChange() {
+  const type = document.getElementById("editCubeContentType").value;
+  document.getElementById("fieldCubeText").classList.toggle("hidden", type !== "text");
+  document.getElementById("fieldCubeMedia").classList.toggle("hidden", type !== "media");
+  document.getElementById("fieldCubeEmbed").classList.toggle("hidden", type !== "embed");
+  document.getElementById("fieldCubeQuicklinks").classList.toggle("hidden", type !== "quicklinks");
+}
+
+function saveCubeSettingsAndContent() {
+  const id = document.getElementById("editCubeId").value;
+  const block = legoBlocks.find(b => b.id === id);
+  if (!block) return;
+
+  block.name = document.getElementById("editCubeTitle").value.trim() || block.name;
+  block.icon = document.getElementById("editCubeIcon").value;
+  block.size = document.getElementById("editCubeSize").value;
+  block.height = document.getElementById("editCubeHeight").value;
+  block.color = document.getElementById("editCubeColor").value;
+
+  const type = document.getElementById("editCubeContentType").value;
+  if (type === "default") {
+    block.customContent = { type: "default" };
+  } else {
+    block.customContent = {
+      type,
+      text: document.getElementById("editCubeCustomText").value,
+      mediaUrl: document.getElementById("editCubeMediaUrl").value.trim(),
+      caption: document.getElementById("editCubeMediaCaption").value.trim(),
+      embedCode: document.getElementById("editCubeEmbedCode").value.trim(),
+      quicklinks: document.getElementById("editCubeQuicklinksData").value.trim()
+    };
+  }
+
+  applyLegoLayout();
+  closeCubeContentModal();
+  showLegoToast(`💾 "${block.name}" kubigi yangilandi!`);
+}
+
+function resetCubeCustomContent() {
+  const id = document.getElementById("editCubeId").value;
+  const block = legoBlocks.find(b => b.id === id);
+  if (!block) return;
+
+  block.customContent = { type: "default" };
+  applyLegoLayout();
+  closeCubeContentModal();
+  showLegoToast(`🔄 "${block.name}" asl holatiga qaytarildi!`);
+}
+
+function deleteCurrentCustomCube() {
+  const id = document.getElementById("editCubeId").value;
+  if (!confirm("Ushbu kubikni butunlay o'chirmoqchimisiz?")) return;
+
+  legoBlocks = legoBlocks.filter(b => b.id !== id);
+  const el = document.getElementById(id);
+  if (el) el.remove();
+
+  applyLegoLayout();
+  closeCubeContentModal();
+  showLegoToast("🗑️ Kubik o'chirildi!");
+}
+
+// ==================== YANGI KUBIK YARATISH ====================
+function openNewCubeModal() {
+  const modal = document.getElementById("newCubeModal");
+  if (!modal) return;
+  document.getElementById("newCubeTitle").value = "";
+  document.getElementById("newCubeContentData").value = "";
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+  document.body.classList.add("modal-active");
+}
+
+function closeNewCubeModal() {
+  const modal = document.getElementById("newCubeModal");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.classList.remove("modal-active");
+  }
+}
+
+function createNewLegoCube() {
+  const title = document.getElementById("newCubeTitle").value.trim();
+  if (!title) {
+    alert("Iltimos, kubik nomini kiriting!");
+    return;
+  }
+
+  const size = document.getElementById("newCubeSize").value;
+  const color = document.getElementById("newCubeColor").value;
+  const type = document.getElementById("newCubeContentType").value;
+  const data = document.getElementById("newCubeContentData").value.trim();
+
+  const newId = "cube_custom_" + Date.now();
+  const iconMap = {
+    text: "fa-solid fa-note-sticky",
+    embed: "fa-solid fa-code",
+    media: "fa-solid fa-photo-film",
+    quicklinks: "fa-solid fa-rocket"
+  };
+
+  const newBlock = {
+    id: newId,
+    name: title,
+    icon: iconMap[type] || "fa-solid fa-cube",
+    visible: true,
+    size: size,
+    height: "auto",
+    color: color,
+    customContent: {
+      type: type,
+      text: type === "text" ? data : "",
+      mediaUrl: type === "media" ? data : "",
+      embedCode: type === "embed" ? data : "",
+      quicklinks: type === "quicklinks" ? data : ""
+    }
+  };
+
+  legoBlocks.unshift(newBlock);
+  applyLegoLayout();
+  closeNewCubeModal();
+  showLegoToast(`🎉 Yangi "${title}" kubigi yaratildi va sahifaga qo'shildi!`);
+}
+
+// ==================== KIBER-ESLATMALAR (QUICK NOTES) ====================
+function saveLegoQuickNote() {
+  const area = document.getElementById("legoQuickNoteTextarea");
+  if (!area) return;
+  const note = area.value;
+  localStorage.setItem("muzaffarzed_quick_note", note);
+  const status = document.getElementById("legoNoteSavedStatus");
+  if (status) {
+    status.textContent = "✓ Muvaffaqiyatli saqlandi! (" + new Date().toLocaleTimeString() + ")";
+    status.className = "text-emerald-400";
+    setTimeout(() => {
+      status.textContent = "● Xotirada saqlanadi";
+      status.className = "";
+    }, 2500);
+  }
+  showLegoToast("📝 Qayd xotirada saqlandi!");
+}
+
+function loadLegoQuickNote() {
+  const area = document.getElementById("legoQuickNoteTextarea");
+  if (!area) return;
+  const saved = localStorage.getItem("muzaffarzed_quick_note");
+  if (saved) area.value = saved;
+}
+
+// ==================== LEGO STUDIO MODAL LIST ====================
 function openLegoStudio() {
   const modal = document.getElementById("legoStudioModal");
   if (modal) {
@@ -2304,17 +2792,17 @@ function renderLegoStudioList() {
   if (!list) return;
   list.innerHTML = "";
 
+  const sizeLabels = { quarter: "1/4", third: "1/3", half: "1/2", "two-thirds": "2/3", full: "1/1" };
+
   legoBlocks.forEach((block, index) => {
     const card = document.createElement("div");
     card.className = `lego-block-item ${block.visible ? '' : 'is-hidden'}`;
-
-    const sizeLabel = { full: "To'liq (12)", half: "1/2 (6)", "two-thirds": "2/3 (8)", third: "1/3 (4)" }[block.size || "full"];
 
     card.innerHTML = `
       <div class="flex items-center gap-3">
         <span class="lego-pos-badge">#${index + 1}</span>
         <div class="w-8 h-8 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center text-xs">
-          <i class="${block.icon}"></i>
+          <i class="${block.icon || 'fa-solid fa-cube'}"></i>
         </div>
         <div>
           <h4 class="text-xs font-bold text-white">${block.name}</h4>
@@ -2322,13 +2810,16 @@ function renderLegoStudioList() {
             <span class="text-[10px] ${block.visible ? 'text-emerald-400' : 'text-slate-500'} font-semibold">
               ${block.visible ? '● Faol' : '○ Yashirilgan'}
             </span>
-            <span class="text-[9px] text-slate-400 font-mono">Hajmi: ${sizeLabel}</span>
+            <span class="text-[9px] text-slate-400 font-mono">Eni: ${sizeLabels[block.size || 'full']}</span>
           </div>
         </div>
       </div>
       <div class="flex items-center gap-1.5">
         <button onclick="cycleCubeSize('${block.id}')" class="lego-btn-move text-[10px]" title="Hajmini almashtirish">
           📐
+        </button>
+        <button onclick="openCubeContentModal('${block.id}')" class="lego-btn-move text-[10px]" title="Ichini sozlash">
+          ✏️
         </button>
         <button onclick="toggleLegoBlockVisibility(${index})" class="lego-btn-move" title="${block.visible ? 'Yashirish' : 'Ko\'rsatish'}">
           <i class="fa-solid ${block.visible ? 'fa-eye text-emerald-400' : 'fa-eye-slash text-slate-500'}"></i>
@@ -2367,7 +2858,7 @@ function applyLegoPreset(preset) {
   if (preset === "all") {
     legoBlocks = JSON.parse(JSON.stringify(DEFAULT_LEGO_BLOCKS));
   } else if (preset === "cinema") {
-    const order = ["lego_hero", "lego_filters", "kinolar", "kanallar", "maqolalar", "musiqa", "dasturlar", "galereya"];
+    const order = ["lego_hero", "lego_filters", "kinolar", "kanallar", "maqolalar", "musiqa", "dasturlar", "galereya", "lego_stats", "lego_quicklinks", "lego_notes"];
     legoBlocks.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
     legoBlocks.forEach(b => {
       b.visible = (b.id !== "dasturlar");
@@ -2375,15 +2866,15 @@ function applyLegoPreset(preset) {
       if (b.id === "kanallar") b.size = "half";
     });
   } else if (preset === "software") {
-    const order = ["dasturlar", "kanallar", "maqolalar", "lego_hero", "kinolar", "musiqa", "galereya", "lego_filters"];
+    const order = ["dasturlar", "lego_quicklinks", "kanallar", "maqolalar", "lego_hero", "kinolar", "musiqa", "galereya", "lego_stats", "lego_filters", "lego_notes"];
     legoBlocks.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
     legoBlocks.forEach(b => { 
       b.visible = true; 
       if (b.id === "dasturlar") b.size = "two-thirds";
-      if (b.id === "kanallar") b.size = "third";
+      if (b.id === "lego_quicklinks") b.size = "third";
     });
   } else if (preset === "music") {
-    const order = ["musiqa", "galereya", "kanallar", "lego_hero", "kinolar", "dasturlar", "maqolalar", "lego_filters"];
+    const order = ["musiqa", "galereya", "kanallar", "lego_hero", "kinolar", "dasturlar", "maqolalar", "lego_stats", "lego_quicklinks", "lego_notes", "lego_filters"];
     legoBlocks.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
     legoBlocks.forEach(b => { 
       b.visible = true; 
@@ -2394,14 +2885,14 @@ function applyLegoPreset(preset) {
 
   applyLegoLayout();
   renderLegoStudioList();
-  alert("Lego shabloni muvaffaqiyatli qo'llandi!");
+  showLegoToast("🌟 Lego shabloni qo'llandi!");
 }
 
 function resetLegoLayout() {
   legoBlocks = JSON.parse(JSON.stringify(DEFAULT_LEGO_BLOCKS));
   applyLegoLayout();
   renderLegoStudioList();
-  alert("Lego tartibi zavod holatiga qaytarildi!");
+  showLegoToast("🔄 Barcha kubiklar asl holatiga qaytarildi!");
 }
 
 function exportLegoSetup() {
@@ -2416,6 +2907,7 @@ function exportLegoSetup() {
     prompt("Lego konfiguratsiyangiz:", data);
   }
 }
+
 
 // ==================== 10. SHAXSIY LEGO PROFIL & KREATOR SAYTI (PERSONAL LEGO MINI-SITE) ====================
 let currentViewedCreator = null;

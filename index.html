@@ -221,23 +221,28 @@
   <!-- ==================== JONLI LEGO REJIM BOSHQARUV TUGMALARI (LIVE TOOLBAR) ==================== -->
   <div id="legoLiveToolbar" class="hidden py-3 px-4 sm:px-8 bg-slate-950/95 border-b-2 border-amber-500 shadow-2xl sticky top-20 z-40 backdrop-blur-2xl">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2.5 flex-wrap">
         <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
         <span class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-          <i class="fa-solid fa-cubes"></i> LEGO TERISH REJIMI FAOLLASHGAN
+          <i class="fa-solid fa-cubes"></i> 3D LEGO TERISH REJIMI
         </span>
-        <span class="text-[11px] text-slate-400 hidden md:inline">• Har bir kubikning o'lchami, rangi va joylashuvini erkin o'zgartiring!</span>
+        <span class="text-[11px] text-amber-200/90 font-mono hidden md:inline">
+          ✋ Kubikni ushlab sudrang • 📐 Razmerni bosing • ✏️ Ichiga xohlagan narsani joylang!
+        </span>
       </div>
       <div class="flex items-center gap-2 flex-wrap">
+        <button onclick="openNewCubeModal()" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 hover:text-black text-emerald-300 border border-emerald-500/40 text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/10">
+          <i class="fa-solid fa-plus text-sm"></i> Yangi Kubik
+        </button>
         <button onclick="applyLegoPreset('all')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-emerald-500 transition">🌟 Hammasi</button>
         <button onclick="applyLegoPreset('cinema')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-cyan-500 transition">🎬 Kino</button>
         <button onclick="applyLegoPreset('software')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-blue-500 transition">📦 Dastur</button>
         <button onclick="applyLegoPreset('music')" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold text-white hover:border-purple-500 transition">🎧 Musiqa</button>
         <button onclick="openLegoStudio()" class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold transition">
-          <i class="fa-solid fa-sliders mr-1"></i> Sozlamalar
+          <i class="fa-solid fa-sliders mr-1"></i> Boshqaruv
         </button>
         <button onclick="toggleLegoEditMode()" class="btn-emerald px-4 py-1 text-xs font-black shadow-emerald-500/20 ml-2">
-          <i class="fa-solid fa-check mr-1"></i> Tayyor, Saqlash
+          <i class="fa-solid fa-check mr-1"></i> Saqlash
         </button>
       </div>
     </div>
@@ -454,6 +459,105 @@
 
     <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- JS orqali to'ldiriladi -->
+    </div>
+  </section>
+
+  <!-- ==================== 7. JONLI STATISTIKA VA TELEMETRIYA KUBIGI ==================== -->
+  <section id="lego_stats" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-cyan-400"></div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Jonli Telemetriya & Tizim Holati</h2>
+          <p class="text-xs text-slate-400 font-medium">Serverlar, media oqimi va xotira monitoringi</p>
+        </div>
+      </div>
+      <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">● 100% ONLINE</span>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-center">
+        <span class="text-xs text-slate-400 block mb-1">Jonli Auditoriya</span>
+        <span class="text-2xl font-black text-cyan-400 font-mono">18,450+</span>
+        <span class="text-[10px] text-emerald-400 block mt-1"><i class="fa-solid fa-arrow-trend-up"></i> +12% bugun</span>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-center">
+        <span class="text-xs text-slate-400 block mb-1">4K Stream Tezligi</span>
+        <span class="text-2xl font-black text-emerald-400 font-mono">48.5 MB/s</span>
+        <span class="text-[10px] text-slate-400 block mt-1">Zero-Buffer Ultra HD</span>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-center">
+        <span class="text-xs text-slate-400 block mb-1">Media Zaxira</span>
+        <span class="text-2xl font-black text-amber-400 font-mono">14.8 TB</span>
+        <span class="text-[10px] text-slate-400 block mt-1">Shaxsiy & Ommaviy</span>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-center">
+        <span class="text-xs text-slate-400 block mb-1">Server Ishchanligi</span>
+        <span class="text-2xl font-black text-purple-400 font-mono">99.99%</span>
+        <span class="text-[10px] text-cyan-400 block mt-1">Zero-Defect Engine</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 8. TEZKOR HAVOLALAR VA LAUNCHPAD KUBIGI ==================== -->
+  <section id="lego_quicklinks" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-emerald-400"></div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Tezkor Launchpad & Havolalar</h2>
+          <p class="text-xs text-slate-400 font-medium">Bitta bosish bilan kerakli servislar va manbalarga o'tish</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cube-quicklinks-grid">
+      <a href="https://t.me" target="_blank" class="cube-quicklink-btn">
+        <i class="fa-brands fa-telegram text-2xl text-sky-400"></i>
+        <span>Telegram</span>
+      </a>
+      <a href="https://github.com/MuzaffarZed" target="_blank" class="cube-quicklink-btn">
+        <i class="fa-brands fa-github text-2xl text-slate-200"></i>
+        <span>GitHub</span>
+      </a>
+      <a href="https://youtube.com" target="_blank" class="cube-quicklink-btn">
+        <i class="fa-brands fa-youtube text-2xl text-rose-500"></i>
+        <span>YouTube 4K</span>
+      </a>
+      <a href="https://google.com" target="_blank" class="cube-quicklink-btn">
+        <i class="fa-brands fa-google text-2xl text-amber-400"></i>
+        <span>Google Search</span>
+      </a>
+      <button onclick="openCreatorStudio()" class="cube-quicklink-btn">
+        <i class="fa-solid fa-cloud-arrow-up text-2xl text-emerald-400"></i>
+        <span>Fayl Yuklash</span>
+      </button>
+      <button onclick="filterPrivateCloud()" class="cube-quicklink-btn">
+        <i class="fa-solid fa-shield-halved text-2xl text-indigo-400"></i>
+        <span>Shaxsiy Bulut</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ==================== 9. SHAXSIY KIBER-ESLATMALAR & QAYDLAR KUBIGI ==================== -->
+  <section id="lego_notes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-amber-400"></div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Kiber-Eslatmalar & Qaydlar Daftari</h2>
+          <p class="text-xs text-slate-400 font-medium">O'zingiz uchun reja va eslatmalarni shu yerga yozib qoldiring</p>
+        </div>
+      </div>
+      <button onclick="saveLegoQuickNote()" class="btn-emerald px-4 py-1.5 text-xs font-bold flex items-center gap-1.5">
+        <i class="fa-solid fa-floppy-disk"></i> Saqlash
+      </button>
+    </div>
+
+    <textarea id="legoQuickNoteTextarea" rows="4" placeholder="Shu yerga shaxsiy qaydlaringiz, kinolar ro'yxati yoki fikrlaringizni yozing..." class="w-full p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:border-amber-400/60 leading-relaxed font-mono resize-none"></textarea>
+    <div class="flex items-center justify-between mt-2 text-[11px] text-slate-400 font-mono">
+      <span id="legoNoteSavedStatus">● Xotirada saqlanadi</span>
+      <span>Dasturchi: MuzaffarZed</span>
     </div>
   </section>
 
@@ -1392,6 +1496,230 @@
       <i class="fa-solid fa-lock text-base"></i>
       <span>Admin</span>
     </button>
+  </div>
+
+  <!-- ==================== KUBIK ICHINI TAHRIRLASH VA JOYLASH MODALI ==================== -->
+  <div id="cubeContentModal" class="fixed inset-0 z-[140] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-3xl overflow-y-auto">
+    <div class="relative w-full max-w-2xl bg-slate-900 border-2 border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl my-8">
+      
+      <!-- Sarlavha -->
+      <div class="flex items-center justify-between px-6 py-5 bg-slate-950 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-slate-950 font-black text-lg">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+              <span>Kubik Ichini Sozlash & Joylash</span>
+              <span id="editCubeBadge" class="text-[9px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">LEGO CUBE</span>
+            </h3>
+            <p class="text-[11px] text-slate-400">Kubik hajmi, rangi va uning ichiga xohlagan kontentni erkin joylashtiring</p>
+          </div>
+        </div>
+        <button onclick="closeCubeContentModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Tahrirlash Maydonlari -->
+      <div class="p-6 space-y-5">
+        <input type="hidden" id="editCubeId">
+
+        <!-- 1. Asosiy parametrlar: Nomi va Icon -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Kubik Sarlavhasi (Nomi)</label>
+            <input type="text" id="editCubeTitle" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Belgi (Icon)</label>
+            <select id="editCubeIcon" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="fa-solid fa-star">⭐ Yulduz (Hero/Top)</option>
+              <option value="fa-solid fa-film">🎬 Film / Video</option>
+              <option value="fa-solid fa-music">🎵 Musiqa / Audio</option>
+              <option value="fa-solid fa-cube">📦 Dastur / APK</option>
+              <option value="fa-solid fa-images">🖼️ Galereya / Rasm</option>
+              <option value="fa-solid fa-bullhorn">📢 Kanal / Kreator</option>
+              <option value="fa-solid fa-newspaper">📝 Blog / Maqola</option>
+              <option value="fa-solid fa-chart-pie">📊 Statistika</option>
+              <option value="fa-solid fa-rocket">🚀 Launchpad / Havolalar</option>
+              <option value="fa-solid fa-note-sticky">📌 Qaydlar Daftari</option>
+              <option value="fa-solid fa-code">💻 Web Embed / Kod</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 2. Hajm, Bo'yi va Rangi -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Kengligi (Eni)</label>
+            <select id="editCubeSize" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="quarter">Mini (1/4 - 3 ustun)</option>
+              <option value="third">Ixcham (1/3 - 4 ustun)</option>
+              <option value="half">O'rtacha (1/2 - 6 ustun)</option>
+              <option value="two-thirds">Katta (2/3 - 8 ustun)</option>
+              <option value="full">To'liq (1/1 - Butun qator)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Bo'yi (Balandligi)</label>
+            <select id="editCubeHeight" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="auto">Avtomatik (Erkin)</option>
+              <option value="compact">Ixcham (380px)</option>
+              <option value="medium">O'rtacha (520px)</option>
+              <option value="tall">Baland (720px)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Lego Neon Rangi</label>
+            <select id="editCubeColor" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="emerald">🟢 Zumrad Yashil</option>
+              <option value="cyan">🌐 Kiber Moviy</option>
+              <option value="gold">🟡 Qirollik Oltini</option>
+              <option value="ruby">🔴 Yoqut Qizili</option>
+              <option value="purple">🟣 Neon Binafsha</option>
+              <option value="blue">🔵 Chuqur Safir</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. Ichidagi Kontent Turi (Xohlagan narsani joylash) -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+          <label class="block text-xs font-extrabold text-amber-300 flex items-center justify-between">
+            <span><i class="fa-solid fa-box-open mr-1.5"></i> Kubik Ichiga Nima Joylaysiz?</span>
+            <span class="text-[10px] text-slate-400 font-normal">Ixtiyoriy media yoki matnni joylang</span>
+          </label>
+          <select id="editCubeContentType" onchange="onCubeContentTypeChange()" class="w-full bg-slate-900 border border-amber-500/40 rounded-xl px-3.5 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-amber-400">
+            <option value="default">⚙️ Asl Standart Tizim Vidjeti</option>
+            <option value="text">📝 Shaxsiy Matn / Kiber-Qayd / Eslatma</option>
+            <option value="media">🎬 Multimedia (Rasm yoki Video Havola)</option>
+            <option value="embed">🌐 Maxsus Web Embed / YouTube / Telegram Iframe</option>
+            <option value="quicklinks">🚀 Shaxsiy Tezkor Havolalar & Tugmalar</option>
+          </select>
+
+          <!-- Text Field -->
+          <div id="fieldCubeText" class="hidden space-y-1.5">
+            <label class="block text-[11px] text-slate-400">Matn yoki Eslatma:</label>
+            <textarea id="editCubeCustomText" rows="4" placeholder="Kubik ichida ko'rinadigan matningizni kiriting..." class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-amber-400 resize-none font-mono"></textarea>
+          </div>
+
+          <!-- Media Field -->
+          <div id="fieldCubeMedia" class="hidden space-y-2">
+            <div>
+              <label class="block text-[11px] text-slate-400">Rasm yoki Video Havolasi (URL):</label>
+              <input type="url" id="editCubeMediaUrl" placeholder="https://images.unsplash.com/... yoki mp4 video URL" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400">Tavsif (Caption):</label>
+              <input type="text" id="editCubeMediaCaption" placeholder="Media tavsifi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Embed Field -->
+          <div id="fieldCubeEmbed" class="hidden space-y-1.5">
+            <label class="block text-[11px] text-slate-400">YouTube, Telegram, Spotify yoki Ixtiyoriy Iframe Kodingiz:</label>
+            <textarea id="editCubeEmbedCode" rows="3" placeholder="https://www.youtube.com/embed/... yoki <iframe ...></iframe>" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-amber-400 resize-none font-mono"></textarea>
+          </div>
+
+          <!-- Quicklinks Field -->
+          <div id="fieldCubeQuicklinks" class="hidden space-y-1.5">
+            <label class="block text-[11px] text-slate-400">Havolalar (Har bir qatorda: Havola Nomi | URL manzil):</label>
+            <textarea id="editCubeQuicklinksData" rows="3" placeholder="Telegram Kanal | https://t.me
+Mening Saytim | https://example.com" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-amber-400 resize-none font-mono"></textarea>
+          </div>
+        </div>
+
+        <!-- Tugmalar -->
+        <div class="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <button onclick="resetCubeCustomContent()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition" title="Asl tizim holatiga qaytarish">
+              <i class="fa-solid fa-rotate-left mr-1"></i> Asl Holatga
+            </button>
+            <button id="deleteCustomCubeBtn" onclick="deleteCurrentCustomCube()" class="px-3 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500 hover:text-white border border-rose-500/30 text-rose-400 text-xs font-semibold transition hidden" title="Ushbu kubikni butunlay o'chirish">
+              <i class="fa-solid fa-trash mr-1"></i> O'chirish
+            </button>
+          </div>
+          <button onclick="saveCubeSettingsAndContent()" class="btn-emerald px-6 py-2.5 text-xs font-extrabold flex items-center gap-2 shadow-emerald-500/20">
+            <i class="fa-solid fa-check"></i> Saqlash va Joylash
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== YANGI KUBIK YARATISH MODALI ==================== -->
+  <div id="newCubeModal" class="fixed inset-0 z-[145] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-3xl overflow-y-auto">
+    <div class="relative w-full max-w-xl bg-slate-900 border-2 border-emerald-500/50 rounded-3xl overflow-hidden shadow-2xl my-8">
+      
+      <!-- Sarlavha -->
+      <div class="flex items-center justify-between px-6 py-5 bg-slate-950 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-black text-lg">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white">Yangi 3D Lego Kubik Yaratish</h3>
+            <p class="text-[11px] text-slate-400">Saytingizga xohlagan yangi blokni qo'shing va o'rnini belgilang</p>
+          </div>
+        </div>
+        <button onclick="closeNewCubeModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Yaratish Maydonlari -->
+      <div class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Kubik Nomi</label>
+          <input type="text" id="newCubeTitle" placeholder="Masalan: Sevimli Pleyerim, YouTube Podkast..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-400">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Kengligi</label>
+            <select id="newCubeSize" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+              <option value="half" selected>1/2 (Yarim Ekran)</option>
+              <option value="third">1/3 (Ixcham)</option>
+              <option value="quarter">1/4 (Mini)</option>
+              <option value="two-thirds">2/3 (Katta)</option>
+              <option value="full">1/1 (To'liq Qator)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Rangi</label>
+            <select id="newCubeColor" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+              <option value="emerald">🟢 Zumrad Yashil</option>
+              <option value="cyan">🌐 Kiber Moviy</option>
+              <option value="gold">🟡 Qirollik Oltini</option>
+              <option value="ruby">🔴 Yoqut Qizil</option>
+              <option value="purple">🟣 Neon Binafsha</option>
+              <option value="blue">🔵 Safir Moviy</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Kubik Ichidagi Kontent Turi</label>
+          <select id="newCubeContentType" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white mb-2">
+            <option value="text">📝 Shaxsiy Matn / Qaydlar</option>
+            <option value="embed">🌐 YouTube / Web Embed / Iframe</option>
+            <option value="media">🎬 Rasm yoki Video URL</option>
+            <option value="quicklinks">🚀 Shaxsiy Havolalar</option>
+          </select>
+          <textarea id="newCubeContentData" rows="4" placeholder="Matn, YouTube embed linki yoki rasm URL manzilini kiriting..." class="w-full p-3 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-emerald-400 font-mono resize-none"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+          <button onclick="closeNewCubeModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs text-slate-300">Bekor qilish</button>
+          <button onclick="createNewLegoCube()" class="btn-emerald px-6 py-2 text-xs font-bold flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i> Kubikni Yaratish
+          </button>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- Asosiy Skript -->
