@@ -429,6 +429,18 @@ function openCinemaModal(movieId) {
     html5Player.load();
   }
 
+  // Oxirgi ko'rgan joyidan davom ettirish (Auto-Resume)
+  const savedTime = localStorage.getItem("muzaffarzed_resume_" + movie.id);
+  if (savedTime && parseFloat(savedTime) > 5) {
+    html5Player.currentTime = parseFloat(savedTime);
+  }
+
+  html5Player.ontimeupdate = () => {
+    if (html5Player.currentTime > 5) {
+      localStorage.setItem("muzaffarzed_resume_" + movie.id, html5Player.currentTime);
+    }
+  };
+
   renderComments(movie.id);
 
   const modal = document.getElementById("cinemaModal");
@@ -447,6 +459,62 @@ function closeCinemaModal() {
   html5Player.pause();
   document.getElementById("iframeVideoPlayer").src = "";
   toggleCinemaMode(false);
+}
+
+// Kadrdan Rasm Olish (Screenshot capture)
+function captureVideoFrame() {
+  const video = document.getElementById("html5VideoPlayer");
+  if (!video || (video.paused && video.currentTime === 0)) {
+    alert("Iltimos, avval videoni ijro eting!");
+    return;
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth || 1920;
+  canvas.height = video.videoHeight || 1080;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // Flash vizual effekti
+  const container = document.getElementById("videoPlayerContainer");
+  const flash = document.createElement("div");
+  flash.className = "flash-screen";
+  container.appendChild(flash);
+  setTimeout(() => flash.remove(), 400);
+
+  // Avtomatik yuklab olish
+  const a = document.createElement("a");
+  a.href = canvas.toDataURL("image/png");
+  const safeName = (currentMovie ? currentMovie.title : "Kadr").replace(/[^a-zA-Z0-9]/g, "_");
+  a.download = `MuzaffarZed_${safeName}_${Math.floor(video.currentTime)}s.png`;
+  a.click();
+}
+
+// Picture-in-Picture (Suzuvchi mini-oyna)
+function togglePiP() {
+  const video = document.getElementById("html5VideoPlayer");
+  if (!document.pictureInPictureElement) {
+    if (video.requestPictureInPicture) {
+      video.requestPictureInPicture().catch(() => {});
+    }
+  } else {
+    document.exitPictureInPicture().catch(() => {});
+  }
+}
+
+// 10 soniya oldinga/orqaga o'tkazish
+function skipVideo(seconds) {
+  const video = document.getElementById("html5VideoPlayer");
+  if (video) {
+    video.currentTime = Math.max(0, video.currentTime + seconds);
+  }
+}
+
+// Video Ijro Tezligini Sozlash
+function changeVideoSpeed(speed) {
+  const video = document.getElementById("html5VideoPlayer");
+  if (video) {
+    video.playbackRate = parseFloat(speed);
+  }
 }
 
 // Chiroqni o'chirish (Cinema Mode)
@@ -612,8 +680,40 @@ function togglePlayPause() {
   renderTracks();
 }
 
+// Shuffle & Repeat Holatlari
+let isShuffle = false;
+let isRepeat = false;
+
+function toggleShuffle() {
+  isShuffle = !isShuffle;
+  const btn = document.getElementById("shuffleBtn");
+  if (btn) {
+    if (isShuffle) {
+      btn.className = "text-emerald-400 font-bold transition text-xs";
+    } else {
+      btn.className = "text-slate-400 hover:text-white transition text-xs";
+    }
+  }
+}
+
+function toggleRepeat() {
+  isRepeat = !isRepeat;
+  const btn = document.getElementById("repeatBtn");
+  if (btn) {
+    if (isRepeat) {
+      btn.className = "text-emerald-400 font-bold transition text-xs";
+    } else {
+      btn.className = "text-slate-400 hover:text-white transition text-xs";
+    }
+  }
+}
+
 function nextTrack() {
-  currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+  if (isShuffle) {
+    currentTrackIndex = Math.floor(Math.random() * tracks.length);
+  } else {
+    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+  }
   playTrack(currentTrackIndex);
 }
 
@@ -659,8 +759,122 @@ function setupAudioEvents() {
   });
 
   globalAudio.addEventListener("ended", () => {
-    nextTrack();
+    if (isRepeat) {
+      globalAudio.currentTime = 0;
+      globalAudio.play();
+    } else {
+      nextTrack();
+    }
   });
+}
+
+// ==================== OVOZ EKVAYZERI (WEB AUDIO API) ====================
+let audioCtx = null;
+let biquadFilter = null;
+let audioSourceNode = null;
+
+function applyEqualizerPreset(preset) {
+  try {
+    if (!audioCtx) {
+      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtxClass) return;
+      audioCtx = new AudioCtxClass();
+      audioSourceNode = audioCtx.createMediaElementSource(globalAudio);
+      biquadFilter = audioCtx.createBiquadFilter();
+      audioSourceNode.connect(biquadFilter);
+      biquadFilter.connect(audioCtx.destination);
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
+    if (preset === 'bass') {
+      biquadFilter.type = 'lowshelf';
+      biquadFilter.frequency.value = 200;
+      biquadFilter.gain.value = 10;
+    } else if (preset === 'vocal') {
+      biquadFilter.type = 'peaking';
+      biquadFilter.frequency.value = 3000;
+      biquadFilter.gain.value = 7;
+    } else if (preset === 'electronic') {
+      biquadFilter.type = 'peaking';
+      biquadFilter.frequency.value = 1000;
+      biquadFilter.gain.value = 6;
+    } else if (preset === 'cinema') {
+      biquadFilter.type = 'lowshelf';
+      biquadFilter.frequency.value = 150;
+      biquadFilter.gain.value = 8;
+    } else {
+      biquadFilter.type = 'allpass';
+      biquadFilter.gain.value = 0;
+    }
+  } catch (err) {
+    console.log("AudioContext note:", err);
+  }
+}
+
+// ==================== QO'SHIQ MATNI (LYRICS) ====================
+function openLyricsModal() {
+  const track = tracks[currentTrackIndex];
+  if (!track) return;
+  document.getElementById("lyricsTitle").textContent = `${track.title} — ${track.artist}`;
+  document.getElementById("lyricsContent").textContent = `${track.title}
+(Matn MuzaffarZed Studiyasi tomonidan tasdiqlangan)
+
+Koinot sarhadlarida yangragan ohang,
+Yuraklar tubida topadi aks-sado.
+Yulduzlar chorlaydi bizni olisga,
+Muzaffar media olami — cheksiz samoviy sado...
+
+(Naqorat)
+Parvoz etamiz orzular tomon,
+Har bir soniya g'alaba zamon.
+Musiqa birlashtirar dillarni bugun,
+Yangi zafar sari ochiladi yo'l!`;
+
+  const modal = document.getElementById("lyricsModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+function closeLyricsModal() {
+  const modal = document.getElementById("lyricsModal");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
+
+// ==================== MAVZU ALMASHTIRGICH (THEME SWITCHER) ====================
+function changeTheme(themeName) {
+  document.body.classList.remove("theme-gold", "theme-sapphire", "theme-ruby", "theme-purple");
+  if (themeName !== "emerald") {
+    document.body.classList.add("theme-" + themeName);
+  }
+  setStoredData("active_theme", themeName);
+}
+
+// Boshlang'ich mavzuni tiklash
+const savedTheme = getStoredData("active_theme", "emerald");
+if (savedTheme !== "emerald") {
+  changeTheme(savedTheme);
+}
+
+// ==================== PWA O'RNATISH (INSTALL APP) ====================
+let deferredInstallPrompt;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  const btn = document.getElementById("pwaInstallBtn");
+  if (btn) btn.classList.remove("hidden");
+});
+
+function installPWA() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(() => {
+      deferredInstallPrompt = null;
+      document.getElementById("pwaInstallBtn").classList.add("hidden");
+    });
+  }
 }
 
 function seekAudio(percent) {

@@ -1,0 +1,17 @@
+{
+  "name": "MuzaffarZed Media Portal",
+  "short_name": "MuzaffarZed",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#06090e",
+  "theme_color": "#10b981",
+  "description": "Uzmovi va Aslmedia uslubidagi kinolar, musiqa, galereya va maqolalar portali. Dasturchi: MuzaffarZed.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -12,6 +12,10 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://muzaffarzed.vercel.app/">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10b981">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   
   <!-- OpenGraph (Facebook, Telegram, WhatsApp) -->
   <meta property="og:type" content="website">
@@ -155,8 +159,38 @@
           <span id="favCountBadge" class="absolute -top-1 -right-1 bg-rose-600 text-[10px] font-bold text-white w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
 
+        <!-- Mavzu Tanlash (Theme Switcher) -->
+        <div class="relative group hidden sm:block">
+          <button class="p-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition" title="Ranglar Mavzusi">
+            <i class="fa-solid fa-palette text-sm"></i>
+          </button>
+          <div class="absolute right-0 top-full mt-2 w-36 bg-slate-900 border border-slate-800 rounded-xl p-1.5 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <button onclick="changeTheme('emerald')" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Zumrad (Asl)
+            </button>
+            <button onclick="changeTheme('gold')" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold text-amber-400 hover:bg-amber-500/10 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Oltin VIP
+            </button>
+            <button onclick="changeTheme('sapphire')" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold text-blue-400 hover:bg-blue-500/10 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Safir Moviy
+            </button>
+            <button onclick="changeTheme('ruby')" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold text-rose-400 hover:bg-rose-500/10 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Yoqut Red
+            </button>
+            <button onclick="changeTheme('purple')" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold text-purple-400 hover:bg-purple-500/10 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Ametist
+            </button>
+          </div>
+        </div>
+
+        <!-- PWA Ilova O'rnatish Tugmasi -->
+        <button id="pwaInstallBtn" onclick="installPWA()" class="hidden px-2.5 py-2 rounded-lg text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center gap-1.5" title="Ilova sifatida o'rnatish">
+          <i class="fa-solid fa-download"></i>
+          <span class="hidden md:inline">O'rnatish</span>
+        </button>
+
         <!-- Admin Panel Tugmasi -->
-        <button onclick="openAdminModal()" class="ml-2 px-3 py-2 rounded-lg text-xs font-bold bg-slate-800/90 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center gap-1.5">
+        <button onclick="openAdminModal()" class="ml-1 sm:ml-2 px-3 py-2 rounded-lg text-xs font-bold bg-slate-800/90 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center gap-1.5">
           <i class="fa-solid fa-lock"></i>
           <span class="hidden lg:inline">Admin</span>
         </button>
@@ -393,11 +427,34 @@
           <span class="badge-quality" id="modalQuality">4K UHD</span>
           <h3 id="modalMovieTitle" class="text-lg font-bold text-white truncate max-w-md sm:max-w-xl">Film Nomi</h3>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <!-- Kadrdan Rasm Olish (Screenshot) -->
+          <button onclick="captureVideoFrame()" class="p-2 rounded-lg bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400 text-xs transition" title="Kadrdan rasm olish (Screenshot)">
+            <i class="fa-solid fa-camera"></i>
+          </button>
+          <!-- Picture-in-Picture (PiP) -->
+          <button onclick="togglePiP()" class="p-2 rounded-lg bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400 text-xs transition" title="Suzuvchi Oyna (PiP)">
+            <i class="fa-solid fa-clone"></i>
+          </button>
+          <!-- 10s Orqaga / Oldinga -->
+          <button onclick="skipVideo(-10)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 transition" title="10s Orqaga">
+            <i class="fa-solid fa-rotate-left"></i> 10s
+          </button>
+          <button onclick="skipVideo(10)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 transition" title="10s Oldinga">
+            10s <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <!-- Tezlik (Speed Selector) -->
+          <select id="videoSpeedSelect" onchange="changeVideoSpeed(this.value)" class="bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500 hidden sm:block">
+            <option value="0.75">0.75x</option>
+            <option value="1" selected>1.0x (Normal)</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2.0x</option>
+          </select>
           <!-- Chiroqni o'chirish tugmasi -->
           <button onclick="toggleCinemaMode()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-amber-300 flex items-center gap-1.5 transition">
             <i class="fa-solid fa-lightbulb"></i>
-            <span class="hidden sm:inline">Chiroqni o'chirish</span>
+            <span class="hidden md:inline">Chiroq</span>
           </button>
           <!-- Yopish -->
           <button onclick="closeCinemaModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
@@ -529,7 +586,11 @@
 
     <!-- Markaz: Pleyer Boshqaruv Tugmalari & Seekbar -->
     <div class="flex-1 max-w-xl px-4 flex flex-col items-center gap-1.5">
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3 sm:gap-4">
+        <!-- Aralashtirish (Shuffle) -->
+        <button onclick="toggleShuffle()" id="shuffleBtn" class="text-slate-400 hover:text-white transition text-xs" title="Aralashtirish (Shuffle)">
+          <i class="fa-solid fa-shuffle"></i>
+        </button>
         <button onclick="prevTrack()" class="text-slate-400 hover:text-white transition text-sm">
           <i class="fa-solid fa-backward-step"></i>
         </button>
@@ -539,6 +600,10 @@
         <button onclick="nextTrack()" class="text-slate-400 hover:text-white transition text-sm">
           <i class="fa-solid fa-forward-step"></i>
         </button>
+        <!-- Takrorlash (Repeat) -->
+        <button onclick="toggleRepeat()" id="repeatBtn" class="text-slate-400 hover:text-white transition text-xs" title="Takrorlash (Repeat)">
+          <i class="fa-solid fa-repeat"></i>
+        </button>
       </div>
       <div class="w-full flex items-center gap-2 text-[10px] text-slate-400 font-mono">
         <span id="currentTime">00:00</span>
@@ -547,12 +612,24 @@
       </div>
     </div>
 
-    <!-- O'ng: Ovoz & Qo'shimchalar -->
-    <div class="flex items-center justify-end gap-3 w-1/4">
+    <!-- O'ng: Ekvayzer, Ovoz & Qo'shimchalar -->
+    <div class="flex items-center justify-end gap-2 sm:gap-3 w-1/4">
+      <!-- Ekvayzer Preseti -->
+      <select onchange="applyEqualizerPreset(this.value)" class="bg-slate-800 border border-slate-700 text-[10px] font-semibold text-slate-300 rounded px-1.5 py-1 focus:outline-none focus:border-emerald-500 hidden xl:block" title="Ovoz Ekvayzeri">
+        <option value="flat">Balans (Standart)</option>
+        <option value="bass">Bass Boost</option>
+        <option value="vocal">Toza Vokal</option>
+        <option value="electronic">Elektron 3D</option>
+        <option value="cinema">Kino Zali</option>
+      </select>
+      <!-- Qo'shiq Matni (Lyrics) -->
+      <button onclick="openLyricsModal()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-emerald-400 text-xs transition" title="Qo'shiq Matni (Lyrics)">
+        <i class="fa-solid fa-quote-right"></i>
+      </button>
       <button onclick="toggleMute()" class="text-slate-400 hover:text-white transition text-xs">
         <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
       </button>
-      <input type="range" id="volumeSlider" class="w-20 accent-emerald-500 h-1 hidden sm:block" min="0" max="1" step="0.05" value="0.8" oninput="changeVolume(this.value)">
+      <input type="range" id="volumeSlider" class="w-16 accent-emerald-500 h-1 hidden sm:block" min="0" max="1" step="0.05" value="0.8" oninput="changeVolume(this.value)">
       <a id="playerDownloadBtn" href="#" download class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs transition" title="Yuklab olish">
         <i class="fa-solid fa-download"></i>
       </a>
@@ -731,7 +808,57 @@
     </div>
   </div>
 
+  <!-- ==================== QO'SHIQ MATNI (LYRICS) MODAL ==================== -->
+  <div id="lyricsModal" class="fixed inset-0 z-[115] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-xl">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-quote-left text-emerald-400"></i>
+          <h3 id="lyricsTitle" class="text-sm font-bold text-white">Qo'shiq Matni</h3>
+        </div>
+        <button onclick="closeLyricsModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="lyricsContent" class="max-h-80 overflow-y-auto text-xs text-slate-300 leading-relaxed font-sans text-center whitespace-pre-line py-2">
+        Qo'shiq so'zlari yuklanmoqda...
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MOBIL SMART DOCK (BOTTOM APP BAR) ==================== -->
+  <div class="mobile-dock">
+    <a href="#kinolar" class="flex flex-col items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-emerald-400">
+      <i class="fa-solid fa-film text-base"></i>
+      <span>Kinolar</span>
+    </a>
+    <a href="#musiqa" class="flex flex-col items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-cyan-400">
+      <i class="fa-solid fa-music text-base"></i>
+      <span>Musiqa</span>
+    </a>
+    <a href="#galereya" class="flex flex-col items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-purple-400">
+      <i class="fa-solid fa-images text-base"></i>
+      <span>Galereya</span>
+    </a>
+    <a href="#maqolalar" class="flex flex-col items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-amber-400">
+      <i class="fa-solid fa-newspaper text-base"></i>
+      <span>Blog</span>
+    </a>
+    <button onclick="openAdminModal()" class="flex flex-col items-center gap-1 text-[10px] font-bold text-emerald-400">
+      <i class="fa-solid fa-lock text-base"></i>
+      <span>Admin</span>
+    </button>
+  </div>
+
   <!-- Asosiy Skript -->
   <script src="app.js"></script>
+  <script>
+    // PWA Service Worker ro'yxatdan o'tkazish
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>
