@@ -921,5 +921,245 @@ body.lego-edit-mode .lego-stud-bar:active {
   text-align: right;
 }
 
+/* ==================== SAMSUNG ONE UI & IOS CONTROL CENTER (TEZKOR BOSHQARUV) ==================== */
+.oneui-control-panel {
+  background: rgba(22, 22, 26, 0.94);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 36px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  color: #f4f4f5;
+  user-select: none;
+}
+
+/* One UI Katta Kapsulalar (Pills) */
+.oneui-pill {
+  background: rgba(45, 45, 52, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 26px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.oneui-pill:hover {
+  background: rgba(60, 60, 70, 0.95);
+  transform: scale(1.02);
+}
+
+.oneui-pill.active {
+  background: #ffffff;
+  color: #121214;
+  box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.35);
+}
+
+.oneui-pill.active .oneui-pill-icon {
+  background: #18181b;
+  color: #ffffff;
+}
+
+.oneui-pill.active .oneui-subtext {
+  color: #52525b;
+}
+
+.oneui-pill-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+/* One UI 12-talik Toggle To'ri (Action Grid) */
+.oneui-grid-container {
+  background: rgba(35, 35, 40, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 30px;
+  padding: 20px 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 8px;
+  justify-items: center;
+  position: relative;
+}
+
+.oneui-toggle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.oneui-toggle-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(55, 55, 62, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #d4d4d8;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.oneui-toggle-item:hover .oneui-toggle-circle {
+  transform: scale(1.08);
+  background: rgba(70, 70, 80, 1);
+}
+
+.oneui-toggle-item.active .oneui-toggle-circle {
+  background: #ffffff;
+  color: #121214;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.45);
+}
+
+.oneui-toggle-item.active .oneui-toggle-label {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.oneui-toggle-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a1a1aa;
+  text-align: center;
+  margin-top: 6px;
+  max-width: 68px;
+  line-height: 1.15;
+  transition: color 0.2s ease;
+}
+
+/* Slayderlar Kapsulasi (Yorqinlik va Ovoz) */
+.oneui-sliders-box {
+  background: rgba(35, 35, 40, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 30px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.oneui-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.oneui-slider-capsule {
+  flex: 1;
+  height: 48px;
+  background: rgba(55, 55, 62, 0.9);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.oneui-slider-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #d4d4d8, #ffffff);
+  border-radius: 24px;
+  transition: width 0.05s linear;
+  pointer-events: none;
+}
+
+.oneui-slider-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.oneui-slider-badge {
+  position: absolute;
+  right: 16px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: monospace;
+  color: #71717a;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Media Chiqishi & Aqlli Qurilmalar Kapsulalari */
+.oneui-media-bar {
+  background: rgba(35, 35, 40, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 26px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* One UI Tahrirlash Rejimi (Jiggle & Drag Animation) */
+@keyframes oneUiJiggle {
+  0% { transform: rotate(-0.7deg); }
+  50% { transform: rotate(0.7deg); }
+  100% { transform: rotate(-0.7deg); }
+}
+
+.oneui-edit-active .oneui-pill,
+.oneui-edit-active .oneui-toggle-item,
+.oneui-edit-active .oneui-sliders-box,
+.oneui-edit-active .oneui-media-bar {
+  animation: oneUiJiggle 0.32s infinite ease-in-out;
+  cursor: grab;
+  outline: 2px dashed rgba(245, 158, 11, 0.6);
+  outline-offset: 3px;
+}
+
+.oneui-edit-active .oneui-item:active {
+  cursor: grabbing;
+}
+
+.oneui-drag-over {
+  outline: 3px solid #38bdf8 !important;
+  transform: scale(1.05) !important;
+}
+
+.oneui-edit-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+
 
 

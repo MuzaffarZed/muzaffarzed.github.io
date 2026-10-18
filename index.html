@@ -192,6 +192,12 @@
           </div>
         </div>
 
+        <!-- One UI Boshqaruv Markazi Tugmasi -->
+        <button onclick="toggleOneUIControlCenter()" id="oneUiCenterToggleBtn" class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-sky-400 border border-sky-500/30 transition flex items-center gap-1.5 shadow-lg shadow-sky-500/10" title="Samsung One UI Tezkor Boshqaruv Markazi">
+          <i class="fa-solid fa-sliders text-sky-400"></i>
+          <span class="hidden xl:inline">Boshqaruv</span>
+        </button>
+
         <!-- Lego Konstruktor Tugmasi -->
         <button onclick="toggleLegoEditMode()" id="legoModeToggleBtn" class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold bg-amber-500/10 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 transition flex items-center gap-1.5 shadow-lg shadow-amber-500/10" title="Saytni Lego kabi jonli terish">
           <i class="fa-solid fa-cubes text-amber-400"></i>
@@ -558,6 +564,124 @@
     <div class="flex items-center justify-between mt-2 text-[11px] text-slate-400 font-mono">
       <span id="legoNoteSavedStatus">● Xotirada saqlanadi</span>
       <span>Dasturchi: MuzaffarZed</span>
+    </div>
+  </section>
+
+  <!-- ==================== 10. ONE UI TEZKOR BOSHQARUV MARKAZI KUBIGI ==================== -->
+  <section id="lego_control_center" class="lego-cube lego-size-half cube-color-cyan p-6">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-sky-400"></div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">One UI Kiber-Boshqaruv Markazi</h2>
+          <p class="text-xs text-slate-400 font-medium">Samsung One UI uslubidagi tezkor sozlamalar, yorqinlik va ovoz boshqaruvi</p>
+        </div>
+      </div>
+      <button onclick="toggleOneUIControlCenter()" class="px-3.5 py-1.5 rounded-xl bg-sky-500/20 text-sky-300 border border-sky-500/40 text-xs font-bold hover:bg-sky-500 hover:text-black transition flex items-center gap-1.5">
+        <i class="fa-solid fa-expand"></i> Kengaytirish
+      </button>
+    </div>
+
+    <!-- Kiber Pultning Asosiy Vidjetlari -->
+    <div id="inlineOneUiPanel" class="oneui-control-panel p-5 space-y-4">
+      <!-- Top Pair Pills -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div onclick="toggleOneUiFeature('wifi')" id="wifiInlinePill" class="oneui-pill active">
+          <div class="oneui-pill-icon"><i class="fa-solid fa-wifi"></i></div>
+          <div>
+            <h4 class="text-xs font-bold">Wi-Fi Tarmoq</h4>
+            <span class="text-[10px] oneui-subtext">BLINK-7783 • 100% Onlayn</span>
+          </div>
+        </div>
+        <div onclick="toggleOneUiFeature('bluetooth')" id="bluetoothInlinePill" class="oneui-pill active">
+          <div class="oneui-pill-icon"><i class="fa-brands fa-bluetooth-b"></i></div>
+          <div>
+            <h4 class="text-xs font-bold">Bluetooth</h4>
+            <span class="text-[10px] oneui-subtext">Faol • Sound Lab</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Grid -->
+      <div class="oneui-grid-container">
+        <div onclick="toggleOneUiFeature('darkmode')" id="btn_darkmode" class="oneui-toggle-item active" title="Tungi / Kunduzgi Rejim">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-moon"></i></div>
+          <span class="oneui-toggle-label">Tungi rejim</span>
+        </div>
+        <div onclick="toggleOneUiFeature('cinema')" id="btn_cinema" class="oneui-toggle-item" title="Kino chiroqlarini o'chirish">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-lightbulb"></i></div>
+          <span class="oneui-toggle-label">Kino rejimi</span>
+        </div>
+        <div onclick="toggleOneUiFeature('airplane')" id="btn_airplane" class="oneui-toggle-item" title="Oflayn / Parvoz">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-plane"></i></div>
+          <span class="oneui-toggle-label">Parvoz</span>
+        </div>
+        <div onclick="toggleOneUiFeature('turbo')" id="btn_turbo" class="oneui-toggle-item active" title="4K Turbo oqim">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-bolt"></i></div>
+          <span class="oneui-toggle-label">Turbo 4K</span>
+        </div>
+        <div onclick="toggleOneUiFeature('vault')" id="btn_vault" class="oneui-toggle-item" title="Shaxsiy Bulut">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-lock"></i></div>
+          <span class="oneui-toggle-label">Bulut</span>
+        </div>
+        <div onclick="toggleOneUiFeature('pip')" id="btn_pip" class="oneui-toggle-item" title="Suzuvchi Oyna">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-clone"></i></div>
+          <span class="oneui-toggle-label">PiP oyna</span>
+        </div>
+        <div onclick="toggleOneUiFeature('equalizer')" id="btn_equalizer" class="oneui-toggle-item active" title="Ovoz Ekvayzeri">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-sliders"></i></div>
+          <span class="oneui-toggle-label">Ekvayzer</span>
+        </div>
+        <div onclick="toggleOneUiFeature('sync')" id="btn_sync" class="oneui-toggle-item active" title="Avto-Sinxronlash">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <span class="oneui-toggle-label">Sinxron</span>
+        </div>
+      </div>
+
+      <!-- Slayderlar: Yorqinlik va Ovoz -->
+      <div class="oneui-sliders-box">
+        <!-- Yorqinlik -->
+        <div class="oneui-slider-row">
+          <i class="fa-regular fa-sun text-amber-400 text-lg"></i>
+          <div class="oneui-slider-capsule">
+            <div id="brightnessProgressInline" class="oneui-slider-progress" style="width: 100%;"></div>
+            <span id="brightnessBadgeInline" class="oneui-slider-badge">100%</span>
+            <input type="range" id="brightnessInputInline" min="40" max="130" value="100" oninput="handleBrightnessChange(this.value)" class="oneui-slider-input">
+          </div>
+          <i class="fa-solid fa-moon text-slate-400 text-sm"></i>
+        </div>
+        <!-- Ovoz -->
+        <div class="oneui-slider-row">
+          <i class="fa-solid fa-music text-cyan-400 text-base"></i>
+          <div class="oneui-slider-capsule">
+            <div id="volumeProgressInline" class="oneui-slider-progress" style="width: 80%;"></div>
+            <span id="volumeBadgeInline" class="oneui-slider-badge">80%</span>
+            <input type="range" id="volumeInputInline" min="0" max="100" value="80" oninput="handleVolumeChange(this.value)" class="oneui-slider-input">
+          </div>
+          <i class="fa-solid fa-volume-high text-slate-300 text-sm"></i>
+        </div>
+      </div>
+
+      <!-- Musiqa Kapsulasi -->
+      <div class="oneui-media-bar">
+        <div class="flex items-center gap-3 truncate">
+          <div class="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
+            <i class="fa-solid fa-music"></i>
+          </div>
+          <div class="truncate">
+            <h5 id="oneUiTrackTitleInline" class="text-xs font-bold text-white truncate">Koinot Sadolari (Cosmic Echoes)</h5>
+            <span class="text-[10px] text-slate-400 font-mono">MuzaffarZed Sound Lab • 03:45</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleGlobalAudioPlay()" class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center text-xs font-black shadow-lg">
+            <i id="oneUiPlayIconInline" class="fa-solid fa-play"></i>
+          </button>
+          <button onclick="openOneUiAudioOutput()" class="px-3 py-1 rounded-full bg-stone-800 text-slate-200 text-[11px] font-bold">
+            Media
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1717,6 +1841,193 @@ Mening Saytim | https://example.com" class="w-full p-3 rounded-xl bg-slate-900 b
             <i class="fa-solid fa-plus"></i> Kubikni Yaratish
           </button>
         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SAMSUNG ONE UI / IOS CONTROL CENTER MODAL ==================== -->
+  <div id="oneUiControlCenterModal" class="fixed inset-0 z-[150] hidden items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-3xl overflow-y-auto">
+    <div class="relative w-full max-w-lg bg-[#18181b]/95 border border-white/10 rounded-[38px] p-5 sm:p-6 shadow-2xl space-y-4 my-8 text-white select-none">
+      
+      <!-- Top Bar: Panel Sozlamalari, Status Matni va Bajarildi -->
+      <div class="flex items-center justify-between gap-2 border-b border-white/5 pb-3">
+        <button onclick="toggleOneUiEditMode()" class="px-3.5 py-1.5 rounded-full bg-stone-800/80 hover:bg-stone-700 text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-gear"></i>
+          <span>Panel sozlamalari</span>
+        </button>
+        <div class="text-center">
+          <span id="oneUiHelperText" class="text-[11px] text-slate-400 font-medium">Tartibni o'zgartirish uchun tegib turing.</span>
+        </div>
+        <button id="oneUiDoneBtn" onclick="closeOneUIControlCenter()" class="px-4 py-1.5 rounded-full bg-stone-800/90 hover:bg-white hover:text-black text-xs font-bold text-white transition">
+          Bajarildi
+        </button>
+      </div>
+
+      <!-- Tahrirlash Paneli (Edit Toolbar - faqat tahrirlashda chiqadi) -->
+      <div id="oneUiEditToolbar" class="hidden p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs text-amber-300">
+        <span class="flex items-center gap-1.5 font-bold">
+          <i class="fa-solid fa-hand-pointer"></i> Elementlarni sudrab o'rnini almashtiring!
+        </span>
+        <button onclick="resetOneUiLayout()" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-black font-bold transition">
+          🔄 Asl holatga
+        </button>
+      </div>
+
+      <!-- 1-Qism: Katta Kapsulalar (Wi-Fi va Bluetooth) -->
+      <div id="oneui_section_pills" class="grid grid-cols-2 gap-3" draggable="true">
+        <div onclick="toggleOneUiFeature('wifi')" id="modal_wifi" class="oneui-pill active">
+          <div class="oneui-pill-icon"><i class="fa-solid fa-wifi"></i></div>
+          <div class="truncate">
+            <h4 class="text-xs font-bold truncate">Wi-Fi</h4>
+            <span class="text-[10px] oneui-subtext font-mono truncate">BLINK-7783</span>
+          </div>
+        </div>
+        <div onclick="toggleOneUiFeature('bluetooth')" id="modal_bluetooth" class="oneui-pill active">
+          <div class="oneui-pill-icon"><i class="fa-brands fa-bluetooth-b"></i></div>
+          <div class="truncate">
+            <h4 class="text-xs font-bold truncate">Bluetooth</h4>
+            <span class="text-[10px] oneui-subtext font-mono truncate">Faol</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Qism: 12-talik Toggle To'ri (4x3 Grid) -->
+      <div id="oneui_section_grid" class="oneui-grid-container" draggable="true">
+        <div onclick="toggleOneUiFeature('darkmode')" id="modal_btn_darkmode" class="oneui-toggle-item active">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-moon"></i></div>
+          <span class="oneui-toggle-label">Tungi rejim</span>
+        </div>
+        <div onclick="toggleOneUiFeature('cinema')" id="modal_btn_cinema" class="oneui-toggle-item">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-lightbulb"></i></div>
+          <span class="oneui-toggle-label">Kino rejimi</span>
+        </div>
+        <div onclick="toggleOneUiFeature('airplane')" id="modal_btn_airplane" class="oneui-toggle-item">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-plane"></i></div>
+          <span class="oneui-toggle-label">Parvoz</span>
+        </div>
+        <div onclick="toggleOneUiFeature('turbo')" id="modal_btn_turbo" class="oneui-toggle-item active">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-bolt"></i></div>
+          <span class="oneui-toggle-label">Turbo 4K</span>
+        </div>
+        <div onclick="toggleOneUiFeature('vault')" id="modal_btn_vault" class="oneui-toggle-item">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-lock"></i></div>
+          <span class="oneui-toggle-label">Bulut</span>
+        </div>
+        <div onclick="toggleOneUiFeature('pip')" id="modal_btn_pip" class="oneui-toggle-item">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-clone"></i></div>
+          <span class="oneui-toggle-label">PiP oyna</span>
+        </div>
+        <div onclick="toggleOneUiFeature('equalizer')" id="modal_btn_equalizer" class="oneui-toggle-item active">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-sliders"></i></div>
+          <span class="oneui-toggle-label">Ekvayzer</span>
+        </div>
+        <div onclick="toggleOneUiFeature('sync')" id="modal_btn_sync" class="oneui-toggle-item active">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <span class="oneui-toggle-label">Sinxron</span>
+        </div>
+        <div onclick="toggleOneUiFeature('eyecare')" id="modal_btn_eyecare" class="oneui-toggle-item">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-eye"></i></div>
+          <span class="oneui-toggle-label">Ko'zni asrash</span>
+        </div>
+        <div onclick="toggleOneUiFeature('dnd')" id="modal_btn_dnd" class="oneui-toggle-item">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-minus"></i></div>
+          <span class="oneui-toggle-label">Bezovta qilmang</span>
+        </div>
+        <div onclick="toggleOneUiFeature('qr')" id="modal_btn_qr" class="oneui-toggle-item">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-qrcode"></i></div>
+          <span class="oneui-toggle-label">QR Skaner</span>
+        </div>
+        <div onclick="toggleOneUiFeature('lego')" id="modal_btn_lego" class="oneui-toggle-item active">
+          <div class="oneui-toggle-circle"><i class="fa-solid fa-cubes"></i></div>
+          <span class="oneui-toggle-label">Lego Rejim</span>
+        </div>
+      </div>
+
+      <!-- 3-Qism: Yorqinlik va Ovoz Slayderlari -->
+      <div id="oneui_section_sliders" class="oneui-sliders-box" draggable="true">
+        <!-- Yorqinlik Slayderi -->
+        <div class="oneui-slider-row">
+          <i class="fa-regular fa-sun text-amber-400 text-lg"></i>
+          <div class="oneui-slider-capsule">
+            <div id="modalBrightnessProgress" class="oneui-slider-progress" style="width: 100%;"></div>
+            <span id="modalBrightnessBadge" class="oneui-slider-badge">100%</span>
+            <input type="range" id="modalBrightnessInput" min="40" max="130" value="100" oninput="handleBrightnessChange(this.value)" class="oneui-slider-input">
+          </div>
+          <i class="fa-solid fa-moon text-slate-400 text-sm"></i>
+        </div>
+        <!-- Ovoz Slayderi -->
+        <div class="oneui-slider-row">
+          <i class="fa-solid fa-music text-cyan-400 text-base"></i>
+          <div class="oneui-slider-capsule">
+            <div id="modalVolumeProgress" class="oneui-slider-progress" style="width: 80%;"></div>
+            <span id="modalVolumeBadge" class="oneui-slider-badge">80%</span>
+            <input type="range" id="modalVolumeInput" min="0" max="100" value="80" oninput="handleVolumeChange(this.value)" class="oneui-slider-input">
+          </div>
+          <i class="fa-solid fa-volume-high text-slate-300 text-sm"></i>
+        </div>
+      </div>
+
+      <!-- 4-Qism: Musiqa Ijro Qiluvchi Kapsula (Media Bar) -->
+      <div id="oneui_section_media" class="oneui-media-bar" draggable="true">
+        <div class="flex items-center gap-3 truncate">
+          <div class="w-10 h-10 rounded-full bg-stone-800 text-emerald-400 flex items-center justify-center text-sm shadow">
+            <i class="fa-solid fa-music"></i>
+          </div>
+          <div class="truncate">
+            <h4 id="modalTrackTitle" class="text-xs font-bold text-white truncate">Koinot Sadolari</h4>
+            <span class="text-[10px] text-slate-400 font-mono">MuzaffarZed • Musiqa o'ynatish</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleGlobalAudioPlay()" class="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center text-xs font-black shadow-lg">
+            <i id="modalPlayIcon" class="fa-solid fa-play"></i>
+          </button>
+          <button onclick="openOneUiAudioOutput()" class="px-3.5 py-1.5 rounded-full bg-stone-800 text-slate-200 text-xs font-bold hover:bg-stone-700 transition">
+            Media chiqishi
+          </button>
+        </div>
+      </div>
+
+      <!-- 5-Qism: Aqlli Qurilmalar (Smart Devices - 2 ustun) -->
+      <div id="oneui_section_smart" class="grid grid-cols-2 gap-3" draggable="true">
+        <div onclick="showLegoToast('📡 Yaqin-atrofdagi qurilmalar qidirilmoqda...')" class="oneui-pill">
+          <div class="oneui-pill-icon"><i class="fa-solid fa-circle-nodes"></i></div>
+          <div class="truncate">
+            <h4 class="text-xs font-bold truncate">Yaqin-atrofdagi</h4>
+            <span class="text-[10px] oneui-subtext truncate">Qurilmalar ulangan</span>
+          </div>
+        </div>
+        <div onclick="showLegoToast('✿ SmartThings Studio boshqaruviga ulandi')" class="oneui-pill">
+          <div class="oneui-pill-icon"><i class="fa-solid fa-microchip"></i></div>
+          <div class="truncate">
+            <h4 class="text-xs font-bold truncate">SmartThings</h4>
+            <span class="text-[10px] oneui-subtext truncate">Qurilma boshqaruvi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6-Qism: Smart View va Rejimlar -->
+      <div id="oneui_section_bottom" class="grid grid-cols-2 gap-3" draggable="true">
+        <div onclick="togglePiP()" class="oneui-pill">
+          <div class="oneui-pill-icon"><i class="fa-solid fa-clone"></i></div>
+          <div class="truncate">
+            <h4 class="text-xs font-bold truncate">Smart View</h4>
+            <span class="text-[10px] oneui-subtext truncate">Ko'zgu ekran (PiP)</span>
+          </div>
+        </div>
+        <div onclick="showLegoToast('◔ Rejimlar: Kiber-Tezlik va Tejamkorlik')" class="oneui-pill">
+          <div class="oneui-pill-icon"><i class="fa-solid fa-chart-pie"></i></div>
+          <div class="truncate">
+            <h4 class="text-xs font-bold truncate">Rejimlar</h4>
+            <span class="text-[10px] oneui-subtext truncate">Kiber-Tejamkorlik</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pastki Mualliflik Muhri -->
+      <div class="text-center pt-2 border-t border-white/5">
+        <span class="text-[10px] font-mono text-slate-500">Samsung One UI & iOS Synthesis Engine • Dasturchi: MuzaffarZed</span>
       </div>
 
     </div>

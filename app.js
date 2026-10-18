@@ -414,7 +414,8 @@ const DEFAULT_LEGO_BLOCKS = [
   { id: "maqolalar", name: "Maqolalar & Kiber-Blog", icon: "fa-solid fa-newspaper", visible: true, size: "full", height: "auto", color: "gold" },
   { id: "lego_stats", name: "Jonli Telemetriya", icon: "fa-solid fa-chart-pie", visible: true, size: "third", height: "auto", color: "cyan" },
   { id: "lego_quicklinks", name: "Tezkor Launchpad", icon: "fa-solid fa-rocket", visible: true, size: "third", height: "auto", color: "emerald" },
-  { id: "lego_notes", name: "Kiber-Eslatmalar", icon: "fa-solid fa-note-sticky", visible: true, size: "third", height: "auto", color: "gold" }
+  { id: "lego_notes", name: "Kiber-Eslatmalar", icon: "fa-solid fa-note-sticky", visible: true, size: "third", height: "auto", color: "gold" },
+  { id: "lego_control_center", name: "One UI Boshqaruv", icon: "fa-solid fa-sliders", visible: true, size: "half", height: "auto", color: "cyan" }
 ];
 
 let legoBlocks = getStoredData("lego_layout", DEFAULT_LEGO_BLOCKS);
@@ -3168,6 +3169,355 @@ function renderCreatorSiteGrid(user, config) {
 
   document.getElementById("creatorSiteCubeCount").textContent = cubeCount + " ta kubik";
 }
+
+// ==================== 11. SAMSUNG ONE UI & IOS KIBER-BOSHQARUV MARKAZI (CONTROL CENTER ENGINE) ====================
+let oneUiState = getStoredData("oneui_state", {
+  wifi: true,
+  bluetooth: true,
+  darkmode: true,
+  cinema: false,
+  airplane: false,
+  turbo: true,
+  vault: false,
+  pip: false,
+  equalizer: true,
+  sync: true,
+  eyecare: false,
+  dnd: false,
+  brightness: 100,
+  volume: 80
+});
+
+let isOneUiEditMode = false;
+let draggedOneUiSectionId = null;
+
+function toggleOneUIControlCenter() {
+  const modal = document.getElementById("oneUiControlCenterModal");
+  if (!modal) return;
+
+  const isHidden = modal.classList.contains("hidden");
+  if (isHidden) {
+    // Ochish
+    syncOneUiTrackInfo();
+    syncOneUiSliders();
+    syncOneUiToggles();
+    applyOneUiSavedSectionOrder();
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.classList.add("modal-active");
+  } else {
+    // Yopish
+    closeOneUIControlCenter();
+  }
+}
+
+function closeOneUIControlCenter() {
+  const modal = document.getElementById("oneUiControlCenterModal");
+  if (!modal) return;
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+  document.body.classList.remove("modal-active");
+  if (isOneUiEditMode) {
+    toggleOneUiEditMode(); // Edit rejimini yopish
+  }
+}
+
+function toggleOneUiEditMode() {
+  isOneUiEditMode = !isOneUiEditMode;
+  const modal = document.getElementById("oneUiControlCenterModal");
+  const toolbar = document.getElementById("oneUiEditToolbar");
+  const doneBtn = document.getElementById("oneUiDoneBtn");
+  const helperText = document.getElementById("oneUiHelperText");
+
+  if (modal) {
+    modal.querySelector(".relative").classList.toggle("oneui-edit-active", isOneUiEditMode);
+  }
+
+  if (toolbar) {
+    toolbar.classList.toggle("hidden", !isOneUiEditMode);
+  }
+
+  if (doneBtn) {
+    doneBtn.textContent = isOneUiEditMode ? "✓ Tayyor" : "Bajarildi";
+    doneBtn.className = isOneUiEditMode 
+      ? "px-4 py-1.5 rounded-full bg-emerald-500 text-black text-xs font-black shadow-lg shadow-emerald-500/30 transition"
+      : "px-4 py-1.5 rounded-full bg-stone-800/90 hover:bg-white hover:text-black text-xs font-bold text-white transition";
+  }
+
+  if (helperText) {
+    helperText.textContent = isOneUiEditMode ? "Tartibni o'zgartirish uchun sudrang!" : "Tartibni o'zgartirish uchun tegib turing.";
+    helperText.className = isOneUiEditMode ? "text-[11px] text-amber-400 font-bold" : "text-[11px] text-slate-400 font-medium";
+  }
+
+  setupOneUiSectionDraggables();
+  showLegoToast(isOneUiEditMode ? "⚙️ Tahrirlash: Kartalarni xohlagan tomonga sudrang!" : "💾 Sozlamalar saqlandi!");
+}
+
+function syncOneUiTrackInfo() {
+  const current = tracks[currentTrackIndex] || { title: "Koinot Sadolari" };
+  const title = current.title;
+
+  const modalTitle = document.getElementById("modalTrackTitle");
+  if (modalTitle) modalTitle.textContent = title;
+
+  const inlineTitle = document.getElementById("oneUiTrackTitleInline");
+  if (inlineTitle) inlineTitle.textContent = title;
+
+  const modalPlay = document.getElementById("modalPlayIcon");
+  if (modalPlay) {
+    modalPlay.className = isAudioPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
+  }
+
+  const inlinePlay = document.getElementById("oneUiPlayIconInline");
+  if (inlinePlay) {
+    inlinePlay.className = isAudioPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
+  }
+}
+
+function syncOneUiSliders() {
+  const br = oneUiState.brightness || 100;
+  const vol = oneUiState.volume || 80;
+
+  handleBrightnessChange(br, false);
+  handleVolumeChange(vol, false);
+}
+
+function syncOneUiToggles() {
+  for (const [key, val] of Object.entries(oneUiState)) {
+    updateFeatureUI(key, val);
+  }
+}
+
+function toggleOneUiFeature(feature) {
+  oneUiState[feature] = !oneUiState[feature];
+  setStoredData("oneui_state", oneUiState);
+  updateFeatureUI(feature, oneUiState[feature]);
+
+  // Jonli funksiyalarni ishga tushirish
+  if (feature === "wifi") {
+    showLegoToast(oneUiState.wifi ? "📶 Wi-Fi ulandi: BLINK-7783 (100% Onlayn)" : "📵 Wi-Fi uzildi: Oflayn rejim");
+  } else if (feature === "bluetooth") {
+    showLegoToast(oneUiState.bluetooth ? "🎧 Bluetooth ulandi: Sound Lab Master" : "🔇 Bluetooth uzildi");
+  } else if (feature === "darkmode") {
+    changeTheme(oneUiState.darkmode ? "emerald" : "gold");
+    showLegoToast(oneUiState.darkmode ? "🌙 Tungi Rejim faollashdi" : "☀️ Oltin VIP rejim");
+  } else if (feature === "cinema") {
+    toggleCinemaMode();
+  } else if (feature === "airplane") {
+    showLegoToast(oneUiState.airplane ? "✈️ Parvoz rejimi: barcha tarmoqlar o'chirildi" : "✈️ Parvoz rejimi o'chirildi");
+  } else if (feature === "turbo") {
+    showLegoToast(oneUiState.turbo ? "⚡ 4K Turbo Keshlash va Oqim Akseleratsiyasi Faol!" : "⚡ Standart oqim");
+  } else if (feature === "vault") {
+    filterPrivateCloud();
+  } else if (feature === "pip") {
+    togglePiP();
+  } else if (feature === "equalizer") {
+    showLegoToast(oneUiState.equalizer ? "🎛️ 10-Polosali Soxr Ekvayzer & Bass Boost FAOL!" : "🎛️ Ekvayzer o'chirildi");
+  } else if (feature === "sync") {
+    showLegoToast("🔄 Barcha materiallar va ma'lumotlar avto-sinxronlandi!");
+  } else if (feature === "eyecare") {
+    document.documentElement.style.filter = oneUiState.eyecare ? "sepia(0.35) brightness(0.95)" : "";
+    showLegoToast(oneUiState.eyecare ? "👁️ Ko'zni Asrash Sariq Filtri Yoqildi" : "👁️ Ko'zni Asrash O'chirildi");
+  } else if (feature === "dnd") {
+    if (oneUiState.dnd) {
+      if (globalAudio) globalAudio.muted = true;
+      showLegoToast("🔕 Bezovta qilmang: Barcha ovozlar o'chirildi");
+    } else {
+      if (globalAudio) globalAudio.muted = false;
+      showLegoToast("🔔 Ovozlar qayta yoqildi");
+    }
+  } else if (feature === "qr") {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      showLegoToast("📋 Sayt havolasi buferga nusxalandi!");
+    } else {
+      prompt("Sayt havolasi:", window.location.href);
+    }
+  } else if (feature === "lego") {
+    toggleLegoEditMode();
+  }
+}
+
+function updateFeatureUI(feature, isActive) {
+  // Modal elementlar
+  const modalBtn = document.getElementById("modal_btn_" + feature);
+  if (modalBtn) modalBtn.classList.toggle("active", isActive);
+
+  const modalPill = document.getElementById("modal_" + feature);
+  if (modalPill) modalPill.classList.toggle("active", isActive);
+
+  // Inline elementlar
+  const inlineBtn = document.getElementById("btn_" + feature);
+  if (inlineBtn) inlineBtn.classList.toggle("active", isActive);
+
+  const inlinePill = document.getElementById(feature + "InlinePill");
+  if (inlinePill) inlinePill.classList.toggle("active", isActive);
+}
+
+// ==================== YORQINLIK VA OVOZ SLAYDERLARI ====================
+function handleBrightnessChange(val, save = true) {
+  const num = parseInt(val, 10);
+  if (save) {
+    oneUiState.brightness = num;
+    setStoredData("oneui_state", oneUiState);
+  }
+
+  // Sahifa yorqinligini boshqarish
+  if (!oneUiState.eyecare) {
+    document.documentElement.style.filter = num === 100 ? "" : `brightness(${num / 100})`;
+  }
+
+  const percent = Math.round(((num - 40) / 90) * 100);
+
+  // Modal progress & input
+  const mProg = document.getElementById("modalBrightnessProgress");
+  const mBadge = document.getElementById("modalBrightnessBadge");
+  const mInput = document.getElementById("modalBrightnessInput");
+  if (mProg) mProg.style.width = percent + "%";
+  if (mBadge) mBadge.textContent = num + "%";
+  if (mInput && mInput.value != num) mInput.value = num;
+
+  // Inline progress & input
+  const iProg = document.getElementById("brightnessProgressInline");
+  const iBadge = document.getElementById("brightnessBadgeInline");
+  const iInput = document.getElementById("brightnessInputInline");
+  if (iProg) iProg.style.width = percent + "%";
+  if (iBadge) iBadge.textContent = num + "%";
+  if (iInput && iInput.value != num) iInput.value = num;
+}
+
+function handleVolumeChange(val, save = true) {
+  const num = parseInt(val, 10);
+  if (save) {
+    oneUiState.volume = num;
+    setStoredData("oneui_state", oneUiState);
+  }
+
+  // Global Audio ovozi
+  if (globalAudio) {
+    globalAudio.volume = num / 100;
+  }
+
+  // HTML5 Video ovozlari
+  const html5Vid = document.getElementById("html5VideoPlayer");
+  if (html5Vid) {
+    html5Vid.volume = num / 100;
+  }
+
+  // Modal progress & input
+  const mProg = document.getElementById("modalVolumeProgress");
+  const mBadge = document.getElementById("modalVolumeBadge");
+  const mInput = document.getElementById("modalVolumeInput");
+  if (mProg) mProg.style.width = num + "%";
+  if (mBadge) mBadge.textContent = num + "%";
+  if (mInput && mInput.value != num) mInput.value = num;
+
+  // Inline progress & input
+  const iProg = document.getElementById("volumeProgressInline");
+  const iBadge = document.getElementById("volumeBadgeInline");
+  const iInput = document.getElementById("volumeInputInline");
+  if (iProg) iProg.style.width = num + "%";
+  if (iBadge) iBadge.textContent = num + "%";
+  if (iInput && iInput.value != num) iInput.value = num;
+}
+
+function openOneUiAudioOutput() {
+  closeOneUIControlCenter();
+  const el = document.getElementById("musiqa");
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+
+// ==================== ONE UI KARTALARINI SUDRAB ALMASHTIRISH (DRAG & DROP) ====================
+const DEFAULT_ONEUI_SECTION_ORDER = [
+  "oneui_section_pills",
+  "oneui_section_grid",
+  "oneui_section_sliders",
+  "oneui_section_media",
+  "oneui_section_smart",
+  "oneui_section_bottom"
+];
+
+function setupOneUiSectionDraggables() {
+  const sections = document.querySelectorAll("#oneUiControlCenterModal [id^='oneui_section_']");
+  sections.forEach(sec => {
+    sec.setAttribute("draggable", isOneUiEditMode ? "true" : "false");
+    sec.ondragstart = (e) => {
+      if (!isOneUiEditMode) return;
+      draggedOneUiSectionId = sec.id;
+      e.dataTransfer.effectAllowed = "move";
+      sec.classList.add("is-dragging");
+    };
+    sec.ondragend = (e) => {
+      sec.classList.remove("is-dragging");
+      sections.forEach(s => s.classList.remove("oneui-drag-over"));
+      draggedOneUiSectionId = null;
+    };
+    sec.ondragover = (e) => {
+      if (!isOneUiEditMode) return;
+      e.preventDefault();
+      sec.classList.add("oneui-drag-over");
+    };
+    sec.ondragleave = (e) => {
+      sec.classList.remove("oneui-drag-over");
+    };
+    sec.ondrop = (e) => {
+      if (!isOneUiEditMode) return;
+      e.preventDefault();
+      sec.classList.remove("oneui-drag-over");
+      if (!draggedOneUiSectionId || draggedOneUiSectionId === sec.id) return;
+
+      const parent = sec.parentElement;
+      const allSecs = Array.from(parent.querySelectorAll("[id^='oneui_section_']"));
+      const fromIdx = allSecs.findIndex(s => s.id === draggedOneUiSectionId);
+      const toIdx = allSecs.findIndex(s => s.id === sec.id);
+
+      if (fromIdx !== -1 && toIdx !== -1) {
+        if (fromIdx < toIdx) {
+          parent.insertBefore(document.getElementById(draggedOneUiSectionId), sec.nextSibling);
+        } else {
+          parent.insertBefore(document.getElementById(draggedOneUiSectionId), sec);
+        }
+        saveOneUiSectionOrder();
+        showLegoToast("🔀 Kartalar tartibi almashtirildi!");
+      }
+    };
+  });
+}
+
+function saveOneUiSectionOrder() {
+  const parent = document.querySelector("#oneUiControlCenterModal .relative");
+  if (!parent) return;
+  const currentSecs = Array.from(parent.querySelectorAll("[id^='oneui_section_']")).map(s => s.id);
+  setStoredData("oneui_sections_order", currentSecs);
+}
+
+function applyOneUiSavedSectionOrder() {
+  const saved = getStoredData("oneui_sections_order", DEFAULT_ONEUI_SECTION_ORDER);
+  const parent = document.querySelector("#oneUiControlCenterModal .relative");
+  if (!parent || !saved) return;
+
+  const footer = parent.querySelector(".text-center.pt-2");
+  saved.forEach(secId => {
+    const el = document.getElementById(secId);
+    if (el) {
+      if (footer) parent.insertBefore(el, footer);
+      else parent.appendChild(el);
+    }
+  });
+}
+
+function resetOneUiLayout() {
+  setStoredData("oneui_sections_order", DEFAULT_ONEUI_SECTION_ORDER);
+  applyOneUiSavedSectionOrder();
+  showLegoToast("🔄 Control Center tartibi standart holatga qaytarildi!");
+}
+
+// Boshlang'ich yuklash
+document.addEventListener("DOMContentLoaded", () => {
+  syncOneUiSliders();
+  syncOneUiToggles();
+});
+
 
 
 
