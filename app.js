@@ -402,6 +402,30 @@ let softwareList = getStoredData("softwareList", DEFAULT_SOFTWARE);
 let userSubscriptions = getStoredData("userSubscriptions", ["u_master"]);
 let currentSoftwareFilter = "all";
 
+// ==================== LEGO PLATFORMA BLOKLARI (MODULAR SYSTEM) ====================
+const DEFAULT_LEGO_BLOCKS = [
+  { id: "lego_hero", name: "Premyera Hero Banner", icon: "fa-solid fa-star", visible: true },
+  { id: "lego_filters", name: "Janrlar & Saralash Paneli", icon: "fa-solid fa-filter", visible: true },
+  { id: "kinolar", name: "Kinolar va Seriallar", icon: "fa-solid fa-film", visible: true },
+  { id: "musiqa", name: "Musiqa Olami", icon: "fa-solid fa-music", visible: true },
+  { id: "dasturlar", name: "Dasturlar & APK Hub", icon: "fa-solid fa-cube", visible: true },
+  { id: "galereya", name: "Fotogalereya", icon: "fa-solid fa-images", visible: true },
+  { id: "kanallar", name: "Ochiq Kanallar & Kreatorlar", icon: "fa-solid fa-bullhorn", visible: true },
+  { id: "maqolalar", name: "Maqolalar va Yangiliklar", icon: "fa-solid fa-newspaper", visible: true }
+];
+
+let legoBlocks = getStoredData("lego_layout", DEFAULT_LEGO_BLOCKS);
+
+// Agar yangi bloklar qo'shilgan bo'lsa, xotiradagini avto-yangilash
+(function ensureLegoIntegrity() {
+  const existingIds = new Set(legoBlocks.map(b => b.id));
+  DEFAULT_LEGO_BLOCKS.forEach(def => {
+    if (!existingIds.has(def.id)) {
+      legoBlocks.push({ ...def });
+    }
+  });
+})();
+
 let movieComments = getStoredData("comments", {
   "m1": [
     { author: "Sardor", text: "Dublyajiga gap yo'q, ovozlar juda zo'r tushgan!", time: "2 soat oldin" },
@@ -431,6 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateFavBadge();
   setupAudioEvents();
   setupSearchEvents();
+  applyLegoLayout();
 });
 
 // ==================== 1. KINOLARNI CHIQARISH (RENDER MOVIES) ====================
@@ -1364,7 +1389,8 @@ function exportDataBackup() {
     softwareList,
     users,
     userSubscriptions,
-    version: "2026.2",
+    legoBlocks,
+    version: "2026.3",
     author: "MuzaffarZed"
   };
 
@@ -1393,6 +1419,7 @@ function importDataBackup(e) {
       if (parsed.softwareList) softwareList = parsed.softwareList;
       if (parsed.users) users = parsed.users;
       if (parsed.userSubscriptions) userSubscriptions = parsed.userSubscriptions;
+      if (parsed.legoBlocks) legoBlocks = parsed.legoBlocks;
 
       setStoredData("movies", movies);
       setStoredData("tracks", tracks);
@@ -1403,6 +1430,7 @@ function importDataBackup(e) {
       setStoredData("softwareList", softwareList);
       setStoredData("users", users);
       setStoredData("userSubscriptions", userSubscriptions);
+      setStoredData("lego_layout", legoBlocks);
 
       renderMovies();
       renderTracks();
@@ -1411,7 +1439,8 @@ function importDataBackup(e) {
       renderChannels();
       renderArticles();
       updateFavBadge();
-      alert("Barcha ma'lumotlar zaxiradan muvaffaqiyatli tiklandi!");
+      applyLegoLayout();
+      alert("Barcha ma'lumotlar va Lego konfiguratsiyasi zaxiradan muvaffaqiyatli tiklandi!");
       closeAdminModal();
     } catch (err) {
       alert("Fayl formati noto'g'ri!");
@@ -1433,6 +1462,7 @@ function resetDefaultData() {
     currentUser = DEFAULT_USERS[0];
     softwareList = DEFAULT_SOFTWARE;
     userSubscriptions = ["u_master"];
+    legoBlocks = JSON.parse(JSON.stringify(DEFAULT_LEGO_BLOCKS));
     movieComments = {};
 
     renderUserAccount();
@@ -1443,6 +1473,7 @@ function resetDefaultData() {
     renderChannels();
     renderArticles();
     updateFavBadge();
+    applyLegoLayout();
     alert("Barcha ma'lumotlar zavod holatiga qaytarildi!");
     closeAdminModal();
   }
@@ -2124,4 +2155,142 @@ function deleteChannelItem(id) {
   renderArticles();
   renderChannelStudioInfo();
 }
+
+// ==================== 9. LEGO PLATFORMA KONSTRUKTORI (LEGO BUILDER ENGINE) ====================
+function applyLegoLayout() {
+  const container = document.getElementById("legoMainContainer");
+  if (!container) return;
+
+  legoBlocks.forEach(block => {
+    const el = document.getElementById(block.id);
+    if (el) {
+      // DOM da xavfsiz tartiblash (appendChild elementni mavjud joyidan oxiriga o'tkazadi)
+      container.appendChild(el);
+      // Ko'rinish holatini sozlash
+      el.style.display = block.visible ? "" : "none";
+    }
+  });
+
+  setStoredData("lego_layout", legoBlocks);
+}
+
+function openLegoStudio() {
+  const modal = document.getElementById("legoStudioModal");
+  if (modal) {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.classList.add("modal-active");
+  }
+  renderLegoStudioList();
+}
+
+function closeLegoStudio() {
+  const modal = document.getElementById("legoStudioModal");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.classList.remove("modal-active");
+  }
+}
+
+function renderLegoStudioList() {
+  const list = document.getElementById("legoBlocksList");
+  if (!list) return;
+  list.innerHTML = "";
+
+  legoBlocks.forEach((block, index) => {
+    const card = document.createElement("div");
+    card.className = `lego-block-item ${block.visible ? '' : 'is-hidden'}`;
+
+    card.innerHTML = `
+      <div class="flex items-center gap-3">
+        <span class="lego-pos-badge">#${index + 1}</span>
+        <div class="w-8 h-8 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center text-xs">
+          <i class="${block.icon}"></i>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white">${block.name}</h4>
+          <span class="text-[10px] ${block.visible ? 'text-emerald-400' : 'text-slate-500'} font-semibold">
+            ${block.visible ? '● Ko\'rinmoqda' : '○ Yashirilgan'}
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button onclick="toggleLegoBlockVisibility(${index})" class="lego-btn-move" title="${block.visible ? 'Yashirish' : 'Ko\'rsatish'}">
+          <i class="fa-solid ${block.visible ? 'fa-eye text-emerald-400' : 'fa-eye-slash text-slate-500'}"></i>
+        </button>
+        <button onclick="moveLegoBlock(${index}, -1)" class="lego-btn-move" ${index === 0 ? 'disabled' : ''} title="Yuqoriga surish">
+          <i class="fa-solid fa-arrow-up"></i>
+        </button>
+        <button onclick="moveLegoBlock(${index}, 1)" class="lego-btn-move" ${index === legoBlocks.length - 1 ? 'disabled' : ''} title="Pastga surish">
+          <i class="fa-solid fa-arrow-down"></i>
+        </button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function moveLegoBlock(index, direction) {
+  const targetIndex = index + direction;
+  if (targetIndex < 0 || targetIndex >= legoBlocks.length) return;
+
+  const temp = legoBlocks[index];
+  legoBlocks[index] = legoBlocks[targetIndex];
+  legoBlocks[targetIndex] = temp;
+
+  applyLegoLayout();
+  renderLegoStudioList();
+}
+
+function toggleLegoBlockVisibility(index) {
+  legoBlocks[index].visible = !legoBlocks[index].visible;
+  applyLegoLayout();
+  renderLegoStudioList();
+}
+
+function applyLegoPreset(preset) {
+  if (preset === "all") {
+    legoBlocks = JSON.parse(JSON.stringify(DEFAULT_LEGO_BLOCKS));
+  } else if (preset === "cinema") {
+    const order = ["lego_hero", "lego_filters", "kinolar", "kanallar", "maqolalar", "musiqa", "dasturlar", "galereya"];
+    legoBlocks.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+    legoBlocks.forEach(b => {
+      b.visible = (b.id !== "dasturlar");
+    });
+  } else if (preset === "software") {
+    const order = ["dasturlar", "kanallar", "maqolalar", "lego_hero", "kinolar", "musiqa", "galereya", "lego_filters"];
+    legoBlocks.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+    legoBlocks.forEach(b => { b.visible = true; });
+  } else if (preset === "music") {
+    const order = ["musiqa", "galereya", "kanallar", "lego_hero", "kinolar", "dasturlar", "maqolalar", "lego_filters"];
+    legoBlocks.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+    legoBlocks.forEach(b => { b.visible = true; });
+  }
+
+  applyLegoLayout();
+  renderLegoStudioList();
+  alert("Lego shabloni muvaffaqiyatli qo'llandi!");
+}
+
+function resetLegoLayout() {
+  legoBlocks = JSON.parse(JSON.stringify(DEFAULT_LEGO_BLOCKS));
+  applyLegoLayout();
+  renderLegoStudioList();
+  alert("Lego tartibi zavod holatiga qaytarildi!");
+}
+
+function exportLegoSetup() {
+  const data = JSON.stringify(legoBlocks, null, 2);
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(data).then(() => {
+      alert("Sizning shaxsiy Lego konfiguratsiyangiz nusxalandi! Uni istalgan qurilmada zaxiradan tiklashingiz mumkin.");
+    }).catch(() => {
+      prompt("Lego konfiguratsiyangiz:", data);
+    });
+  } else {
+    prompt("Lego konfiguratsiyangiz:", data);
+  }
+}
+
 
