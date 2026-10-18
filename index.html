@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- ==================== GOOGLE SEO & METADATA ==================== -->
+  <title>MuzaffarZed — Rasmiy Media Portal | Kinolar, Musiqa va Galereya</title>
+  <meta name="description" content="MuzaffarZed rasmiy media portali — Uzmovi va Aslmedia uslubidagi O'zbekcha dublyaj kinolar, jahon premeralari, sara musiqalar, fotogalereya va shaxsiy maqolalar jamlanmasi. Barchasi bir joyda!">
+  <meta name="keywords" content="MuzaffarZed, Muzaffar Zed, uzmovi, aslmedia, kinolar, uzbekcha kinolar, tarjima kinolar, premyerlar, musiqa, mp3 yuklash, fotogalereya, dasturchi MuzaffarZed, media portal">
+  <meta name="author" content="MuzaffarZed">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://muzaffarzed.vercel.app/">
+  
+  <!-- OpenGraph (Facebook, Telegram, WhatsApp) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uz_UZ">
+  <meta property="og:site_name" content="MuzaffarZed Media Portal">
+  <meta property="og:title" content="MuzaffarZed — Rasmiy Media Portal | Kinolar, Musiqa va Galereya">
+  <meta property="og:description" content="Uzmovi va Aslmedia uslubidagi kinolar, musiqalar va galereyani bepul tomosha qiling va yuklab oling. Muallif: MuzaffarZed.">
+  <meta property="og:url" content="https://muzaffarzed.vercel.app/">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MuzaffarZed — Rasmiy Media Portal">
+  <meta name="twitter:description" content="Uzmovi va Aslmedia uslubidagi kinolar, musiqalar va galereya.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80">
+  <meta name="twitter:creator" content="@MuzaffarZed">
+
+  <!-- Google Search Console Verification Placeholder -->
+  <meta name="google-site-verification" content="google_verification_muzaffarzed_key">
+
+  <!-- Google Rich Schema (JSON-LD) for Search Engine Optimization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://muzaffarzed.vercel.app/#person",
+        "name": "MuzaffarZed",
+        "jobTitle": "Bosh Dasturiy Arxitektor va Kreator",
+        "description": "MuzaffarZed — zamonaviy IT tizimlari arxitektori, media injeneri va mustaqil dasturchi.",
+        "url": "https://muzaffarzed.vercel.app/",
+        "sameAs": [
+          "https://github.com/MuzaffarZed",
+          "https://t.me/MuzaffarZed"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://muzaffarzed.vercel.app/#website",
+        "url": "https://muzaffarzed.vercel.app/",
+        "name": "MuzaffarZed Media Portal",
+        "alternateName": "MuzaffarZed Cinema & Media Universe",
+        "publisher": {
+          "@id": "https://muzaffarzed.vercel.app/#person"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://muzaffarzed.vercel.app/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Tailwind CSS & Lucide Icons via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              main: '#06090e',
+              card: '#0f172a',
+              emerald: '#10b981',
+              cyan: '#06b6d4',
+              gold: '#f59e0b',
+              purple: '#8b5cf6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#06090e] text-slate-100 selection:bg-emerald-500 selection:text-black">
+
+  <!-- Fon nur effekti -->
+  <div class="ambient-glow"></div>
+
+  <!-- Chiroqni o'chirish effekti (Cinema Lights Off) -->
+  <div id="cinemaOverlay" class="cinema-lights-overlay" onclick="toggleCinemaMode(false)"></div>
+
+  <!-- ==================== HEADER & NAVBAR ==================== -->
+  <header class="sticky top-0 z-50 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brend / Logotip -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center text-black font-black text-xl shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-play"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-xl font-extrabold tracking-wider text-white">MUZAFFAR<span class="text-emerald-400">ZED</span></span>
+            <span class="text-[9px] font-bold uppercase tracking-widest bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded">PORTAL</span>
+          </div>
+          <p class="text-[10px] text-slate-400 font-medium">Kinolar • Musiqa • Galereya</p>
+        </div>
+      </a>
+
+      <!-- Qidiruv maydoni (Live Instant Search) -->
+      <div class="relative flex-1 max-w-md hidden md:block">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+        <input 
+          type="text" 
+          id="globalSearchInput"
+          placeholder="Kino, musiqa yoki maqolalarni izlash... (Ctrl + K)" 
+          class="w-full bg-slate-900/80 border border-slate-700/60 rounded-full pl-11 pr-12 py-2.5 text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 transition-all"
+        >
+        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono text-slate-400 bg-slate-800 border border-slate-700 px-1.5 py-0.5 rounded">⌘K</span>
+      </div>
+
+      <!-- Navigatsiya Tugmalari -->
+      <nav class="flex items-center gap-1 sm:gap-2">
+        <a href="#kinolar" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-film text-emerald-400"></i>
+          <span class="hidden sm:inline">Kinolar</span>
+        </a>
+        <a href="#musiqa" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-music text-cyan-400"></i>
+          <span class="hidden sm:inline">Musiqa</span>
+        </a>
+        <a href="#galereya" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-images text-purple-400"></i>
+          <span class="hidden sm:inline">Galereya</span>
+        </a>
+        <a href="#maqolalar" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-newspaper text-amber-400"></i>
+          <span class="hidden sm:inline">Maqolalar</span>
+        </a>
+
+        <!-- Sevimlilar (Bookmark) -->
+        <button onclick="filterFavorites()" class="relative p-2.5 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-slate-800/60 transition" title="Sevimlilar ro'yxati">
+          <i class="fa-solid fa-heart text-rose-500"></i>
+          <span id="favCountBadge" class="absolute -top-1 -right-1 bg-rose-600 text-[10px] font-bold text-white w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </button>
+
+        <!-- Admin Panel Tugmasi -->
+        <button onclick="openAdminModal()" class="ml-2 px-3 py-2 rounded-lg text-xs font-bold bg-slate-800/90 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-lock"></i>
+          <span class="hidden lg:inline">Admin</span>
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ==================== HERO PREMERA BANNER ==================== -->
+  <section class="relative min-h-[520px] lg:min-h-[580px] flex items-center overflow-hidden border-b border-slate-800/60">
+    <!-- Orqa Fon Rasmi (Backdrop) -->
+    <div id="heroBackdrop" class="absolute inset-0 bg-cover bg-center transition-all duration-700 transform scale-105" style="background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&q=80');"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#06090e] via-[#06090e]/90 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#06090e] via-transparent to-transparent"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
+      <div class="max-w-2xl space-y-4">
+        
+        <!-- Badge qatori -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="badge-quality">4K ULTRA HD</span>
+          <span class="badge-dub">O'ZBEKCHA DUBLYAJ</span>
+          <span class="badge-rating"><i class="fa-solid fa-star"></i> 9.2</span>
+          <span class="text-xs text-slate-400 font-semibold">• 2026-YIL PREMYERASI</span>
+        </div>
+
+        <!-- Sarlavha -->
+        <h1 id="heroTitle" class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+          Yulduzlararo Sayohat: Koinot Sirlari
+        </h1>
+
+        <!-- Tavsif -->
+        <p id="heroDescription" class="text-slate-300 text-sm sm:text-base leading-relaxed line-clamp-3">
+          Insoniyat kelajagi xavf ostida qolgan davrda, yangi sivilizatsiya o'chog'ini izlab olis galaktikalarga yo'l olgan jasur ekspeditsiyaning hayratlanarli va dramatik sarguzashtlari.
+        </p>
+
+        <!-- Tugmalar -->
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <button id="heroWatchBtn" onclick="playHeroMovie()" class="btn-emerald px-7 py-3.5 flex items-center gap-2.5 text-base">
+            <i class="fa-solid fa-play text-lg"></i>
+            <span>Tomosha qilish</span>
+          </button>
+          <button id="heroTrailerBtn" onclick="playHeroTrailer()" class="px-6 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-white font-semibold text-base transition flex items-center gap-2">
+            <i class="fa-solid fa-film text-slate-400"></i>
+            <span>Treyler</span>
+          </button>
+          <button id="heroFavBtn" onclick="toggleHeroFavorite()" class="p-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-slate-300 hover:text-rose-400 transition" title="Sevimlilarga qo'shish">
+            <i class="fa-regular fa-heart text-lg"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FILTRLAR VA JANRLAR QATORI ==================== -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+      
+      <!-- Kategoriya Tugmalari -->
+      <div class="flex flex-wrap items-center gap-2" id="filterContainer">
+        <button onclick="setFilter('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-500 text-slate-950 transition">Barchasi</button>
+        <button onclick="setFilter('premyera')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:border-emerald-500/50 transition">🔥 Premyeralar</button>
+        <button onclick="setFilter('dublyaj')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:border-emerald-500/50 transition">🇺🇿 O'zbekcha Dublyaj</button>
+        <button onclick="setFilter('jahon')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:border-emerald-500/50 transition">🌍 Jahon Kinolari</button>
+        <button onclick="setFilter('serial')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:border-emerald-500/50 transition">📺 Seriallar</button>
+      </div>
+
+      <!-- Tartiblash (Sorting) -->
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <span class="text-xs text-slate-400 font-medium">Saralash:</span>
+        <select id="sortSelect" onchange="applySorting()" class="bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500">
+          <option value="newest">Eng so'nggi (Yangi)</option>
+          <option value="rating">Reyting bo'yicha (IMDb)</option>
+          <option value="views">Ko'rishlar soni</option>
+        </select>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 1. KINOLAR VA SERIALLAR (UZMOVI / ASLMEDIA) ==================== -->
+  <section id="kinolar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-emerald-500"></div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Kinolar va Seriallar</h2>
+      </div>
+      <span id="moviesCount" class="text-xs font-bold text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1 rounded-full">0 ta film</span>
+    </div>
+
+    <!-- Kinolar To'ri (Movie Grid) -->
+    <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+      <!-- JavaScript dinamik joylaydi -->
+    </div>
+  </section>
+
+  <!-- ==================== 2. MUSIQA VA TREKLAR BO'LIMI ==================== -->
+  <section id="musiqa" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-800/80">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-cyan-500"></div>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Musiqiy Olami</h2>
+          <p class="text-xs text-slate-400 font-medium">Jonli audio pleyer, sevimli treklar va eksklyuziv musiqalar</p>
+        </div>
+      </div>
+      <button onclick="playAllMusic()" class="px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold hover:bg-cyan-500 hover:text-black transition flex items-center gap-2">
+        <i class="fa-solid fa-play"></i> Barchasini eshitish
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Chap tomon: Treklar Ro'yxati -->
+      <div class="lg:col-span-2 space-y-2.5" id="trackListContainer">
+        <!-- JS generatsiya qiladi -->
+      </div>
+
+      <!-- O'ng tomon: Hozirgi Trek / Pleylist Kartasi -->
+      <div class="glass-panel p-6 rounded-2xl flex flex-col items-center text-center justify-center relative overflow-hidden border border-slate-800">
+        <div class="w-48 h-48 rounded-2xl overflow-hidden shadow-2xl mb-4 relative group">
+          <img id="sideTrackArt" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80" alt="Muqova" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+            <i class="fa-solid fa-compact-disc text-4xl text-emerald-400 animate-spin"></i>
+          </div>
+        </div>
+        <h3 id="sideTrackTitle" class="text-lg font-bold text-white mb-1">Qo'shiq tanlanmagan</h3>
+        <p id="sideTrackArtist" class="text-xs text-slate-400 font-medium mb-4">Ro'yxatdan birorta qo'shiqni tanlang</p>
+        <div class="sound-bars" id="visualizerBars" style="display: none;">
+          <div class="sound-bar"></div>
+          <div class="sound-bar"></div>
+          <div class="sound-bar"></div>
+          <div class="sound-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. FOTOGALEREYA ==================== -->
+  <section id="galereya" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-800/80">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-purple-500"></div>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Fotogalereya</h2>
+          <p class="text-xs text-slate-400 font-medium">Yuqori sifatli fotosuratlar, kadrlar va estetik san'at</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fotolar To'ri (Gallery Grid) -->
+    <div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- JS orqali to'ldiriladi -->
+    </div>
+  </section>
+
+  <!-- ==================== 4. MAQOLALAR VA YANGILIKLAR ==================== -->
+  <section id="maqolalar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-800/80">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-amber-500"></div>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Maqolalar va Yangiliklar</h2>
+          <p class="text-xs text-slate-400 font-medium">Kino tahlillari, texnologiya, san'at va shaxsiy blog</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- JS orqali to'ldiriladi -->
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-[#04060a] border-t border-slate-800/80 py-12 pb-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+        
+        <!-- 1-ustun: Brend haqida -->
+        <div class="md:col-span-2 space-y-4">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-black font-black">
+              <i class="fa-solid fa-play text-sm"></i>
+            </div>
+            <span class="text-xl font-extrabold text-white">MUZAFFAR<span class="text-emerald-400">ZED</span></span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-md">
+            Ushbu platforma janob Muzaffar uchun maxsus ishlab chiqilgan, Uzmovi va Aslmedia standartlaridagi multimedia xizmatidir. Kinolar, musiqa, fotogalereya va erkin matnlar barchasi bitta qulay tizimda.
+          </p>
+          <div class="flex items-center gap-3 pt-2">
+            <span class="text-xs text-slate-400 font-mono">Mualliflik belgisi:</span>
+            <span class="author-watermark text-emerald-400 font-bold">Dasturchi: MuzaffarZed</span>
+          </div>
+        </div>
+
+        <!-- 2-ustun: Tezkor Havolalar -->
+        <div>
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Bo'limlar</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li><a href="#kinolar" class="hover:text-emerald-400 transition">Kinolar va Seriallar</a></li>
+            <li><a href="#musiqa" class="hover:text-emerald-400 transition">Musiqa Olami</a></li>
+            <li><a href="#galereya" class="hover:text-emerald-400 transition">Fotogalereya</a></li>
+            <li><a href="#maqolalar" class="hover:text-emerald-400 transition">Maqolalar va Sharhlar</a></li>
+          </ul>
+        </div>
+
+        <!-- 3-ustun: SEO & Texnologiyalar -->
+        <div>
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Texnologiyalar</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li><span class="text-emerald-400 font-semibold">• Vercel Cloud Server</span></li>
+            <li><span class="text-slate-300">• Googlebot 100% SEO</span></li>
+            <li><span class="text-slate-300">• JSON-LD Schema.org</span></li>
+            <li><span class="text-slate-300">• Zero-Beta Standarti</span></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <p>© 2026 MuzaffarZed Media Portal. Barcha huquqlar himoyalangan.</p>
+        <p class="font-mono text-emerald-400/80">Yaratuvchi: MuzaffarZed (Zero-Defect Enterprise)</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== KINO TOMOSHA QILISH MODAL (CINEMA PLAYER) ==================== -->
+  <div id="cinemaModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
+    <div class="relative w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl my-8">
+      
+      <!-- Oyna Sarlavhasi va Boshqaruv Tugmalari -->
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-950/80 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <span class="badge-quality" id="modalQuality">4K UHD</span>
+          <h3 id="modalMovieTitle" class="text-lg font-bold text-white truncate max-w-md sm:max-w-xl">Film Nomi</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Chiroqni o'chirish tugmasi -->
+          <button onclick="toggleCinemaMode()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-amber-300 flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span class="hidden sm:inline">Chiroqni o'chirish</span>
+          </button>
+          <!-- Yopish -->
+          <button onclick="closeCinemaModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Video Player Konteyneri -->
+      <div class="relative bg-black aspect-video w-full flex items-center justify-center overflow-hidden" id="videoPlayerContainer">
+        <!-- HTML5 Video yoki Iframe orqali ijro -->
+        <video id="html5VideoPlayer" class="w-full h-full object-contain" controls preload="metadata" poster="">
+          <source id="videoSource" src="" type="video/mp4">
+          Brauzeringiz HTML5 videoni qo'llab-quvvatlamaydi.
+        </video>
+        <iframe id="iframeVideoPlayer" class="w-full h-full hidden" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <!-- Film Tafsilotlari va Yuklab olish -->
+      <div class="p-6 space-y-6">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-2">
+              <span id="modalYear">2026</span> • 
+              <span id="modalCountry">AQSH / O'zbekiston</span> • 
+              <span id="modalGenre" class="text-emerald-400 font-semibold">Fantastika, Drama</span> • 
+              <span id="modalDuration">2 soat 18 daqiqa</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="badge-rating"><i class="fa-solid fa-star"></i> <span id="modalRating">9.2</span></span>
+              <span class="text-xs text-slate-400">Ko'rishlar: <span id="modalViews" class="text-slate-200 font-semibold">12,450</span></span>
+            </div>
+          </div>
+
+          <!-- Yuklab olish tugmalari (Uzmovi / Aslmedia stilida) -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <a id="download1080" href="#" download class="px-3.5 py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-400 text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-download"></i> 1080p Full HD
+            </a>
+            <a id="download720" href="#" download class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">
+              720p HD
+            </a>
+            <button onclick="shareMovie()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition" title="Ulashish">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sinopsis -->
+        <div>
+          <h4 class="text-sm font-bold text-white mb-2">Film Tavsifi:</h4>
+          <p id="modalDescription" class="text-sm text-slate-300 leading-relaxed">
+            Film haqida qisqacha ma'lumot...
+          </p>
+        </div>
+
+        <!-- Sharhlar / Fikrlar bo'limi -->
+        <div class="border-t border-slate-800 pt-6">
+          <h4 class="text-sm font-bold text-white mb-4 flex items-center gap-2">
+            <i class="fa-regular fa-comments text-emerald-400"></i> Tomoshabinlar Fikrlari
+          </h4>
+          
+          <!-- Sharh yozish formasi -->
+          <form onsubmit="submitComment(event)" class="flex gap-3 mb-6">
+            <input type="text" id="commentAuthor" placeholder="Ismingiz..." required class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 w-1/3">
+            <input type="text" id="commentText" placeholder="Film haqida fikringiz..." required class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 flex-1">
+            <button type="submit" class="btn-emerald px-4 py-2.5 text-xs">Yuborish</button>
+          </form>
+
+          <!-- Sharhlar ro'yxati -->
+          <div id="commentsList" class="space-y-3">
+            <!-- JS to'ldiradi -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== RASM LIGHTBOX MODAL ==================== -->
+  <div id="lightboxModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-2xl" onclick="closeLightbox(event)">
+    <div class="relative max-w-5xl max-h-[90vh] flex flex-col items-center">
+      <button onclick="closeLightboxDirect()" class="absolute -top-12 right-0 text-slate-300 hover:text-white text-2xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img id="lightboxImg" src="" alt="Katta rasm" class="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl">
+      <div class="mt-4 text-center">
+        <h4 id="lightboxCaption" class="text-sm font-bold text-white">Rasm Sarlavhasi</h4>
+        <a id="lightboxDownload" href="#" download class="inline-flex items-center gap-1.5 mt-2 text-xs text-emerald-400 hover:underline">
+          <i class="fa-solid fa-download"></i> Asl nusxada yuklab olish
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAQOLA O'QISH MODAL ==================== -->
+  <div id="articleModal" class="fixed inset-0 z-[105] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
+    <div class="relative w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl my-8 p-6 sm:p-8 space-y-4">
+      <button onclick="closeArticleModal()" class="absolute top-6 right-6 w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="flex items-center gap-2 text-xs text-emerald-400 font-bold uppercase" id="articleCategory">Texnologiya</div>
+      <h2 id="articleModalTitle" class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">Maqola Sarlavhasi</h2>
+      <div class="flex items-center gap-3 text-xs text-slate-400 border-b border-slate-800 pb-4">
+        <span>Muallif: <b class="text-slate-200">MuzaffarZed</b></span> • 
+        <span id="articleDate">Bugun</span> • 
+        <span id="articleReadTime">3 daqiqa mutolaa</span>
+      </div>
+      <img id="articleModalImg" src="" alt="Maqola rasmi" class="w-full h-64 object-cover rounded-xl my-4">
+      <div id="articleModalBody" class="text-sm sm:text-base text-slate-300 leading-relaxed space-y-4">
+        <!-- Matn -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DOIMIY PASTKI SUZUVCHI AUDIO PLEYER ==================== -->
+  <div id="bottomMusicPlayer" class="bottom-music-player">
+    
+    <!-- Chap: Hozirgi Trek Ma'lumoti -->
+    <div class="flex items-center gap-3 w-1/4 min-w-[200px]">
+      <img id="playerTrackArt" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&q=80" alt="Trek" class="w-12 h-12 rounded-lg object-cover shadow">
+      <div class="truncate">
+        <h4 id="playerTrackTitle" class="text-xs sm:text-sm font-bold text-white truncate">Qo'shiq Nomi</h4>
+        <p id="playerTrackArtist" class="text-[11px] text-slate-400 truncate">Ijrochi</p>
+      </div>
+    </div>
+
+    <!-- Markaz: Pleyer Boshqaruv Tugmalari & Seekbar -->
+    <div class="flex-1 max-w-xl px-4 flex flex-col items-center gap-1.5">
+      <div class="flex items-center gap-4">
+        <button onclick="prevTrack()" class="text-slate-400 hover:text-white transition text-sm">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button onclick="togglePlayPause()" id="masterPlayBtn" class="w-9 h-9 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center font-bold hover:scale-105 transition shadow-lg shadow-emerald-500/40">
+          <i class="fa-solid fa-play text-sm ml-0.5" id="masterPlayIcon"></i>
+        </button>
+        <button onclick="nextTrack()" class="text-slate-400 hover:text-white transition text-sm">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+      </div>
+      <div class="w-full flex items-center gap-2 text-[10px] text-slate-400 font-mono">
+        <span id="currentTime">00:00</span>
+        <input type="range" id="audioSeekSlider" class="seek-slider flex-1" value="0" min="0" max="100" oninput="seekAudio(this.value)">
+        <span id="durationTime">00:00</span>
+      </div>
+    </div>
+
+    <!-- O'ng: Ovoz & Qo'shimchalar -->
+    <div class="flex items-center justify-end gap-3 w-1/4">
+      <button onclick="toggleMute()" class="text-slate-400 hover:text-white transition text-xs">
+        <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+      </button>
+      <input type="range" id="volumeSlider" class="w-20 accent-emerald-500 h-1 hidden sm:block" min="0" max="1" step="0.05" value="0.8" oninput="changeVolume(this.value)">
+      <a id="playerDownloadBtn" href="#" download class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs transition" title="Yuklab olish">
+        <i class="fa-solid fa-download"></i>
+      </a>
+    </div>
+
+    <!-- Yashirin Audio Element -->
+    <audio id="globalAudioPlayer" preload="none"></audio>
+  </div>
+
+  <!-- ==================== ADMIN BOSHQARUV PANELI MODAL ==================== -->
+  <div id="adminModal" class="fixed inset-0 z-[120] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
+    <div class="relative w-full max-w-3xl bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl my-8">
+      
+      <!-- Sarlavha -->
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">MuzaffarZed Boshqaruv Markazi (Admin)</h3>
+            <p class="text-[10px] text-slate-400">Kino, musiqa, rasm va maqolalarni 1 bosishda joylash</p>
+          </div>
+        </div>
+        <button onclick="closeAdminModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- PIN / Parol bilan himoya -->
+      <div id="adminLockScreen" class="p-8 text-center space-y-4">
+        <div class="w-16 h-16 rounded-2xl bg-slate-800 text-emerald-400 flex items-center justify-center mx-auto text-2xl shadow-inner">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h4 class="text-lg font-bold text-white">Xavfsizlik Paroli</h4>
+        <p class="text-xs text-slate-400 max-w-xs mx-auto">Iltimos, boshqaruv paneliga kirish uchun parolni kiriting (Standart: <code class="text-emerald-400">MuzaffarZed2026</code>)</p>
+        <div class="max-w-xs mx-auto flex gap-2">
+          <input type="password" id="adminPinInput" placeholder="Parol..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
+          <button onclick="verifyAdminPin()" class="btn-emerald px-5 py-2.5 text-xs">Kirish</button>
+        </div>
+        <p id="adminPinError" class="text-xs text-rose-500 hidden">Noto'g'ri parol kiritildi!</p>
+      </div>
+
+      <!-- Admin Ichki Paneli -->
+      <div id="adminDashboard" class="hidden p-6 space-y-6">
+        
+        <!-- Tablar -->
+        <div class="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto">
+          <button onclick="setAdminTab('movie')" class="admin-tab active px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-black">🎬 Kino Qo'shish</button>
+          <button onclick="setAdminTab('music')" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">🎵 Musiqa Qo'shish</button>
+          <button onclick="setAdminTab('photo')" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">🖼️ Rasm Qo'shish</button>
+          <button onclick="setAdminTab('article')" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">📝 Maqola Qo'shish</button>
+          <button onclick="setAdminTab('backup')" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">💾 Zaxira / Eksport</button>
+        </div>
+
+        <!-- 1. Kino qo'shish formasi -->
+        <form id="addMovieForm" onsubmit="adminAddMovie(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Film Nomi *</label>
+              <input type="text" id="mTitle" required placeholder="Masalan: Qasoskorlar: Intiho" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Kategoriya / Janr *</label>
+              <select id="mCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                <option value="premyera">Premyera</option>
+                <option value="dublyaj">O'zbekcha Dublyaj</option>
+                <option value="jahon">Jahon Kinolari</option>
+                <option value="serial">Serial</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Chiqarilgan Yili</label>
+              <input type="number" id="mYear" value="2026" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Sifat Nishoni</label>
+              <input type="text" id="mQuality" value="4K UHD" placeholder="1080p, 4K, Dublyaj" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-300 mb-1">Poster Rasmi Havolasi (URL) *</label>
+              <input type="url" id="mPoster" required placeholder="https://example.com/poster.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-300 mb-1">Video Havolasi (MP4, YouTube yoki Iframe Embed) *</label>
+              <input type="text" id="mVideoUrl" required placeholder="https://example.com/video.mp4 yoki YouTube havolasi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-300 mb-1">Film Tavsifi (Sinopsis)</label>
+              <textarea id="mDesc" rows="3" placeholder="Film syujeti haqida qisqacha..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn-emerald w-full py-3 text-xs font-bold">Saytga Joylash (Saqlash)</button>
+        </form>
+
+        <!-- 2. Musiqa qo'shish formasi -->
+        <form id="addMusicForm" onsubmit="adminAddMusic(event)" class="space-y-4 hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Qo'shiq Nomi *</label>
+              <input type="text" id="sTitle" required placeholder="Masalan: Yulduzim" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Ijrochi (Artist) *</label>
+              <input type="text" id="sArtist" required placeholder="Masalan: MuzaffarZed & Sound Lab" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-300 mb-1">Audio Fayl Havolasi (MP3 URL) *</label>
+              <input type="url" id="sAudioUrl" required placeholder="https://example.com/song.mp3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-300 mb-1">Muqova Rasmi (Cover Art URL)</label>
+              <input type="url" id="sCover" placeholder="https://example.com/album.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+          </div>
+          <button type="submit" class="btn-emerald w-full py-3 text-xs font-bold">Qo'shiqni Joylash</button>
+        </form>
+
+        <!-- 3. Rasm qo'shish formasi -->
+        <form id="addPhotoForm" onsubmit="adminAddPhoto(event)" class="space-y-4 hidden">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Rasm Sarlavhasi *</label>
+              <input type="text" id="pTitle" required placeholder="Masalan: Koinot Manzarasi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Rasm Havolasi (Image URL) *</label>
+              <input type="url" id="pUrl" required placeholder="https://images.unsplash.com/..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Kategoriya</label>
+              <input type="text" id="pCategory" value="Premyera" placeholder="San'at, Texnologiya, Safar" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+          </div>
+          <button type="submit" class="btn-emerald w-full py-3 text-xs font-bold">Galereyaga Joylash</button>
+        </form>
+
+        <!-- 4. Maqola qo'shish formasi -->
+        <form id="addArticleForm" onsubmit="adminAddArticle(event)" class="space-y-4 hidden">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Maqola Sarlavhasi *</label>
+              <input type="text" id="aTitle" required placeholder="Masalan: 2026-yilda Kinomotografiya Qayerga Qarab Ketmoqda?" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Muqova Rasmi (URL)</label>
+              <input type="url" id="aImage" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Maqola Matni *</label>
+              <textarea id="aContent" rows="6" required placeholder="Maqola mazmunini bu yerga yozing..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn-emerald w-full py-3 text-xs font-bold">Maqolani Chop Etish</button>
+        </form>
+
+        <!-- 5. Zaxira va Tiklash -->
+        <div id="backupPanel" class="space-y-4 hidden">
+          <p class="text-xs text-slate-300">Barcha qo'shgan kino, musiqa va maqolalaringizni bitta fayl (JSON) ko'rinishida saqlab olishingiz yoki yangi kompyuterda qayta tiklashingiz mumkin.</p>
+          <div class="flex gap-4">
+            <button onclick="exportDataBackup()" class="btn-emerald flex-1 py-3 text-xs font-bold flex items-center justify-center gap-2">
+              <i class="fa-solid fa-file-export"></i> Zaxirani Yuklab Olish (Eksport)
+            </button>
+            <label class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer transition">
+              <i class="fa-solid fa-file-import"></i> Zaxiradan Tiklash (Import)
+              <input type="file" accept=".json" onchange="importDataBackup(event)" class="hidden">
+            </label>
+          </div>
+          <button onclick="resetDefaultData()" class="w-full py-2.5 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/50 text-rose-300 text-xs font-bold rounded-xl transition">
+            Zavod holatiga qaytarish (Standart ma'lumotlar)
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Asosiy Skript -->
+  <script src="app.js"></script>
+</body>
+</html>

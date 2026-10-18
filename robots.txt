@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Googlebot Maxsus Ruxsatlar
+User-agent: Googlebot
+Allow: /
+User-agent: Googlebot-Image
+Allow: /
+User-agent: Googlebot-Video
+Allow: /
+
+# Sayt xaritasi (Sitemap)
+Sitemap: https://muzaffarzed.vercel.app/sitemap.xml
