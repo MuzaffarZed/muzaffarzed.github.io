@@ -15,25 +15,44 @@ Loyihani o'z kompyuteringizda darhol ko'rish uchun:
 
 ---
 
-## 2. 🌐 Saytni 100% BEPUL Serverga Yuklash (Vercel yoki Cloudflare)
+## 2. 🌐 Saytni 100% BEPUL Serverga Yuklash (Vercel yoki Cloudflare Pages)
 
-Saytingiz butun dunyoga ko'rinishi va doimiy bepul ishlashi uchun **Vercel** eng mukammal yechimdir:
+Saytingiz butun dunyoga ko'rinishi va doimiy bepul ishlashi uchun 2 ta eng kuchli platforma mavjud:
 
-### 1-usul: GitHub orqali (Eng qulay va avtomatik)
+### 1-variant: Vercel (Tavsiya etiladi — Eng tezkor va sodda)
 1. **GitHub.com** saytiga kiring va yangi repository oching (masalan: `muzaffarzed-portal`).
 2. Loyihani GitHub'ga yuklang:
    ```bash
-   git init
-   git add .
-   git commit -m "MuzaffarZed Media Portal ilk versiya"
-   git branch -M main
    git remote add origin https://github.com/SIZNING_PROFILINGIZ/muzaffarzed-portal.git
-   git push -u origin main
+   git push -u origin master
    ```
-3. **Vercel.com** saytiga kirib, GitHub profilingiz orqali kiring.
-4. **"Add New Project"** tugmasini bosing va `muzaffarzed-portal` repozitoriyasini tanlang.
-5. **Deploy** tugmasini bosing! 15 soniyada sizga bepul havola beriladi:  
-   👉 `https://muzaffarzed.vercel.app`
+3. **Vercel.com** ga kirib, **"Add New Project"** orqali `muzaffarzed-portal`ni tanlang va **Deploy** tugmasini bosing!
+4. Bir necha soniyada sizga `https://muzaffarzed.vercel.app` bepul xalqaro domeni beriladi.
+
+### 2-variant: Cloudflare Pages (Cheksiz Trafik va Toshkentda yuqori tezlik)
+1. **Cloudflare.com** saytiga kiring -> **Workers & Pages** -> **Create application** -> **Pages**.
+2. GitHub profilingizni ulab, `muzaffarzed-portal`ni tanlang.
+3. Build sozlamalari talab qilinmaydi (Build command bo'sh, Output directory: `/`).
+4. **Save and Deploy** bosing — bepul `https://muzaffarzed.pages.dev` domeni tayyor bo'ladi!
+
+---
+
+## 3. 📱 PWA (Progressive Web App) — Mobil Ilova
+* Sayt to'liq PWA standartida qurilgan.
+* Telefoningizda yoki kompyuteringizda saytga kirganda brauzer menyusida yoki sarlavhada **"📱 Ilova sifatida o'rnatish"** tugmasi chiqadi.
+* Bosishingiz bilan telefonga Google Play'siz mustaqil apk-dastur kabi o'rnatiladi va oflayn rejimda ham ochiladi!
+
+---
+
+## 4. 🎛️ Yangi Qo'shilgan Super Funksiyalar
+1. **📸 Kadrdan Rasm Olish (Screenshot):** Film tomosha qilayotganda istalgan kadrni 1 bosishda toza HD rasm qilib yuklab olish.
+2. **🪟 Picture-in-Picture (PiP):** Videoni kichik suzuvchi oynaga chiqarib, sayt bo'ylab musiqa yoki galereyani tomosha qilib yuraverish.
+3. **⏪ 10s Orqaga / ⏩ 10s Oldinga:** Qulay vaqt o'tkazish tugmalari.
+4. **⏱️ Oxirgi to'xtagan joyidan davom ettirish:** Filmni yopib qayta ochsangiz, u qayerda to'xtagan bo'lsangiz o'sha soniyadan davom etadi.
+5. **🎨 5 Ta Kinematografik Mavzular:** Zumrad, Oltin VIP, Safir Moviy, Yoqut Qizil va Ametist.
+6. **🎧 Ovoz Ekvayzeri (Web Audio API):** Bass Boost, Toza Vokal, Elektron 3D va Kino Zali teatrlashtirilgan ovoz rejimlari.
+7. **📜 Qo'shiq Matni (Lyrics):** Qo'shiq so'zlarini tomosha qilib eshitish.
+8. **📱 Mobil Smart Dock:** Telefon ekranida pastki ixcham ilova menyusi.
 
 ---
 
