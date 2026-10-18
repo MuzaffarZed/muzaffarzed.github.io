@@ -244,6 +244,135 @@ const DEFAULT_ARTICLES = [
   }
 ];
 
+const DEFAULT_USERS = [
+  {
+    id: "u_master",
+    username: "MuzaffarZed",
+    name: "MuzaffarZed",
+    password: "MuzaffarZed2026",
+    bio: "Bosh Dasturiy Arxitektor, Kreator va Platforma Asoschisi",
+    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&q=80",
+    role: "master_admin",
+    isVerified: true,
+    subscribers: 2840
+  },
+  {
+    id: "u_apk_world",
+    username: "android_pro",
+    name: "Android & Mod APKs",
+    password: "123",
+    bio: "Eng sara Android ilovalar, mod APK va o'yinlar bazasi",
+    avatar: "https://images.unsplash.com/photo-1616469829941-c7200edec809?w=150&q=80",
+    role: "creator",
+    isVerified: true,
+    subscribers: 980
+  },
+  {
+    id: "u_cinema_hub",
+    username: "uz_cinema",
+    name: "UzCinema Dubbing",
+    password: "123",
+    bio: "O'zbek tilidagi eng yangi va sara premyeralar studiyasi",
+    avatar: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150&q=80",
+    role: "creator",
+    isVerified: true,
+    subscribers: 1420
+  }
+];
+
+const DEFAULT_SOFTWARE = [
+  {
+    id: "soft_1",
+    title: "CapCut Pro Video Montaj",
+    os: "android",
+    version: "v12.4.0",
+    size: "185 MB",
+    category: "Video Montaj",
+    downloads: 4200,
+    icon: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=150&q=80",
+    downloadUrl: "https://download.capcut.com/android",
+    author: "MuzaffarZed",
+    authorId: "u_master",
+    privacy: "public",
+    description: "60 FPS 4K montaj, dinamik subtitrlar va barcha VIP effektlar ochiq bo'lgan versiya."
+  },
+  {
+    id: "soft_2",
+    title: "Telegram Desktop (Super Pro)",
+    os: "windows",
+    version: "v5.2.1",
+    size: "42 MB",
+    category: "Messendjer",
+    downloads: 8900,
+    icon: "https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=150&q=80",
+    downloadUrl: "https://desktop.telegram.org/",
+    author: "MuzaffarZed",
+    authorId: "u_master",
+    privacy: "public",
+    description: "Tezkor, qulay va cheklovlarsiz ko'p akkauntli Windows Telegram mijozi."
+  },
+  {
+    id: "soft_3",
+    title: "Visual Studio Code (Ultra)",
+    os: "windows",
+    version: "v1.92",
+    size: "95 MB",
+    category: "Dasturlash",
+    downloads: 3100,
+    icon: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=150&q=80",
+    downloadUrl: "https://code.visualstudio.com/",
+    author: "MuzaffarZed",
+    authorId: "u_master",
+    privacy: "public",
+    description: "Dasturchilar uchun eng qudratli kod muharriri, AI kengaytmalari bilan."
+  },
+  {
+    id: "soft_4",
+    title: "VLC Media Player 4K",
+    os: "windows",
+    version: "v3.0.21",
+    size: "40 MB",
+    category: "Media Player",
+    downloads: 6500,
+    icon: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&q=80",
+    downloadUrl: "https://www.videolan.org/vlc/",
+    author: "MuzaffarZed",
+    authorId: "u_master",
+    privacy: "public",
+    description: "Har qanday audio va video formatni qotmasdan ochuvchi universal pleyer."
+  },
+  {
+    id: "soft_5",
+    title: "Poweramp Music Player Full",
+    os: "android",
+    version: "v981",
+    size: "18 MB",
+    category: "Audio Pleyer",
+    downloads: 5120,
+    icon: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&q=80",
+    downloadUrl: "https://powerampapp.com/",
+    author: "android_pro",
+    authorId: "u_apk_world",
+    privacy: "public",
+    description: "Eng kuchli ekvayzer, Hi-Res 24-bit audio va silliq ovoz dvigateli."
+  },
+  {
+    id: "soft_6",
+    title: "Python 3.12 Enterprise Runtime",
+    os: "cross",
+    version: "v3.12.5",
+    size: "25 MB",
+    category: "Dasturlash / AI",
+    downloads: 7300,
+    icon: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=150&q=80",
+    downloadUrl: "https://www.python.org/downloads/",
+    author: "MuzaffarZed",
+    authorId: "u_master",
+    privacy: "public",
+    description: "Sun'iy intellekt, neyrotarmoqlar va avtomatlashtirish uchun rasmiy dvigatel."
+  }
+];
+
 // ==================== LOCALSTORAGE BILAN ISHLASH (PERSISTENCE) ====================
 function getStoredData(key, fallback) {
   try {
@@ -267,6 +396,12 @@ let tracks = getStoredData("tracks", DEFAULT_TRACKS);
 let photos = getStoredData("photos", DEFAULT_PHOTOS);
 let articles = getStoredData("articles", DEFAULT_ARTICLES);
 let favorites = getStoredData("favorites", ["m1", "m3"]);
+let users = getStoredData("users", DEFAULT_USERS);
+let currentUser = getStoredData("currentUser", DEFAULT_USERS[0]);
+let softwareList = getStoredData("softwareList", DEFAULT_SOFTWARE);
+let userSubscriptions = getStoredData("userSubscriptions", ["u_master"]);
+let currentSoftwareFilter = "all";
+
 let movieComments = getStoredData("comments", {
   "m1": [
     { author: "Sardor", text: "Dublyajiga gap yo'q, ovozlar juda zo'r tushgan!", time: "2 soat oldin" },
@@ -286,9 +421,12 @@ const bottomPlayer = document.getElementById("bottomMusicPlayer");
 
 // ==================== INIT ====================
 document.addEventListener("DOMContentLoaded", () => {
+  renderUserAccount();
   renderMovies();
   renderTracks();
+  renderSoftware();
   renderGallery();
+  renderChannels();
   renderArticles();
   updateFavBadge();
   setupAudioEvents();
@@ -302,6 +440,13 @@ function renderMovies() {
   container.innerHTML = "";
 
   let filtered = [...movies];
+
+  // Maxfiylik filtri (Ommaviy vs Shaxsiy)
+  if (currentFilter === "private_vault") {
+    filtered = filtered.filter(m => m.privacy === "private" && currentUser && m.authorId === currentUser.id);
+  } else {
+    filtered = filtered.filter(m => m.privacy !== "private" || (currentUser && m.authorId === currentUser.id));
+  }
 
   // Kategoriya filtri
   if (currentFilter === "favorites") {
@@ -619,7 +764,9 @@ function renderTracks() {
   const container = document.getElementById("trackListContainer");
   container.innerHTML = "";
 
-  tracks.forEach((track, index) => {
+  const displayTracks = tracks.filter(t => t.privacy !== "private" || (currentUser && t.authorId === currentUser.id));
+
+  displayTracks.forEach((track, index) => {
     const isCurrent = (index === currentTrackIndex);
     const row = document.createElement("div");
     row.className = `track-row ${isCurrent ? 'active' : ''}`;
@@ -909,7 +1056,9 @@ function renderGallery() {
   const container = document.getElementById("galleryGrid");
   container.innerHTML = "";
 
-  photos.forEach(photo => {
+  const displayPhotos = photos.filter(p => p.privacy !== "private" || (currentUser && p.authorId === currentUser.id));
+
+  displayPhotos.forEach(photo => {
     const item = document.createElement("div");
     item.className = "relative rounded-xl overflow-hidden group cursor-pointer aspect-video bg-slate-900 border border-slate-800";
     item.onclick = () => openLightbox(photo);
@@ -951,7 +1100,9 @@ function renderArticles() {
   const container = document.getElementById("articlesGrid");
   container.innerHTML = "";
 
-  articles.forEach(art => {
+  const displayArticles = articles.filter(a => a.privacy !== "private" || (currentUser && a.authorId === currentUser.id));
+
+  displayArticles.forEach(art => {
     const card = document.createElement("div");
     card.className = "glass-panel p-5 rounded-2xl flex flex-col justify-between cursor-pointer group";
     card.onclick = () => openArticleModal(art);
@@ -1210,7 +1361,10 @@ function exportDataBackup() {
     articles,
     favorites,
     movieComments,
-    version: "2026.1",
+    softwareList,
+    users,
+    userSubscriptions,
+    version: "2026.2",
     author: "MuzaffarZed"
   };
 
@@ -1236,6 +1390,9 @@ function importDataBackup(e) {
       if (parsed.articles) articles = parsed.articles;
       if (parsed.favorites) favorites = parsed.favorites;
       if (parsed.movieComments) movieComments = parsed.movieComments;
+      if (parsed.softwareList) softwareList = parsed.softwareList;
+      if (parsed.users) users = parsed.users;
+      if (parsed.userSubscriptions) userSubscriptions = parsed.userSubscriptions;
 
       setStoredData("movies", movies);
       setStoredData("tracks", tracks);
@@ -1243,10 +1400,15 @@ function importDataBackup(e) {
       setStoredData("articles", articles);
       setStoredData("favorites", favorites);
       setStoredData("comments", movieComments);
+      setStoredData("softwareList", softwareList);
+      setStoredData("users", users);
+      setStoredData("userSubscriptions", userSubscriptions);
 
       renderMovies();
       renderTracks();
+      renderSoftware();
       renderGallery();
+      renderChannels();
       renderArticles();
       updateFavBadge();
       alert("Barcha ma'lumotlar zaxiradan muvaffaqiyatli tiklandi!");
@@ -1267,14 +1429,699 @@ function resetDefaultData() {
     photos = DEFAULT_PHOTOS;
     articles = DEFAULT_ARTICLES;
     favorites = ["m1", "m3"];
+    users = DEFAULT_USERS;
+    currentUser = DEFAULT_USERS[0];
+    softwareList = DEFAULT_SOFTWARE;
+    userSubscriptions = ["u_master"];
     movieComments = {};
 
+    renderUserAccount();
     renderMovies();
     renderTracks();
+    renderSoftware();
     renderGallery();
+    renderChannels();
     renderArticles();
     updateFavBadge();
     alert("Barcha ma'lumotlar zavod holatiga qaytarildi!");
     closeAdminModal();
   }
 }
+
+// ==================== 5. FOYDALANUVCHILAR VA AUTH (AKKAUNT TIZIMI) ====================
+function renderUserAccount() {
+  const container = document.getElementById("userAccountSection");
+  if (!container) return;
+
+  if (currentUser) {
+    container.innerHTML = `
+      <div class="flex items-center gap-2">
+        <button onclick="openCreatorStudio('myChannel')" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 transition group" title="Mening Profilim & Studiyam">
+          <img src="${currentUser.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&q=80'}" alt="${currentUser.name}" class="w-7 h-7 rounded-lg object-cover border border-emerald-500/50">
+          <div class="text-left hidden sm:block">
+            <div class="flex items-center gap-1 leading-none">
+              <span class="text-xs font-bold text-white group-hover:text-emerald-400 transition truncate max-w-[100px]">${currentUser.name}</span>
+              ${currentUser.isVerified ? '<i class="fa-solid fa-circle-check text-emerald-400 text-[10px]"></i>' : ''}
+            </div>
+            <span class="text-[9px] text-slate-400 font-mono">@${currentUser.username}</span>
+          </div>
+        </button>
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <button onclick="openAuthModal()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 transition flex items-center gap-1.5" title="Kanal ochish yoki kirish">
+        <i class="fa-solid fa-user"></i>
+        <span class="hidden sm:inline">Kirish / Kanal</span>
+      </button>
+    `;
+  }
+}
+
+function openAuthModal() {
+  const modal = document.getElementById("authModal");
+  if (modal) {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.classList.add("modal-active");
+  }
+}
+
+function closeAuthModal() {
+  const modal = document.getElementById("authModal");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.classList.remove("modal-active");
+  }
+}
+
+function switchAuthTab(tab) {
+  const loginTab = document.getElementById("authTabLogin");
+  const regTab = document.getElementById("authTabRegister");
+  const loginForm = document.getElementById("loginForm");
+  const regForm = document.getElementById("registerForm");
+  const title = document.getElementById("authModalTitle");
+
+  if (tab === "login") {
+    loginTab.className = "flex-1 py-3 text-xs font-bold text-emerald-400 border-b-2 border-emerald-500 transition";
+    regTab.className = "flex-1 py-3 text-xs font-semibold text-slate-400 hover:text-white transition";
+    loginForm.classList.remove("hidden");
+    regForm.classList.add("hidden");
+    title.textContent = "Akkauntga Kirish";
+  } else {
+    regTab.className = "flex-1 py-3 text-xs font-bold text-emerald-400 border-b-2 border-emerald-500 transition";
+    loginTab.className = "flex-1 py-3 text-xs font-semibold text-slate-400 hover:text-white transition";
+    regForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+    title.textContent = "Yangi Akkaunt & Kanal Ochish";
+  }
+}
+
+function handleLoginSubmit(e) {
+  e.preventDefault();
+  const u = document.getElementById("loginUsername").value.trim().toLowerCase();
+  const p = document.getElementById("loginPassword").value;
+  const err = document.getElementById("loginError");
+
+  const user = users.find(x => x.username.toLowerCase() === u && x.password === p);
+  if (!user) {
+    err.textContent = "Username yoki parol noto'g'ri!";
+    err.classList.remove("hidden");
+    return;
+  }
+
+  err.classList.add("hidden");
+  currentUser = user;
+  setStoredData("currentUser", currentUser);
+  renderUserAccount();
+  renderMovies();
+  renderTracks();
+  renderSoftware();
+  renderGallery();
+  renderChannels();
+  renderArticles();
+  closeAuthModal();
+  e.target.reset();
+  alert(`Xush kelibsiz, ${user.name}!`);
+}
+
+function handleRegisterSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById("regFullName").value.trim();
+  const username = document.getElementById("regUsername").value.trim().toLowerCase();
+  const bio = document.getElementById("regBio").value.trim();
+  const avatar = document.getElementById("regAvatar").value.trim();
+  const password = document.getElementById("regPassword").value;
+  const err = document.getElementById("regError");
+
+  if (users.some(x => x.username.toLowerCase() === username)) {
+    err.textContent = "Bu username band, boshqa nom tanlang!";
+    err.classList.remove("hidden");
+    return;
+  }
+
+  const newUser = {
+    id: "u_" + Date.now(),
+    username: username,
+    name: name,
+    password: password,
+    bio: bio || "Kreator kanali",
+    avatar: avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&q=80",
+    role: "creator",
+    isVerified: false,
+    subscribers: 0
+  };
+
+  users.push(newUser);
+  setStoredData("users", users);
+  currentUser = newUser;
+  setStoredData("currentUser", currentUser);
+
+  renderUserAccount();
+  renderChannels();
+  closeAuthModal();
+  e.target.reset();
+  alert(`Tabriklaymiz! Sizning yangi "${newUser.name}" kanalingiz ochildi!`);
+}
+
+function logoutCurrentUser() {
+  currentUser = null;
+  setStoredData("currentUser", null);
+  renderUserAccount();
+  renderMovies();
+  renderTracks();
+  renderSoftware();
+  renderGallery();
+  renderChannels();
+  closeCreatorStudio();
+  alert("Akkauntdan chiqildi!");
+}
+
+// ==================== 6. DASTURLAR VA APKLAR HUBI (SOFTWARE ENGINE) ====================
+function renderSoftware(filterOS = currentSoftwareFilter) {
+  const container = document.getElementById("softwareGrid");
+  if (!container) return;
+  container.innerHTML = "";
+
+  let list = softwareList.filter(s => s.privacy !== "private" || (currentUser && s.authorId === currentUser.id));
+
+  if (filterOS !== "all") {
+    list = list.filter(s => s.os === filterOS);
+  }
+
+  // Qidiruv maydoni ta'siri
+  const searchInput = document.getElementById("globalSearchInput");
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+  if (query) {
+    list = list.filter(s => 
+      s.title.toLowerCase().includes(query) ||
+      s.category.toLowerCase().includes(query) ||
+      s.description.toLowerCase().includes(query)
+    );
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="col-span-full py-12 text-center text-slate-400">
+        <i class="fa-solid fa-cube text-4xl mb-3 text-slate-600"></i>
+        <p class="text-sm font-semibold">Ushbu toifada hozircha dasturlar yo'q.</p>
+      </div>
+    `;
+    return;
+  }
+
+  list.forEach(soft => {
+    const card = document.createElement("div");
+    card.className = "software-card group";
+
+    let osBadgeClass = "android";
+    let osLabel = "Android (APK)";
+    let osIcon = "fa-brands fa-android";
+    if (soft.os === "windows") {
+      osBadgeClass = "windows";
+      osLabel = "Windows (PC)";
+      osIcon = "fa-brands fa-windows";
+    } else if (soft.os === "cross") {
+      osBadgeClass = "cross";
+      osLabel = "Cross-Platform";
+      osIcon = "fa-solid fa-laptop-code";
+    }
+
+    card.innerHTML = `
+      <div>
+        <div class="flex items-start justify-between gap-3 mb-3">
+          <img src="${soft.icon || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=150&q=80'}" alt="${soft.title}" class="w-14 h-14 rounded-2xl object-cover border border-slate-700 shadow-md group-hover:scale-105 transition">
+          <span class="badge-os ${osBadgeClass}"><i class="${osIcon} mr-1"></i> ${osLabel}</span>
+        </div>
+        <h3 class="text-sm font-extrabold text-white group-hover:text-cyan-400 transition mb-1 leading-snug">${soft.title}</h3>
+        <div class="flex items-center gap-2 text-[10px] text-slate-400 font-mono mb-2">
+          <span>${soft.version}</span> • <span>${soft.size}</span> • <span class="text-slate-300 font-bold">${soft.category}</span>
+        </div>
+        <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-4">${soft.description}</p>
+      </div>
+      <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+        <div class="text-[10px] text-slate-400">
+          <span>Yuklashlar: <b class="text-slate-200">${(soft.downloads || 0).toLocaleString()}</b></span>
+        </div>
+        <a href="${soft.downloadUrl}" target="_blank" onclick="incrementSoftwareDownloads('${soft.id}')" class="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500 hover:text-black border border-cyan-500/40 text-cyan-300 text-xs font-bold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-download"></i> Yuklash
+        </a>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function filterSoftware(os) {
+  currentSoftwareFilter = os;
+  const buttons = document.querySelectorAll(".soft-filter-btn");
+  buttons.forEach(btn => {
+    btn.classList.remove("active", "bg-blue-500", "text-slate-950");
+    btn.classList.add("bg-slate-900", "text-slate-300");
+  });
+  if (window.event && window.event.target) {
+    const activeBtn = window.event.target.closest(".soft-filter-btn");
+    if (activeBtn) {
+      activeBtn.classList.remove("bg-slate-900", "text-slate-300");
+      activeBtn.classList.add("active", "bg-blue-500", "text-slate-950");
+    }
+  }
+  renderSoftware(os);
+}
+
+function incrementSoftwareDownloads(id) {
+  const item = softwareList.find(s => s.id === id);
+  if (item) {
+    item.downloads = (item.downloads || 0) + 1;
+    setStoredData("softwareList", softwareList);
+    renderSoftware();
+  }
+}
+
+// ==================== 7. OCHIQ KANALLAR VA OBUNA BO'LISH ====================
+function renderChannels() {
+  const container = document.getElementById("channelsGrid");
+  if (!container) return;
+  container.innerHTML = "";
+
+  users.forEach(u => {
+    const isSubscribed = userSubscriptions.includes(u.id);
+    const card = document.createElement("div");
+    card.className = "channel-card";
+
+    card.innerHTML = `
+      <div class="flex items-center gap-3">
+        <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&q=80'}" alt="${u.name}" class="w-12 h-12 rounded-2xl object-cover border border-slate-700">
+        <div>
+          <div class="flex items-center gap-1.5">
+            <h4 class="text-xs sm:text-sm font-bold text-white">${u.name}</h4>
+            ${u.isVerified ? '<i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>' : ''}
+          </div>
+          <p class="text-[10px] text-slate-400 font-mono">@${u.username}</p>
+          <span class="text-[10px] text-slate-300 font-semibold">${(u.subscribers || 0).toLocaleString()} ta obunachi</span>
+        </div>
+      </div>
+      <div>
+        <button onclick="toggleSubscribe('${u.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${isSubscribed ? 'bg-slate-800 text-emerald-400 border border-emerald-500/40' : 'bg-pink-500 text-white hover:bg-pink-600'}">
+          ${isSubscribed ? '<i class="fa-solid fa-check"></i> Obunadasiz' : '<i class="fa-solid fa-bell"></i> Obuna'}
+        </button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function toggleSubscribe(channelId) {
+  const channel = users.find(u => u.id === channelId);
+  if (!channel) return;
+
+  const idx = userSubscriptions.indexOf(channelId);
+  if (idx > -1) {
+    userSubscriptions.splice(idx, 1);
+    channel.subscribers = Math.max(0, (channel.subscribers || 0) - 1);
+  } else {
+    userSubscriptions.push(channelId);
+    channel.subscribers = (channel.subscribers || 0) + 1;
+  }
+
+  setStoredData("userSubscriptions", userSubscriptions);
+  setStoredData("users", users);
+  renderChannels();
+}
+
+function openCreateChannelPrompt() {
+  if (currentUser) {
+    openCreatorStudio("myChannel");
+  } else {
+    openAuthModal();
+    switchAuthTab("register");
+  }
+}
+
+// ==================== 8. CREATOR STUDIO & BULUT VAULT ====================
+function openCreatorStudio(tab = "upload") {
+  if (!currentUser) {
+    openAuthModal();
+    return;
+  }
+  const modal = document.getElementById("creatorStudioModal");
+  if (modal) {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.classList.add("modal-active");
+  }
+  const badge = document.getElementById("studioUserBadge");
+  if (badge) badge.textContent = currentUser.name;
+  setStudioTab(tab);
+}
+
+function closeCreatorStudio() {
+  const modal = document.getElementById("creatorStudioModal");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.classList.remove("modal-active");
+  }
+}
+
+function setStudioTab(tab) {
+  const uploadSec = document.getElementById("studioUploadSection");
+  const channelSec = document.getElementById("studioChannelSection");
+  const vaultSec = document.getElementById("studioVaultSection");
+
+  const btnUp = document.getElementById("tabUploadBtn");
+  const btnCh = document.getElementById("tabChannelBtn");
+  const btnVa = document.getElementById("tabVaultBtn");
+
+  [btnUp, btnCh, btnVa].forEach(b => {
+    if (b) b.className = "studio-tab px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5";
+  });
+
+  if (tab === "upload") {
+    if (uploadSec) uploadSec.classList.remove("hidden");
+    if (channelSec) channelSec.classList.add("hidden");
+    if (vaultSec) vaultSec.classList.add("hidden");
+    if (btnUp) btnUp.className = "studio-tab active px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-black flex items-center gap-1.5";
+  } else if (tab === "myChannel") {
+    if (uploadSec) uploadSec.classList.add("hidden");
+    if (channelSec) channelSec.classList.remove("hidden");
+    if (vaultSec) vaultSec.classList.add("hidden");
+    if (btnCh) btnCh.className = "studio-tab active px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-black flex items-center gap-1.5";
+    renderChannelStudioInfo();
+  } else if (tab === "privateVault") {
+    if (uploadSec) uploadSec.classList.add("hidden");
+    if (channelSec) channelSec.classList.add("hidden");
+    if (vaultSec) vaultSec.classList.remove("hidden");
+    if (btnVa) btnVa.className = "studio-tab active px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-black flex items-center gap-1.5";
+    renderVaultItems();
+  }
+}
+
+function handleStudioTypeChange(type) {
+  const softFields = document.getElementById("studioSoftwareFields");
+  const coverField = document.getElementById("studioCoverField");
+  const urlLabel = document.getElementById("studioMediaUrlLabel");
+
+  if (!softFields || !coverField || !urlLabel) return;
+
+  if (type === "software") {
+    softFields.classList.remove("hidden");
+    coverField.classList.add("hidden");
+    urlLabel.textContent = "Dasturni Yuklab Olish Havolasi (APK / EXE URL) *";
+  } else if (type === "movie") {
+    softFields.classList.add("hidden");
+    coverField.classList.remove("hidden");
+    urlLabel.textContent = "Video / Film Havolasi (MP4 yoki YouTube Embed) *";
+  } else if (type === "music") {
+    softFields.classList.add("hidden");
+    coverField.classList.remove("hidden");
+    urlLabel.textContent = "Qo'shiq Audio Havolasi (MP3 URL) *";
+  } else if (type === "photo") {
+    softFields.classList.add("hidden");
+    coverField.classList.add("hidden");
+    urlLabel.textContent = "Rasm Havolasi (Image URL) *";
+  } else if (type === "article") {
+    softFields.classList.add("hidden");
+    coverField.classList.remove("hidden");
+    urlLabel.textContent = "Maqola Muqova Rasmi (URL) *";
+  }
+}
+
+function handleStudioUploadSubmit(e) {
+  e.preventDefault();
+  if (!currentUser) {
+    alert("Iltimos, avval tizimga kiring!");
+    return;
+  }
+
+  const type = document.getElementById("studioType").value;
+  const privacy = document.getElementById("studioPrivacy").value;
+  const title = document.getElementById("studioTitle").value.trim();
+  const mediaUrl = document.getElementById("studioMediaUrl").value.trim();
+  const coverUrl = document.getElementById("studioCoverUrl") ? document.getElementById("studioCoverUrl").value.trim() : "";
+  const desc = document.getElementById("studioDesc") ? document.getElementById("studioDesc").value.trim() : "";
+
+  const id = "up_" + Date.now();
+
+  if (type === "software") {
+    const os = document.getElementById("studioSoftOs").value;
+    const version = document.getElementById("studioSoftVersion").value.trim() || "v1.0.0";
+    const size = document.getElementById("studioSoftSize").value.trim() || "50 MB";
+    const icon = document.getElementById("studioSoftIcon").value.trim() || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=150&q=80";
+
+    const newSoft = {
+      id,
+      title,
+      os,
+      version,
+      size,
+      category: "Kreator Dasturi",
+      downloads: 1,
+      icon,
+      downloadUrl: mediaUrl,
+      author: currentUser.name,
+      authorId: currentUser.id,
+      privacy,
+      description: desc || "Kreator tomonidan yuklangan dastur."
+    };
+    softwareList.unshift(newSoft);
+    setStoredData("softwareList", softwareList);
+    renderSoftware();
+  } else if (type === "movie") {
+    const newMovie = {
+      id,
+      title,
+      category: "premyera",
+      year: 2026,
+      quality: "Full HD",
+      dubbing: "Kreator Video",
+      rating: 9.0,
+      views: 1,
+      poster: coverUrl || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80",
+      backdrop: coverUrl || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&q=80",
+      videoUrl: mediaUrl,
+      trailerUrl: mediaUrl,
+      description: desc || "Kreator tomonidan yuklangan video.",
+      country: "O'zbekiston",
+      duration: "Video Media",
+      author: currentUser.name,
+      authorId: currentUser.id,
+      privacy,
+      downloadUrl: mediaUrl
+    };
+    movies.unshift(newMovie);
+    setStoredData("movies", movies);
+    renderMovies();
+  } else if (type === "music") {
+    const newTrack = {
+      id,
+      title,
+      artist: currentUser.name,
+      duration: "03:30",
+      cover: coverUrl || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&q=80",
+      audioUrl: mediaUrl,
+      author: currentUser.name,
+      authorId: currentUser.id,
+      privacy
+    };
+    tracks.unshift(newTrack);
+    setStoredData("tracks", tracks);
+    renderTracks();
+  } else if (type === "photo") {
+    const newPhoto = {
+      id,
+      title,
+      category: "Kreator Foto",
+      url: mediaUrl,
+      author: currentUser.name,
+      authorId: currentUser.id,
+      privacy
+    };
+    photos.unshift(newPhoto);
+    setStoredData("photos", photos);
+    renderGallery();
+  } else if (type === "article") {
+    const newArticle = {
+      id,
+      title,
+      category: "Kreator Blog",
+      date: "Bugun",
+      readTime: "3 daqiqa",
+      image: coverUrl || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80",
+      content: desc || "Maqola matni",
+      author: currentUser.name,
+      authorId: currentUser.id,
+      privacy
+    };
+    articles.unshift(newArticle);
+    setStoredData("articles", articles);
+    renderArticles();
+  }
+
+  e.target.reset();
+  alert(`Muvaffaqiyatli saqlandi! Holat: ${privacy === 'private' ? '🔒 Shaxsiy Bulut (Faqat siz ko\'rasiz)' : '🌐 Ommaviy (Hamma ko\'radi)'}`);
+  setStudioTab(privacy === 'private' ? 'privateVault' : 'myChannel');
+}
+
+function renderChannelStudioInfo() {
+  if (!currentUser) return;
+  const avatarEl = document.getElementById("myChannelAvatar");
+  const nameEl = document.getElementById("myChannelName");
+  const handleEl = document.getElementById("myChannelHandle");
+  const bioEl = document.getElementById("myChannelBio");
+  const subCountEl = document.getElementById("myChannelSubCount");
+
+  if (avatarEl) avatarEl.src = currentUser.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&q=80";
+  if (nameEl) nameEl.textContent = currentUser.name;
+  if (handleEl) handleEl.textContent = "@" + currentUser.username;
+  if (bioEl) bioEl.textContent = currentUser.bio;
+  if (subCountEl) subCountEl.textContent = (currentUser.subscribers || 0).toLocaleString();
+
+  const userItems = [
+    ...softwareList.filter(s => s.authorId === currentUser.id && s.privacy !== "private"),
+    ...movies.filter(m => m.authorId === currentUser.id && m.privacy !== "private"),
+    ...tracks.filter(t => t.authorId === currentUser.id && t.privacy !== "private"),
+    ...photos.filter(p => p.authorId === currentUser.id && p.privacy !== "private"),
+    ...articles.filter(a => a.authorId === currentUser.id && a.privacy !== "private")
+  ];
+
+  const uploadCountEl = document.getElementById("myChannelUploadCount");
+  if (uploadCountEl) uploadCountEl.textContent = userItems.length;
+
+  const grid = document.getElementById("myChannelItemsGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  if (userItems.length === 0) {
+    grid.innerHTML = `<p class="col-span-full text-xs text-slate-500 py-6 text-center">Hali ommaviy materiallar joylanmagan.</p>`;
+    return;
+  }
+
+  userItems.forEach(item => {
+    const el = document.createElement("div");
+    el.className = "p-3 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between text-xs";
+    el.innerHTML = `
+      <div class="truncate mr-2">
+        <span class="font-bold text-white truncate block">${item.title}</span>
+        <span class="text-[10px] text-emerald-400 font-mono">🌐 Ommaviy</span>
+      </div>
+      <button onclick="deleteChannelItem('${item.id}')" class="text-rose-400 hover:text-rose-300 p-1.5 text-xs transition" title="O'chirish">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    `;
+    grid.appendChild(el);
+  });
+}
+
+function renderVaultItems() {
+  const grid = document.getElementById("myVaultItemsGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  if (!currentUser) {
+    grid.innerHTML = `<p class="text-xs text-slate-500 py-6 text-center">Shaxsiy bulutni ko'rish uchun avval akkauntingizga kiring.</p>`;
+    return;
+  }
+
+  const vaultItems = [
+    ...softwareList.filter(s => s.authorId === currentUser.id && s.privacy === "private").map(x => ({ ...x, itemType: "software" })),
+    ...movies.filter(m => m.authorId === currentUser.id && m.privacy === "private").map(x => ({ ...x, itemType: "movie" })),
+    ...tracks.filter(t => t.authorId === currentUser.id && t.privacy === "private").map(x => ({ ...x, itemType: "music" })),
+    ...photos.filter(p => p.authorId === currentUser.id && p.privacy === "private").map(x => ({ ...x, itemType: "photo" })),
+    ...articles.filter(a => a.authorId === currentUser.id && a.privacy === "private").map(x => ({ ...x, itemType: "article" }))
+  ];
+
+  if (vaultItems.length === 0) {
+    grid.innerHTML = `
+      <div class="text-center py-8 text-slate-500">
+        <i class="fa-solid fa-lock text-3xl mb-2 text-slate-600"></i>
+        <p class="text-xs">Sizning shaxsiy maxfiy bulutingiz bo'sh.</p>
+        <p class="text-[10px] text-slate-400 mt-1">"Yuklash" bo'limida "🔒 Shaxsiy Bulut"ni tanlab fayllar joylang.</p>
+      </div>
+    `;
+    return;
+  }
+
+  vaultItems.forEach(item => {
+    const el = document.createElement("div");
+    el.className = "p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between gap-3 text-xs";
+    el.innerHTML = `
+      <div class="flex items-center gap-3 truncate">
+        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <div class="truncate">
+          <h5 class="font-bold text-white truncate">${item.title}</h5>
+          <span class="text-[10px] text-slate-400 font-mono">${item.itemType.toUpperCase()} • Shaxsiy Bulut</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="${item.downloadUrl || item.videoUrl || item.audioUrl || item.url || '#'}" target="_blank" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 transition">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Ochish
+        </a>
+        <button onclick="deleteVaultItem('${item.itemType}', '${item.id}')" class="p-1.5 text-rose-400 hover:text-rose-300 transition" title="O'chirish">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+}
+
+function filterPrivateCloud() {
+  if (!currentUser) {
+    openAuthModal();
+    return;
+  }
+  openCreatorStudio("privateVault");
+}
+
+function deleteVaultItem(type, id) {
+  if (!confirm("Ushbu shaxsiy faylni o'chirmoqchimisiz?")) return;
+  if (type === "software") {
+    softwareList = softwareList.filter(x => x.id !== id);
+    setStoredData("softwareList", softwareList);
+    renderSoftware();
+  } else if (type === "movie") {
+    movies = movies.filter(x => x.id !== id);
+    setStoredData("movies", movies);
+    renderMovies();
+  } else if (type === "music") {
+    tracks = tracks.filter(x => x.id !== id);
+    setStoredData("tracks", tracks);
+    renderTracks();
+  } else if (type === "photo") {
+    photos = photos.filter(x => x.id !== id);
+    setStoredData("photos", photos);
+    renderGallery();
+  } else if (type === "article") {
+    articles = articles.filter(x => x.id !== id);
+    setStoredData("articles", articles);
+    renderArticles();
+  }
+  renderVaultItems();
+}
+
+function deleteChannelItem(id) {
+  if (!confirm("Ushbu ommaviy materialni o'chirmoqchimisiz?")) return;
+  softwareList = softwareList.filter(x => x.id !== id);
+  movies = movies.filter(x => x.id !== id);
+  tracks = tracks.filter(x => x.id !== id);
+  photos = photos.filter(x => x.id !== id);
+  articles = articles.filter(x => x.id !== id);
+
+  setStoredData("softwareList", softwareList);
+  setStoredData("movies", movies);
+  setStoredData("tracks", tracks);
+  setStoredData("photos", photos);
+  setStoredData("articles", articles);
+
+  renderSoftware();
+  renderMovies();
+  renderTracks();
+  renderGallery();
+  renderArticles();
+  renderChannelStudioInfo();
+}
+

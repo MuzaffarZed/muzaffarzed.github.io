@@ -144,24 +144,33 @@
           <i class="fa-solid fa-music text-cyan-400"></i>
           <span class="hidden sm:inline">Musiqa</span>
         </a>
+        <a href="#dasturlar" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-cube text-blue-400"></i>
+          <span class="hidden sm:inline">Dasturlar</span>
+        </a>
         <a href="#galereya" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
           <i class="fa-solid fa-images text-purple-400"></i>
-          <span class="hidden sm:inline">Galereya</span>
+          <span class="hidden md:inline">Galereya</span>
         </a>
-        <a href="#maqolalar" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-newspaper text-amber-400"></i>
-          <span class="hidden sm:inline">Maqolalar</span>
+        <a href="#kanallar" class="px-3 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-bullhorn text-pink-400"></i>
+          <span class="hidden lg:inline">Kanallar</span>
         </a>
 
         <!-- Sevimlilar (Bookmark) -->
-        <button onclick="filterFavorites()" class="relative p-2.5 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-slate-800/60 transition" title="Sevimlilar ro'yxati">
+        <button onclick="filterFavorites()" class="relative p-2 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-slate-800/60 transition" title="Sevimlilar ro'yxati">
           <i class="fa-solid fa-heart text-rose-500"></i>
           <span id="favCountBadge" class="absolute -top-1 -right-1 bg-rose-600 text-[10px] font-bold text-white w-4 h-4 rounded-full flex items-center justify-center">0</span>
         </button>
 
+        <!-- Shaxsiy Bulut (Private Cloud) -->
+        <button onclick="filterPrivateCloud()" class="relative p-2 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition" title="Mening Shaxsiy Bulutim (Faqat o'zim uchun)">
+          <i class="fa-solid fa-cloud-lock text-amber-400"></i>
+        </button>
+
         <!-- Mavzu Tanlash (Theme Switcher) -->
         <div class="relative group hidden sm:block">
-          <button class="p-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition" title="Ranglar Mavzusi">
+          <button class="p-2 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 transition" title="Ranglar Mavzusi">
             <i class="fa-solid fa-palette text-sm"></i>
           </button>
           <div class="absolute right-0 top-full mt-2 w-36 bg-slate-900 border border-slate-800 rounded-xl p-1.5 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -183,16 +192,20 @@
           </div>
         </div>
 
-        <!-- PWA Ilova O'rnatish Tugmasi -->
-        <button id="pwaInstallBtn" onclick="installPWA()" class="hidden px-2.5 py-2 rounded-lg text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center gap-1.5" title="Ilova sifatida o'rnatish">
-          <i class="fa-solid fa-download"></i>
-          <span class="hidden md:inline">O'rnatish</span>
+        <!-- Creator Studio Yuklash Tugmasi (+) -->
+        <button onclick="openCreatorStudio()" class="btn-emerald px-3 py-2 text-xs font-bold flex items-center gap-1.5 shadow-emerald-500/20" title="Yangi video, musiqa, rasm yoki dastur yuklash">
+          <i class="fa-solid fa-plus text-sm"></i>
+          <span class="hidden md:inline">Studio</span>
         </button>
 
-        <!-- Admin Panel Tugmasi -->
-        <button onclick="openAdminModal()" class="ml-1 sm:ml-2 px-3 py-2 rounded-lg text-xs font-bold bg-slate-800/90 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-lock"></i>
-          <span class="hidden lg:inline">Admin</span>
+        <!-- Foydalanuvchi Akkaunt Tugmasi -->
+        <div id="userAccountSection">
+          <!-- JS dinamik to'ldiradi (Kirish / Profil) -->
+        </div>
+
+        <!-- Bosh Admin Panel Tugmasi (Faqat MuzaffarZed uchun) -->
+        <button onclick="openAdminModal()" class="p-2 rounded-lg text-xs font-bold bg-slate-800 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition" title="Boshqaruv Markazi">
+          <i class="fa-solid fa-crown text-amber-400"></i>
         </button>
       </nav>
 
@@ -329,7 +342,32 @@
     </div>
   </section>
 
-  <!-- ==================== 3. FOTOGALEREYA ==================== -->
+  <!-- ==================== 3. DASTURLAR VA ILOVALAR (SOFTWARE & APKS HUB) ==================== -->
+  <section id="dasturlar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-800/80">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-blue-500"></div>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Dasturlar va Ilovalar Hubi</h2>
+          <p class="text-xs text-slate-400 font-medium">Android (APK), Windows PC (EXE/ZIP) va foydali dasturlarni tezkor yuklab oling</p>
+        </div>
+      </div>
+      <!-- OS Filtr tugmalari -->
+      <div class="flex flex-wrap items-center gap-2" id="softwareFilterContainer">
+        <button onclick="filterSoftware('all')" class="soft-filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-500 text-slate-950 transition">Barchasi</button>
+        <button onclick="filterSoftware('android')" class="soft-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:border-blue-500/50 transition"><i class="fa-brands fa-android text-emerald-400 mr-1"></i> Android (APK)</button>
+        <button onclick="filterSoftware('windows')" class="soft-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:border-blue-500/50 transition"><i class="fa-brands fa-windows text-blue-400 mr-1"></i> Windows (PC)</button>
+        <button onclick="filterSoftware('cross')" class="soft-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:border-blue-500/50 transition"><i class="fa-solid fa-laptop-code text-purple-400 mr-1"></i> Boshqalar</button>
+      </div>
+    </div>
+
+    <!-- Dasturlar To'ri (Software Grid) -->
+    <div id="softwareGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <!-- JavaScript orqali to'ldiriladi -->
+    </div>
+  </section>
+
+  <!-- ==================== 4. FOTOGALEREYA ==================== -->
   <section id="galereya" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-800/80">
     <div class="flex items-center justify-between mb-8">
       <div class="flex items-center gap-3">
@@ -347,7 +385,28 @@
     </div>
   </section>
 
-  <!-- ==================== 4. MAQOLALAR VA YANGILIKLAR ==================== -->
+  <!-- ==================== 5. OCHIQ KANALLAR VA KREATORLAR ==================== -->
+  <section id="kanallar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-800/80">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-7 rounded-full bg-pink-500"></div>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Ochiq Kanallar va Kreatorlar</h2>
+          <p class="text-xs text-slate-400 font-medium">Har bir foydalanuvchi o'z kanalini ochishi va obunachilar to'plashi mumkin</p>
+        </div>
+      </div>
+      <button onclick="openCreateChannelPrompt()" class="px-4 py-2 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-400 text-xs font-bold hover:bg-pink-500 hover:text-black transition flex items-center gap-2">
+        <i class="fa-solid fa-plus"></i> Kanal Ochish
+      </button>
+    </div>
+
+    <!-- Kanallar Ro'yxati (Channels Grid) -->
+    <div id="channelsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- JavaScript orqali to'ldiriladi -->
+    </div>
+  </section>
+
+  <!-- ==================== 6. MAQOLALAR VA YANGILIKLAR ==================== -->
   <section id="maqolalar" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-800/80">
     <div class="flex items-center justify-between mb-8">
       <div class="flex items-center gap-3">
@@ -823,6 +882,238 @@
       <div id="lyricsContent" class="max-h-80 overflow-y-auto text-xs text-slate-300 leading-relaxed font-sans text-center whitespace-pre-line py-2">
         Qo'shiq so'zlari yuklanmoqda...
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== FOYDALANUVCHI KIRISH / RO'YXATDAN O'TISH (AUTH MODAL) ==================== -->
+  <div id="authModal" class="fixed inset-0 z-[125] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
+    <div class="relative w-full max-w-md bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl my-8">
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <h3 id="authModalTitle" class="text-base font-bold text-white">Akkauntga Kirish</h3>
+        </div>
+        <button onclick="closeAuthModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Auth Switcher -->
+      <div class="flex border-b border-slate-800">
+        <button id="authTabLogin" onclick="switchAuthTab('login')" class="flex-1 py-3 text-xs font-bold text-emerald-400 border-b-2 border-emerald-500 transition">Kirish</button>
+        <button id="authTabRegister" onclick="switchAuthTab('register')" class="flex-1 py-3 text-xs font-semibold text-slate-400 hover:text-white transition">Yangi Akkaunt & Kanal</button>
+      </div>
+
+      <div class="p-6">
+        <!-- Kirish Formasi -->
+        <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Username / Kanal ID *</label>
+            <input type="text" id="loginUsername" required placeholder="Masalan: MuzaffarZed yoki AliMedia" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Parol *</label>
+            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <p id="loginError" class="text-xs text-rose-400 hidden"></p>
+          <button type="submit" class="btn-emerald w-full py-3 text-xs font-bold">Kirish</button>
+        </form>
+
+        <!-- Ro'yxatdan O'tish Formasi -->
+        <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">To'liq Ismingiz *</label>
+            <input type="text" id="regFullName" required placeholder="Ism Familiya" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Username (Kanal ID) *</label>
+            <input type="text" id="regUsername" required placeholder="masalan: alimedia" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Kanal yoki Profil Tavsifi</label>
+            <input type="text" id="regBio" placeholder="Kanal haqida qisqacha ma'lumot..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Avatar Rasmi (Ixtiyoriy URL)</label>
+            <input type="url" id="regAvatar" placeholder="https://..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Yangi Parol yarating *</label>
+            <input type="password" id="regPassword" required placeholder="Kamida 4 ta belgi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <p id="regError" class="text-xs text-rose-400 hidden"></p>
+          <button type="submit" class="btn-emerald w-full py-3 text-xs font-bold">Kanal Ochish va Ro'yxatdan O'tish</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CREATOR STUDIO & BULUT VAULT MODAL ==================== -->
+  <div id="creatorStudioModal" class="fixed inset-0 z-[120] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
+    <div class="relative w-full max-w-4xl bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl my-8">
+      
+      <!-- Studio Sarlavhasi -->
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-black">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold text-white">Creator Studio & Shaxsiy Bulut</h3>
+              <span id="studioUserBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Profil</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Media, dasturlar yoki shaxsiy arxivlarni bulutga joylash</p>
+          </div>
+        </div>
+        <button onclick="closeCreatorStudio()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Studio Tablar -->
+      <div class="flex items-center gap-2 px-6 pt-4 border-b border-slate-800 overflow-x-auto">
+        <button onclick="setStudioTab('upload')" id="tabUploadBtn" class="studio-tab active px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-black flex items-center gap-1.5">
+          <i class="fa-solid fa-upload"></i> Yuklash
+        </button>
+        <button onclick="setStudioTab('myChannel')" id="tabChannelBtn" class="studio-tab px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5">
+          <i class="fa-solid fa-bullhorn"></i> Mening Kanalim
+        </button>
+        <button onclick="setStudioTab('privateVault')" id="tabVaultBtn" class="studio-tab px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5">
+          <i class="fa-solid fa-lock text-amber-400"></i> Shaxsiy Bulutim (Faqat Men)
+        </button>
+      </div>
+
+      <!-- Studio Kontenti -->
+      <div class="p-6">
+        
+        <!-- 1. YUKLASH BO'LIMI -->
+        <div id="studioUploadSection" class="space-y-4">
+          <form id="studioUploadForm" onsubmit="handleStudioUploadSubmit(event)" class="space-y-4">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Material Turi -->
+              <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1">Nima yuklamoqchisiz? *</label>
+                <select id="studioType" onchange="handleStudioTypeChange(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                  <option value="software">📦 Dastur / Ilova (APK, EXE, ZIP)</option>
+                  <option value="movie">🎬 Video / Film / Klip</option>
+                  <option value="music">🎵 Qo'shiq / Musiqa (MP3)</option>
+                  <option value="photo">🖼️ Fotosurat / Grafika</option>
+                  <option value="article">📝 Maqola / Post</option>
+                </select>
+              </div>
+
+              <!-- Maxfiylik Sozlamasi (Public vs Private) -->
+              <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1">Ko'rinish Holati (Maxfiylik) *</label>
+                <select id="studioPrivacy" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                  <option value="public">🌐 Ommaviy (Hamma ko'radi va yuklab oladi)</option>
+                  <option value="private">🔒 Shaxsiy Bulut (Faqat o'zim ko'raman / Maxfiy)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Umumiy Nomi -->
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Sarlavha / Nomi *</label>
+              <input type="text" id="studioTitle" required placeholder="Masalan: CapCut Pro Video Montaj yoki Yangi Trek" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+
+            <!-- DASTUR UCHUN MAXSUS MAYDONLAR -->
+            <div id="studioSoftwareFields" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1">Operatsion Tizim (OS) *</label>
+                <select id="studioSoftOs" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                  <option value="android">🤖 Android (APK)</option>
+                  <option value="windows">🪟 Windows (EXE / ZIP)</option>
+                  <option value="cross">🍎 Apple / Boshqa</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1">Versiyasi</label>
+                <input type="text" id="studioSoftVersion" value="v1.0.0" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1">Fayl Hajmi</label>
+                <input type="text" id="studioSoftSize" value="45 MB" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+              </div>
+              <div class="sm:col-span-3">
+                <label class="block text-xs font-bold text-slate-300 mb-1">Ilova Belgisi (Icon / Logo URL)</label>
+                <input type="url" id="studioSoftIcon" placeholder="https://... rasm havolasi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+              </div>
+            </div>
+
+            <!-- MEDIA / FAYL HAVOLASI (URL) -->
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1" id="studioMediaUrlLabel">Fayl yoki Media Havolasi (Download / Stream URL) *</label>
+              <input type="url" id="studioMediaUrl" required placeholder="https://example.com/file.apk yoki video/mp3 havolasi" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+
+            <!-- KINO / MUSIQA UCHUN MUQOVA -->
+            <div id="studioCoverField" class="hidden">
+              <label class="block text-xs font-bold text-slate-300 mb-1">Muqova / Poster Rasmi (URL)</label>
+              <input type="url" id="studioCoverUrl" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+            </div>
+
+            <!-- TAVSIF / MATN -->
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Qisqacha Tavsif</label>
+              <textarea id="studioDesc" rows="3" placeholder="Fayl yoki media haqida qisqacha ma'lumot..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white"></textarea>
+            </div>
+
+            <button type="submit" class="btn-emerald w-full py-3 text-xs font-bold flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Saqlash va Bulutga Joylash
+            </button>
+          </form>
+        </div>
+
+        <!-- 2. MENING KANALIM BO'LIMI -->
+        <div id="studioChannelSection" class="hidden space-y-4">
+          <div class="glass-panel p-6 rounded-2xl flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <img id="myChannelAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&q=80" alt="Avatar" class="w-20 h-20 rounded-2xl object-cover border-2 border-emerald-500 shadow-xl">
+            <div class="flex-1">
+              <div class="flex items-center justify-center sm:justify-start gap-2">
+                <h4 id="myChannelName" class="text-lg font-bold text-white">Kanal Nomi</h4>
+                <span id="myChannelVerified" class="text-emerald-400 text-sm"><i class="fa-solid fa-circle-check"></i></span>
+              </div>
+              <p id="myChannelHandle" class="text-xs text-slate-400 font-mono">@username</p>
+              <p id="myChannelBio" class="text-xs text-slate-300 mt-1">Kanal tavsifi</p>
+              <div class="flex items-center justify-center sm:justify-start gap-4 mt-3 text-xs">
+                <span>Obunachilar: <b id="myChannelSubCount" class="text-white">0</b></span>
+                <span>Yuklanganlar: <b id="myChannelUploadCount" class="text-white">0</b></span>
+              </div>
+            </div>
+            <button onclick="logoutCurrentUser()" class="px-3.5 py-2 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold hover:bg-rose-500 hover:text-white transition">
+              <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Chiqish
+            </button>
+          </div>
+
+          <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Kanalimga Joylangan Barcha Ommaviy Materiallar</h5>
+          <div id="myChannelItemsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-72 overflow-y-auto">
+            <!-- JS to'ldiradi -->
+          </div>
+        </div>
+
+        <!-- 3. MENING SHAXSIY BULUTIM (VAULT) -->
+        <div id="studioVaultSection" class="hidden space-y-4">
+          <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-3">
+            <i class="fa-solid fa-vault text-amber-400 text-2xl"></i>
+            <div>
+              <h5 class="text-xs font-bold text-amber-300">Shaxsiy Maxfiy Bulut (Private Vault)</h5>
+              <p class="text-[11px] text-slate-300">Bu yerdagi fayllar faqat sizning akkauntingizga tegishli va saytdagi boshqa foydalanuvchilarga ko'rinmaydi.</p>
+            </div>
+          </div>
+
+          <div id="myVaultItemsGrid" class="space-y-2 max-h-80 overflow-y-auto">
+            <!-- JS to'ldiradi -->
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 
