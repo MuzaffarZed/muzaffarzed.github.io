@@ -1,0 +1,28 @@
+# Binaries and executables
+cloudflared.exe
+*.exe
+
+# Databases
+*.db
+youtube_pro.db
+
+# Python cache and environments
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# Media and downloads
+downloads/
+temp/
+archive_scripts/
+
+# Helper and test scripts
+deploy_*.py
+patch_*.py
+update_*.py
+test_*.py
+
+# Logs
+*.log

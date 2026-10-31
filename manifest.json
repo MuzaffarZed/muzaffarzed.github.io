@@ -1,0 +1,22 @@
+{
+  "name": "YouTube Pro - MuzaffarZed Supreme Edition",
+  "short_name": "YouTube Pro",
+  "description": "Zero-Defect Enterprise YouTube Clone by MuzaffarZed with Ad-Free Streaming, Watch Party, 300% Boost & Studio Equalizer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#ff0000",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
