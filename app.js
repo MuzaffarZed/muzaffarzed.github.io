@@ -368,6 +368,20 @@
       this.partySocket = null;
       this.currentPartyRoom = null;
 
+      this.btnToggleMobileSearch = document.getElementById('btn-toggle-mobile-search');
+      this.mobileSearchBar = document.getElementById('mobile-search-bar');
+      this.btnCloseMobileSearch = document.getElementById('btn-close-mobile-search');
+      this.mobileSearchInput = document.getElementById('mobile-search-input');
+      this.btnSubmitMobileSearch = document.getElementById('btn-submit-mobile-search');
+      this.btnMobileMic = document.getElementById('btn-mobile-mic');
+      this.sidebarBackdrop = document.getElementById('sidebar-backdrop');
+      this.mobileBottomNav = document.getElementById('mobile-bottom-nav');
+      this.btnMobHome = document.getElementById('btn-mob-home');
+      this.btnMobShorts = document.getElementById('btn-mob-shorts');
+      this.btnMobCreate = document.getElementById('btn-mob-create');
+      this.btnMobSubs = document.getElementById('btn-mob-subs');
+      this.btnMobProfile = document.getElementById('btn-mob-profile');
+
       this.btnConnectPhone = document.getElementById('btn-connect-phone');
       this.menuConnectPhone = document.getElementById('menu-connect-phone');
       this.connectPhoneModal = document.getElementById('connect-phone-modal');
@@ -1350,6 +1364,7 @@
       this.initHistoryPageEvents();
       this.initShortsSoundModalEvents();
       this.initPhoneConnect();
+      this.initMobileResponsiveEvents();
     }
 
     applyVideoFilter(filterName) {
@@ -3077,6 +3092,11 @@
     switchView(viewName) {
       const previousView = this.currentView;
       this.currentView = viewName;
+      if (this.updateMobileNavActive) this.updateMobileNavActive(viewName);
+      if (window.innerWidth <= 768 && this.sidebar) {
+        this.sidebar.classList.remove('mobile-open');
+        if (this.sidebarBackdrop) this.sidebarBackdrop.classList.remove('show');
+      }
       this.viewHome.style.display = viewName === 'home' ? 'block' : 'none';
       this.viewWatch.style.display = viewName === 'watch' ? 'grid' : 'none';
       this.viewShorts.style.display = viewName === 'shorts' ? 'block' : 'none';
@@ -4217,6 +4237,127 @@
       if (!this.networkStatusPill) return;
       this.networkStatusPill.className = `yt-network-status-pill ${isOnline ? 'online' : 'offline'} show`;
       if (this.netStatusText) this.netStatusText.textContent = message;
+    }
+
+    updateMobileNavActive(viewName) {
+      if (!this.mobileBottomNav) return;
+      this.mobileBottomNav.querySelectorAll('.yt-mobile-nav-item').forEach(btn => {
+        const v = btn.getAttribute('data-view');
+        if (v === viewName) {
+          btn.classList.add('active');
+        } else if (v && v !== 'profile' && v !== 'create') {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    initMobileResponsiveEvents() {
+      // Toggle Mobile Search
+      if (this.btnToggleMobileSearch && this.mobileSearchBar) {
+        this.btnToggleMobileSearch.addEventListener('click', () => {
+          this.mobileSearchBar.classList.add('open');
+          if (this.mobileSearchInput) {
+            this.mobileSearchInput.focus();
+            if (this.searchInput) this.mobileSearchInput.value = this.searchInput.value;
+          }
+        });
+      }
+
+      if (this.btnCloseMobileSearch && this.mobileSearchBar) {
+        this.btnCloseMobileSearch.addEventListener('click', () => {
+          this.mobileSearchBar.classList.remove('open');
+        });
+      }
+
+      const execMobileSearch = () => {
+        if (!this.mobileSearchInput) return;
+        const q = this.mobileSearchInput.value.trim();
+        if (q) {
+          this.searchQuery = q;
+          if (this.searchInput) this.searchInput.value = q;
+          this.performSearch(q);
+          if (this.mobileSearchBar) this.mobileSearchBar.classList.remove('open');
+          this.switchView('home');
+        }
+      };
+
+      if (this.btnSubmitMobileSearch) {
+        this.btnSubmitMobileSearch.addEventListener('click', execMobileSearch);
+      }
+
+      if (this.mobileSearchInput) {
+        this.mobileSearchInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            execMobileSearch();
+          } else if (e.key === 'Escape') {
+            if (this.mobileSearchBar) this.mobileSearchBar.classList.remove('open');
+          }
+        });
+      }
+
+      if (this.btnMobileMic) {
+        this.btnMobileMic.addEventListener('click', () => {
+          this.startVoiceSearch();
+        });
+      }
+
+      // Sidebar Backdrop Click
+      if (this.sidebarBackdrop) {
+        this.sidebarBackdrop.addEventListener('click', () => {
+          if (this.sidebar) this.sidebar.classList.remove('mobile-open');
+          this.sidebarBackdrop.classList.remove('show');
+        });
+      }
+
+      // Intercept btn-toggle-sidebar on Mobile
+      if (this.btnToggleSidebar) {
+        this.btnToggleSidebar.addEventListener('click', (e) => {
+          if (window.innerWidth <= 768) {
+            e.stopImmediatePropagation();
+            if (this.sidebar) {
+              const isOpen = this.sidebar.classList.toggle('mobile-open');
+              if (this.sidebarBackdrop) this.sidebarBackdrop.classList.toggle('show', isOpen);
+            }
+          }
+        }, true);
+      }
+
+      // Mobile Bottom Navigation Buttons
+      if (this.btnMobHome) {
+        this.btnMobHome.addEventListener('click', () => {
+          this.switchView('home');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      if (this.btnMobShorts) {
+        this.btnMobShorts.addEventListener('click', () => {
+          this.switchView('shorts');
+        });
+      }
+
+      if (this.btnMobCreate) {
+        this.btnMobCreate.addEventListener('click', () => {
+          if (this.btnCreateVideo) this.btnCreateVideo.click();
+        });
+      }
+
+      if (this.btnMobSubs) {
+        this.btnMobSubs.addEventListener('click', () => {
+          this.openSubscriptionsView();
+        });
+      }
+
+      if (this.btnMobProfile) {
+        this.btnMobProfile.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (this.userProfileDropdown) {
+            const isShown = this.userProfileDropdown.style.display === 'block';
+            this.userProfileDropdown.style.display = isShown ? 'none' : 'block';
+          }
+        });
+      }
     }
 
     initPhoneConnect() {

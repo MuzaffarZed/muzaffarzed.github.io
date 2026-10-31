@@ -2616,3 +2616,384 @@ body {
     justify-content: center !important;
   }
 }
+
+/* ==========================================================================
+   SUPREME RESPONSIVE ARCHITECTURE (MOBILE & DESKTOP DUAL FORMAT)
+   Dasturchi: MuzaffarZed - Zero-Defect Standards
+   ========================================================================== */
+
+/* Mobile elements hidden on desktop */
+.yt-mobile-search-btn {
+  display: none !important;
+}
+
+.yt-mobile-search-bar {
+  display: none !important;
+}
+
+.yt-mobile-bottom-nav {
+  display: none !important;
+}
+
+.yt-sidebar-backdrop {
+  display: none;
+}
+
+/* ==========================================================================
+   DESKTOP & LARGE MONITORS (1200px+)
+   ========================================================================== */
+@media (min-width: 1200px) {
+  .yt-video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)) !important;
+    gap: 20px 18px !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  .yt-video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+    gap: 24px 20px !important;
+  }
+}
+
+/* ==========================================================================
+   TABLETS & MEDIUM SCREENS (769px - 1100px)
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .yt-search-container {
+    max-width: 480px;
+  }
+  .yt-video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+/* ==========================================================================
+   MOBILE PHONES & SMALL SCREENS (<= 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Header Mobile Optimization */
+  .yt-header {
+    height: 52px !important;
+    padding: 0 12px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+  }
+
+  .yt-signature-badge {
+    display: none !important;
+  }
+
+  .yt-logo-badge {
+    display: none !important;
+  }
+
+  /* Hide Desktop-only Header Buttons on Phone */
+  .yt-search-container,
+  #btn-toggle-lang,
+  #btn-sleep-timer,
+  #btn-shortcuts-help,
+  #btn-connect-phone,
+  #btn-install-pwa,
+  #btn-create-video {
+    display: none !important;
+  }
+
+  /* Show Mobile Search Button */
+  .yt-mobile-search-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Mobile Fullscreen Search Overlay */
+  .yt-mobile-search-bar {
+    display: none;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 52px !important;
+    background: var(--yt-bg) !important;
+    z-index: 120 !important;
+    align-items: center !important;
+    padding: 0 8px !important;
+    gap: 6px !important;
+    border-bottom: 1px solid var(--yt-border) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .yt-mobile-search-bar.open {
+    display: flex !important;
+  }
+
+  .yt-mobile-search-input {
+    flex: 1 !important;
+    height: 38px !important;
+    background: var(--yt-surface) !important;
+    border: 1px solid var(--yt-border) !important;
+    border-radius: 20px !important;
+    padding: 0 14px !important;
+    color: var(--yt-text-primary) !important;
+    font-size: 15px !important;
+    outline: none !important;
+  }
+
+  .yt-mobile-search-input:focus {
+    border-color: var(--yt-blue) !important;
+  }
+
+  /* Mobile Sidebar as a Slide-in Drawer */
+  .yt-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 270px !important;
+    background: var(--yt-bg) !important;
+    z-index: 350 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.7) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+
+  .yt-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  .yt-sidebar-backdrop {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(4px) !important;
+    z-index: 340 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease !important;
+  }
+
+  .yt-sidebar-backdrop.show {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Main Container & Video Grid on Phone */
+  .yt-main-content {
+    margin-left: 0 !important;
+    padding-bottom: 70px !important; /* Space for bottom navigation */
+  }
+
+  .yt-category-chips {
+    padding: 8px 12px !important;
+    margin: 0 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 8px !important;
+  }
+
+  .yt-category-chips::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .yt-video-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding: 8px 12px 24px !important;
+  }
+
+  .yt-card {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+
+  .yt-card-thumb-wrapper {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+  }
+
+  .yt-card-thumb {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .yt-card-details {
+    padding: 10px 4px 4px !important;
+    gap: 10px !important;
+  }
+
+  .yt-card-title {
+    font-size: 14px !important;
+    line-height: 1.35 !important;
+    font-weight: 600 !important;
+  }
+
+  /* Watch View on Mobile */
+  .yt-watch-view {
+    padding: 0 !important;
+    padding-bottom: 75px !important;
+  }
+
+  .yt-watch-container {
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+
+  .yt-watch-main {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .yt-player-container {
+    border-radius: 0 !important;
+    margin: 0 !important;
+    width: 100vw !important;
+    aspect-ratio: 16 / 9 !important;
+    position: sticky !important;
+    top: 52px !important;
+    z-index: 50 !important;
+  }
+
+  .yt-watch-details {
+    padding: 12px 14px !important;
+  }
+
+  .yt-watch-title {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+    font-weight: 700 !important;
+  }
+
+  .yt-channel-meta-bar {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    margin: 10px 0 !important;
+  }
+
+  .yt-watch-actions-bar {
+    display: flex !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 6px 0 !important;
+    width: 100% !important;
+  }
+
+  .yt-watch-actions-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .yt-watch-actions-bar .yt-btn-pill {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .yt-recommended-list {
+    width: 100% !important;
+    padding: 12px 14px !important;
+  }
+
+  /* Native Mobile Bottom Navigation Bar */
+  .yt-mobile-bottom-nav {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 54px !important;
+    background: var(--yt-bg) !important;
+    border-top: 1px solid var(--yt-border) !important;
+    z-index: 200 !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  .yt-mobile-nav-item {
+    background: transparent !important;
+    border: none !important;
+    color: var(--yt-text-secondary) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    gap: 2px !important;
+    cursor: pointer !important;
+    flex: 1 !important;
+    height: 100% !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease, transform 0.1s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .yt-mobile-nav-item:active {
+    transform: scale(0.92) !important;
+  }
+
+  .yt-mobile-nav-item.active {
+    color: var(--yt-text-primary) !important;
+    font-weight: 700 !important;
+  }
+
+  .yt-mobile-nav-item i {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .yt-mob-create-circle {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: var(--yt-surface) !important;
+    border: 1px solid var(--yt-border) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--yt-text-primary) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    margin-bottom: 1px !important;
+  }
+
+  .yt-mob-create-circle i {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .yt-mob-profile-avatar {
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    border: 1.5px solid var(--yt-blue) !important;
+  }
+
+  /* Shorts View on Mobile */
+  .yt-shorts-container {
+    height: calc(100dvh - 106px) !important; /* minus header and bottom nav */
+    padding: 0 !important;
+  }
+
+  .yt-short-card {
+    height: 100% !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+  }
+}

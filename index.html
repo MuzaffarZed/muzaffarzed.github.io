@@ -233,6 +233,10 @@
       </button>
 
       <!-- Theme Switcher -->
+            <!-- Mobile Search Toggle Button (Mobile Only) -->
+      <button class="yt-icon-btn yt-mobile-search-btn" id="btn-toggle-mobile-search" title="Qidiruv">
+        <i data-lucide="search" style="width: 20px; height: 20px;"></i>
+      </button>
       <button class="yt-icon-btn" id="btn-toggle-theme" title="Mavzuni almashtirish (Tun/Kun)">
         <i data-lucide="moon" id="theme-icon" style="width: 20px; height: 20px;"></i>
       </button>
@@ -247,6 +251,19 @@
       <div id="user-profile-menu-trigger" style="display: flex; align-items: center; cursor: pointer; margin-left: 6px;" title="MuzaffarZed Profili">
         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="MuzaffarZed" style="width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--yt-blue); object-fit: cover;">
       </div>
+    </div>
+      <!-- Mobile Fullwidth Search Overlay -->
+    <div class="yt-mobile-search-bar" id="mobile-search-bar">
+      <button class="yt-icon-btn" id="btn-close-mobile-search" title="Orqaga">
+        <i data-lucide="arrow-left" style="width: 20px; height: 20px;"></i>
+      </button>
+      <input type="text" id="mobile-search-input" class="yt-mobile-search-input" placeholder="YouTube bo'yicha qidiruv..." autocomplete="off">
+      <button class="yt-icon-btn" id="btn-submit-mobile-search" title="Qidirish">
+        <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+      </button>
+      <button class="yt-icon-btn" id="btn-mobile-mic" title="Ovozli qidiruv">
+        <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
+      </button>
     </div>
   </header>
   <!-- Notifications Dropdown -->
@@ -411,6 +428,9 @@
         <p style="margin-top: 8px; font-size: 11px;">© 2026 MuzaffarZed Studio</p>
       </div>
     </aside>
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="yt-sidebar-backdrop" id="sidebar-backdrop"></div>
+
 
     <!-- Main Content Dynamic Views -->
     <main class="yt-content-area" id="main-content">
@@ -1582,6 +1602,32 @@
       </div>
     </div>
   </div>
+
+  <!-- YouTube Mobile Native Sticky Bottom Navigation Bar -->
+  <nav class="yt-mobile-bottom-nav" id="mobile-bottom-nav">
+    <button class="yt-mobile-nav-item active" id="btn-mob-home" data-view="home" title="Asosiy">
+      <i data-lucide="home"></i>
+      <span>Asosiy</span>
+    </button>
+    <button class="yt-mobile-nav-item" id="btn-mob-shorts" data-view="shorts" title="Shorts">
+      <i data-lucide="play-square"></i>
+      <span>Shorts</span>
+    </button>
+    <button class="yt-mobile-nav-item yt-mob-create-item" id="btn-mob-create" title="Yaratish">
+      <div class="yt-mob-create-circle">
+        <i data-lucide="plus"></i>
+      </div>
+      <span>Yaratish</span>
+    </button>
+    <button class="yt-mobile-nav-item" id="btn-mob-subs" data-view="subscriptions" title="Obunalar">
+      <i data-lucide="folder"></i>
+      <span>Obunalar</span>
+    </button>
+    <button class="yt-mobile-nav-item" id="btn-mob-profile" data-view="profile" title="Siz (Profil)">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="MuzaffarZed" class="yt-mob-profile-avatar">
+      <span>Siz</span>
+    </button>
+  </nav>
 
 </body>
 </html>
